@@ -29,8 +29,7 @@ const AllPosts = () => {
         {isSuccess && <p style={{color: 'green', fontSize: '12px'}}>{data?.message}</p>}
       {data?.allPosts.map(post =>(
         <div key={post?._id}>
-          <h2>{post?.title}</h2>
-          <p>{post?.description}</p>
+          <div  dangerouslySetInnerHTML={{__html: post?.description}}/>
           <button onClick={() => navigate(`/update/${post?._id}`)}>Edit</button>
           <button onClick={() => deleteHandler(post?._id)}>Delete</button>
         </div>
