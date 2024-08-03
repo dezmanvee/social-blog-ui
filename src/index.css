@@ -1,9 +1,457 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    padding: 0 2rem;
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-image-desktop {
+    background: #000000;  /* Fallback background color */
+    background-image: url("https://res.cloudinary.com/dkc0j221n/image/upload/v1722435457/hero_landing_page_fmijnt.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  .bg-image-mobile {
+    background: #000000;  /* Fallback background color */
+    background-image: url("https://res.cloudinary.com/dkc0j221n/image/upload/v1722435610/hero_mobile_vu5ezr.webp");
+    background-size: cover;
+    background-position: center;
+  }
+  .bg-color {
+    background: #000000
+  }
+
+  :root {
+    --theme-background-default: #0e1217;
+    --theme-background-subtle: #1c1f26;
+    --theme-background-popover: #1c1f26;
+    --theme-background-post-post: #1c1f26;
+    --theme-background-post-disabled: var(--theme-background-default);
+    --theme-accent-burger-subtlest: #c98464;
+    --theme-accent-burger-subtler: #c07a5b;
+    --theme-accent-burger-subtle: #b67052;
+    --theme-accent-burger-default: #ad6648;
+    --theme-accent-burger-bolder: #a0583c;
+    --theme-accent-blueCheese-subtlest: #6ff1f6;
+    --theme-accent-blueCheese-subtler: #5cecf1;
+    --theme-accent-blueCheese-subtle: #45e5ed;
+    --theme-accent-blueCheese-default: #2cdce6;
+    --theme-accent-blueCheese-bolder: #0dcfdc;
+    --theme-accent-avocado-subtlest: #74f3bc;
+    --theme-accent-avocado-subtler: #65f1ae;
+    --theme-accent-avocado-subtle: #51eba0;
+    --theme-accent-avocado-default: #39e58c;
+    --theme-accent-avocado-bolder: #1ddc6f;
+    --theme-accent-cheese-subtlest: #fff76f;
+    --theme-accent-cheese-subtler: #fff35a;
+    --theme-accent-cheese-subtle: #ffef40;
+    --theme-accent-cheese-default: #ffe923;
+    --theme-accent-cheese-bolder: #ffdf00;
+    --theme-accent-salt-baseline: #fff;
+    --theme-accent-salt-subtlest: #edf0f7;
+    --theme-accent-salt-subtler: #cfd6e6;
+    --theme-accent-salt-subtle: #b9c2d9;
+    --theme-accent-salt-default: #a8b3cf;
+    --theme-accent-salt-bolder: #525866;
+    --theme-accent-onion-subtlest: #9d70f8;
+    --theme-accent-onion-subtler: #8d62f4;
+    --theme-accent-onion-subtle: #8055f0;
+    --theme-accent-onion-default: #7147ed;
+    --theme-accent-onion-bolder: #5f37e9;
+    --theme-accent-water-subtlest: #68a6fc;
+    --theme-accent-water-subtler: #5c9bfa;
+    --theme-accent-water-subtle: #508cf9;
+    --theme-accent-water-default: #427ef7;
+    --theme-accent-water-bolder: #3169f5;
+    --theme-accent-pepper-baseline: #0e1217;
+    --theme-accent-pepper-subtlest: #17191f;
+    --theme-accent-pepper-subtler: #2d313a;
+    --theme-accent-pepper-subtle: #404551;
+    --theme-accent-pepper-default: #525866;
+    --theme-accent-pepper-bolder: #a8b3cf;
+    --theme-accent-lettuce-subtlest: #dbfe6c;
+    --theme-accent-lettuce-subtler: #ccfb5b;
+    --theme-accent-lettuce-subtle: #bdf849;
+    --theme-accent-lettuce-default: #acf535;
+    --theme-accent-lettuce-bolder: #92f21d;
+    --theme-accent-bun-subtlest: #ffb760;
+    --theme-accent-bun-subtler: #fa5;
+    --theme-accent-bun-subtle: #ff9d48;
+    --theme-accent-bun-default: #ff8e3b;
+    --theme-accent-bun-bolder: #ff7a2b;
+    --theme-accent-ketchup-subtlest: #f3796c;
+    --theme-accent-ketchup-subtler: #ed685c;
+    --theme-accent-ketchup-subtle: #e7574b;
+    --theme-accent-ketchup-default: #e04337;
+    --theme-accent-ketchup-bolder: #d52b20;
+    --theme-accent-cabbage-subtlest: #e669fb;
+    --theme-accent-cabbage-subtler: #e05cf8;
+    --theme-accent-cabbage-subtle: #d74cf6;
+    --theme-accent-cabbage-default: #ce3df3;
+    --theme-accent-cabbage-bolder: #c029f0;
+    --theme-accent-bacon-subtlest: #fe7ab6;
+    --theme-accent-bacon-subtler: #fd6ea9;
+    --theme-accent-bacon-subtle: #fd619d;
+    --theme-accent-bacon-default: #fc538d;
+    --theme-accent-bacon-bolder: #fc4079;
+    --theme-brand-subtler: var(--theme-accent-cabbage-subtler);
+    --theme-brand-default: var(--theme-accent-cabbage-default);
+    --theme-brand-bolder: var(--theme-accent-cabbage-bolder);
+    --theme-brand-float: color-mix(
+      in srgb,
+      var(--theme-brand-bolder),
+      transparent 92%
+    );
+    --theme-brand-hover: color-mix(
+      in srgb,
+      var(--theme-brand-bolder),
+      transparent 88%
+    );
+    --theme-brand-active: color-mix(
+      in srgb,
+      var(--theme-brand-bolder),
+      transparent 84%
+    );
+    --theme-surface-primary: #fff;
+    --theme-surface-secondary: #a8b3cf;
+    --theme-surface-invert: #0e1217;
+    --theme-surface-float: color-mix(
+      in srgb,
+      var(--theme-surface-secondary),
+      transparent 92%
+    );
+    --theme-surface-hover: color-mix(
+      in srgb,
+      var(--theme-surface-secondary),
+      transparent 88%
+    );
+    --theme-surface-active: color-mix(
+      in srgb,
+      var(--theme-surface-secondary),
+      transparent 84%
+    );
+    --theme-surface-disabled: color-mix(
+      in srgb,
+      var(--theme-surface-secondary),
+      transparent 80%
+    );
+    --theme-surface-focus: #2cdce6;
+    --theme-actions-upvote-default: var(--theme-accent-avocado-default);
+    --theme-actions-upvote-float: color-mix(
+      in srgb,
+      var(--theme-accent-avocado-bolder),
+      transparent 92%
+    );
+    --theme-actions-upvote-hover: color-mix(
+      in srgb,
+      var(--theme-accent-avocado-bolder),
+      transparent 88%
+    );
+    --theme-actions-upvote-active: color-mix(
+      in srgb,
+      var(--theme-accent-avocado-bolder),
+      transparent 84%
+    );
+    --theme-actions-downvote-default: var(--theme-accent-ketchup-default);
+    --theme-actions-downvote-float: color-mix(
+      in srgb,
+      var(--theme-accent-ketchup-bolder),
+      transparent 92%
+    );
+    --theme-actions-downvote-hover: color-mix(
+      in srgb,
+      var(--theme-accent-ketchup-bolder),
+      transparent 88%
+    );
+    --theme-actions-downvote-active: color-mix(
+      in srgb,
+      var(--theme-accent-ketchup-bolder),
+      transparent 84%
+    );
+    --theme-actions-comment-default: var(--theme-accent-blueCheese-default);
+    --theme-actions-comment-float: color-mix(
+      in srgb,
+      var(--theme-accent-blueCheese-bolder),
+      transparent 92%
+    );
+    --theme-actions-comment-hover: color-mix(
+      in srgb,
+      var(--theme-accent-blueCheese-bolder),
+      transparent 88%
+    );
+    --theme-actions-comment-active: color-mix(
+      in srgb,
+      var(--theme-accent-blueCheese-bolder),
+      transparent 84%
+    );
+    --theme-actions-bookmark-default: var(--theme-accent-bun-default);
+    --theme-actions-bookmark-float: color-mix(
+      in srgb,
+      var(--theme-accent-bun-bolder),
+      transparent 92%
+    );
+    --theme-actions-bookmark-hover: color-mix(
+      in srgb,
+      var(--theme-accent-bun-bolder),
+      transparent 88%
+    );
+    --theme-actions-bookmark-active: color-mix(
+      in srgb,
+      var(--theme-accent-bun-bolder),
+      transparent 84%
+    );
+    --theme-actions-share-default: var(--theme-accent-cabbage-default);
+    --theme-actions-share-float: color-mix(
+      in srgb,
+      var(--theme-accent-cabbage-bolder),
+      transparent 92%
+    );
+    --theme-actions-share-hover: color-mix(
+      in srgb,
+      var(--theme-accent-cabbage-bolder),
+      transparent 88%
+    );
+    --theme-actions-share-active: color-mix(
+      in srgb,
+      var(--theme-accent-cabbage-bolder),
+      transparent 84%
+    );
+    --theme-overlay-base-primary: color-mix(
+      in srgb,
+      var(--theme-accent-onion-subtlest),
+      transparent 36%
+    );
+    --theme-overlay-base-secondary: color-mix(
+      in srgb,
+      var(--theme-accent-onion-subtlest),
+      transparent 60%
+    );
+    --theme-overlay-base-tertiary: color-mix(
+      in srgb,
+      var(--theme-accent-onion-subtlest),
+      transparent 68%
+    );
+    --theme-overlay-base-quaternary: color-mix(
+      in srgb,
+      var(--theme-accent-onion-subtlest),
+      transparent 76%
+    );
+    --theme-overlay-dark-dark1: color-mix(in srgb, #0e1217, transparent 68%);
+    --theme-overlay-dark-dark2: color-mix(in srgb, #0e1217, transparent 60%);
+    --theme-overlay-dark-dark3: color-mix(in srgb, #0e1217, transparent 36%);
+    --theme-border-subtlest-primary: var(--theme-accent-salt-default);
+    --theme-border-subtlest-secondary: color-mix(
+      in srgb,
+      var(--theme-border-subtlest-primary),
+      transparent 60%
+    );
+    --theme-border-subtlest-tertiary: color-mix(
+      in srgb,
+      var(--theme-border-subtlest-primary),
+      transparent 80%
+    );
+    --theme-border-subtlest-quaternary: color-mix(
+      in srgb,
+      var(--theme-border-subtlest-primary),
+      transparent 92%
+    );
+    --theme-border-bolder-primary: var(--theme-accent-salt-bolder);
+    --theme-border-bolder-secondary: color-mix(
+      in srgb,
+      var(--theme-border-bolder-primary),
+      transparent 60%
+    );
+    --theme-border-bolder-tertiary: color-mix(
+      in srgb,
+      var(--theme-border-bolder-primary),
+      transparent 80%
+    );
+    --theme-border-bolder-quaternary: color-mix(
+      in srgb,
+      var(--theme-border-bolder-primary),
+      transparent 92%
+    );
+    --status-error: var(--theme-accent-ketchup-default);
+    --status-warning: var(--theme-accent-bun-default);
+    --status-help: var(--theme-accent-cheese-default);
+    --status-success: var(--theme-accent-avocado-default);
+    --theme-status-info: var(--theme-accent-water-default);
+    --theme-text-primary: var(--theme-accent-salt-baseline);
+    --theme-text-secondary: var(--theme-accent-salt-subtler);
+    --theme-text-tertiary: var(--theme-accent-salt-default);
+    --theme-text-quaternary: color-mix(
+      in srgb,
+      var(--theme-accent-salt-default),
+      transparent 36%
+    );
+    --theme-text-disabled: color-mix(
+      in srgb,
+      var(--theme-accent-salt-default),
+      transparent 68%
+    );
+    --theme-text-link: var(--theme-accent-water-subtler);
+    --theme-text-highlight-default: color-mix(
+      in srgb,
+      var(--theme-accent-cabbage-bolder),
+      transparent 76%
+    );
+    --theme-text-highlight-hover: color-mix(
+      in srgb,
+      var(--theme-accent-cabbage-bolder),
+      transparent 68%
+    );
+    --theme-shadow-shadow1: color-mix(in srgb, #0e1217, transparent 68%);
+    --theme-shadow-shadow2: color-mix(in srgb, #0e1217, transparent 60%);
+    --theme-shadow-shadow3: color-mix(in srgb, #0e1217, transparent 36%);
+    --theme-shadow-cabbage: #ce3df3;
+    --theme-blur-blur-highlight: color-mix(in srgb, #1c1f26, transparent 12%);
+    --theme-blur-blur-baseline: color-mix(in srgb, #0e1217, transparent 12%);
+    --theme-blur-blur-bg: color-mix(in srgb, #0e1217, transparent 36%);
+    --theme-blur-blur-glass: color-mix(in srgb, #a8b3cf, transparent 92%);
+    --theme-active: #a8b3cf33;
+    --theme-shadow2: 0 6px 6px -2px #00000066;
+    --theme-shadow3: 0 14px 14px -6px #000000a3;
+    --theme-post-disabled: #1c1f2666;
+    --theme-overlay-quaternary: #ffffff3d;
+    --theme-overlay-water: #3169f53d;
+    --theme-overlay-cabbage: #c029f03d;
+    --theme-overlay-from: #7147ed30;
+    --theme-overlay-to: #ce3df330;
+    --theme-overlay-float-bun: #ff7a2b14;
+    --theme-overlay-float-blueCheese: #0dcfdc14;
+    --theme-overlay-float-cabbage: #c029f014;
+    --theme-overlay-float-avocado: #1ddc6f14;
+    --theme-overlay-float-ketchup: #d52b2014;
+    --theme-overlay-active-cabbage: #c029f029;
+    --theme-overlay-active-onion: #5f37e929;
+    --theme-overlay-active-salt: #a8b3cf29;
+    --theme-gradient-cabbage: #e669fb66;
+    --theme-gradient-onion: #9d70f866;
+    --theme-rank-highlight: #f5f8fc;
+    --theme-rank-1-color: #a8b3cf;
+    --theme-rank-1-color-top: #a8b3cf;
+    --theme-rank-1-color-bottom: #525866;
+    --theme-rank-2-color: #ad6648;
+    --theme-rank-2-color-top: #ad6648;
+    --theme-rank-2-color-bottom: #ff8e3b;
+    --theme-rank-3-color: #f5f8fc;
+    --theme-rank-3-color-top: #f5f8fc;
+    --theme-rank-3-color-bottom: #a8b3cf;
+    --theme-rank-4-color: #ffe923;
+    --theme-rank-4-color-top: #ffe923;
+    --theme-rank-4-color-bottom: #ff8e3b;
+    --theme-rank-5-color: #2cdce6;
+    --theme-rank-5-color-top: #427ef7;
+    --theme-rank-5-color-bottom: #2cdce6;
+    --theme-rank-6-color: #ce3df3;
+    --theme-rank-6-color-top: #ce3df3;
+    --theme-rank-6-color-bottom: #7147ed;
+    --theme-rank-7-color: #fc538d;
+    --theme-rank-7-color-top: #fc538d;
+    --theme-rank-7-color-bottom: #e04337;
+    --theme-highlight-comment: #f5f8fc;
+    --theme-highlight-red: #ed685c;
+    --theme-highlight-orange: #fa5;
+    --theme-highlight-yellow: #fff35a;
+    --theme-highlight-green: #65f1ae;
+    --theme-highlight-aqua: #5cecf1;
+    --theme-highlight-blue: #5c9bfa;
+    --theme-highlight-purple: #8d62f4;
+    --theme-highlight-label: #cfd6e6;
+  }
+
+  .text-primary {
+    color: var(--theme-text-primary);
+  }
+  .text-secondary {
+    color: var(--theme-text-secondary);
+  }
+  .text-tertiary {
+    color: var(--theme-text-tertiary);
+  }
+  .text-quaternary {
+    color: var(--theme-text-quaternary);
+  }
+  .bg-surface-float {
+    background-color: var(--theme-surface-float);
+  }
+  .bg-border-subtlest-tertiary {
+    background-color: var(--theme-border-subtlest-tertiary);
+  }
+  .bg-accent-cabbage-default {
+    background-color: var(--theme-accent-cabbage-default);
+  }
 }
