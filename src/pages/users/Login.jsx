@@ -58,7 +58,7 @@ const Login = () => {
         className="flex items-center relative mt-0.5 lg:mt-0 w-auto px-10 py-8 lg:w-full pointer-events-none"
         to="/"
       >
-        <SwimmingIcon className="h-8 w-auto text-white" />
+        <SwimmingIcon className="h-8 w-auto text-gray-500" />
         <div className="text-white text-2xl font-bold">
           <span>Dev</span>
           <span className="text-gray-400 text-xl font-semibold">ware</span>
@@ -87,7 +87,7 @@ const Login = () => {
                   className="h-12 font-extrabold rounded-xl text-base w-full"
                 >
                   {isPending ? (
-                    <ImSpinner9 className="animate-spin text-lg text-purple-800" />
+                    <ImSpinner9 className="animate-spin text-lg text-purple-500" />
                   ) : (
                     <>
                       <svg
@@ -202,7 +202,7 @@ const Login = () => {
                   className="flex flex-1 h-10 text-base font-extrabold rounded-xl"
                 >
                   {isPending ? (
-                    <ImSpinner9 className="animate-spin text-lg text-purple-800" />
+                    <ImSpinner9 className="animate-spin text-lg text-purple-500" />
                   ) : (
                     "Log in"
                   )}
@@ -215,7 +215,7 @@ const Login = () => {
           <div className="flex flex-1"></div>
           {/* Footer Divider */}
           <div className="px-6 md:px-[3.75rem] flex flex-col gap-3 self-center mt-6 w-full">
-            <footer className="flex h-16 w-full items-center gap-3 border-t border-border-subtlest-tertiary p-3 justify-center mt-4 gap-unset">
+            <footer className="flex h-16 w-full items-center gap-3 border-t border-gray-700 p-3 justify-center mt-4 gap-unset">
               <p className="typo-callout text-gray-400">Not a member yet?</p>
               <Link to="/register">
                 <Button className="bg-transparent hover:bg-transparent text-white underline hover:no-underline text-lg">

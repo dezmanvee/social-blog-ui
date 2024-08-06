@@ -66,7 +66,7 @@ const Home = () => {
           to="/"
           aria-label="Home"
         >
-          <SwimmingIcon className="h-8 w-auto text-white" />
+          <SwimmingIcon className="h-8 w-auto text-gray-500" />
           <div className="text-white text-2xl font-bold hidden xs:block">
             <span>Dev</span>
             <span className="text-gray-400 text-xl font-semibold">ware</span>
@@ -218,7 +218,7 @@ const Home = () => {
                 className="h-12 font-extrabold text-base w-full rounded-xl"
               >
                 {isPending ? (
-                  <ImSpinner9 className="animate-spin text-lg text-purple-800" />
+                  <ImSpinner9 className="animate-spin text-lg text-purple-500" />
                 ) : (
                   <>
                     <svg

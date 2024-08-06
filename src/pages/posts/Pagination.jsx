@@ -1,26 +1,30 @@
+import { Button } from "../../components/ui/button"
+
 const Pagination = ({page, data, paginationHandler}) => {
   return (
     <div className="flex justify-center items-center my-8 space-x-4">
         {page > 1 && (
-          <button
+          <Button
             onClick={() => paginationHandler(page - 1)}
-            className="px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+            className="rounded-xl bg-inherit text-slate-300 border-slate-300 border-2 hover:bg-slate-300 font-extrabold"
+            variant="outline"
           >
             Previous
-          </button>
+          </Button>
         )}
 
-        <span className="text-sm font-semibold">
+        <span className="text-sm font-semibold text-slate-200">
           Page {page} of {data?.totalPages}
         </span>
 
         {page < data?.totalPages && (
-          <button
+          <Button
             onClick={() => paginationHandler(page + 1)}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+            className="rounded-xl bg-inherit text-slate-300 border-slate-300 border-2 hover:bg-slate-300 font-extrabold"
+            variant="outline"
           >
             Next
-          </button>
+          </Button>
         )}
       </div>
   )
