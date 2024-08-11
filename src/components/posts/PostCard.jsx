@@ -8,7 +8,7 @@ const PostCard = ({ post }) => {
   const navigate = useNavigate();
   return (
     <article
-      className="group min-h-card snap-start relative max-h-cardLarge h-full flex flex-col p-2 rounded-2xl bg-background-subtle border border-slate-700 hover:border-slate-400 shadow-xl"
+      className="group min-w-[300px] flex-1 min-h-card snap-start relative max-h-cardLarge h-full flex flex-col p-2 rounded-2xl bg-background-subtle border border-slate-700 hover:border-slate-400 shadow-xl"
       onClick={() => navigate(`/details/${post?._id}`)}
     >
       <Link className="post_card_index focus-outline absolute inset-0 h-full w-full"></Link>

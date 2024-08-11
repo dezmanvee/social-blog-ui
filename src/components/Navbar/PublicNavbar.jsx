@@ -44,7 +44,7 @@ const PublicNavbar = () => {
       })
       .catch((err) => console.log(err));
   };
-
+  // sticky top-0 z-header w-full tablet:pl-16 bg-background-default
   return (
     // <Disclosure as="nav" className="bg-teal-50 shadow z-50">
     //   {({ open }) => (
@@ -206,39 +206,40 @@ const PublicNavbar = () => {
     //     </>
     //   )}
     // </Disclosure>
-    <header className="sticky top-0 z-50 flex h-14 flex-row content-center items-center justify-center gap-3 border-b border-gray-600 px-4 py-3 md:px-8 lg:left-0 lg:h-16 lg:w-full lg:px-4 xl:grid xl:auto-cols-fr xl:grid-flow-col bg-color">
+    <header className="sticky top-0 left-0 right-0 z-50 flex flex-row items-center justify-between gap-3 h-14 border-b border-gray-600 px-4 py-3 md:px-8  lg:h-16 lg:px-4 xl:grid xl:auto-cols-fr xl:grid-flow-col bg-color">
       {/* Logo */}
-      <div className="flex flex-1  lg:flex-none lg:justify-start justify-center">
+      <div className="flex lg:flex-none justify-start">
         <Link
           to="/"
-          className="flex items-center absolute left-1/2 top-4 mt-0.5 -translate-x-1/2 lg:relative lg:left-[unset] lg:top-[unset] lg:mt-0 lg:translate-x-[unset]"
+          className="flex items-center mt-0.5"
           aria-label="Home"
         >
-          <SwimmingIcon className="h-8 w-auto text-gray-500" />
+          <SwimmingIcon className="h-8 w-auto text-slate-300" />
           <div className="text-white text-2xl font-bold">
             <span>Dev</span>
             <span className="text-gray-400 text-xl font-semibold">ware</span>
           </div>
         </Link>
       </div>
+      <div className="flex-1 h-8"></div>
       {/* Search bar */}
       {/* <div className="left-0 top-0 z-50 mr-auto items-center py-3 md:left-16 lg:left-0 xl:mx-auto xl:w-full hidden lg:flex flex flex-col">
         
       </div> */}
       {/* Profile Wrapper*/}
-      <div className="ml-auto flex justify-end gap-3">
+      <div className="flex justify-end gap-3">
         {/* Add post */}
         <Button
           aria-label="New Post"
           variant="outline"
-          className="w-10 h-10 p-0 rounded-xl"
+          className="w-10 h-10 p-0 rounded-xl hidden lg:flex"
         >
           <PlusSignIcon className="text-lg" />
         </Button>
 
         {/* Notification */}
-        <div className="relative lg:flex" aria-label="Notifications">
-          <Button className="w-10 h-10 p-0 rounded-xl text-gray-400 hover:text-white bg-surface-float hover:bg-slate-800">
+        <div className="relative hidden md:flex" aria-label="Notifications">
+          <Button className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-surface-float hover:bg-slate-800">
             <svg
               width="1em"
               height="1em"
@@ -280,7 +281,7 @@ const PublicNavbar = () => {
             <span className="font-bold">0</span>
           </Button>
           {/* totalNumber of personal post */}
-          <Button className="text-base gap-2 p-0 hidden lg:flex text-white">
+          <Button className="text-base gap-2 p-0 flex md:hidden lg:flex text-white">
             <div className="flex items-center">
               <span className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white">
                 <svg

@@ -19,6 +19,9 @@ module.exports = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        'auto-fit-minmax': 'repeat(auto-fit, minmax(260px, 1fr))',
+      },
       placeholderColor: {
         'white': 'white', // Custom gray color
       },

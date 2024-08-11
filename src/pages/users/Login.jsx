@@ -58,7 +58,7 @@ const Login = () => {
         className="flex items-center relative mt-0.5 lg:mt-0 w-auto px-10 py-8 lg:w-full pointer-events-none"
         to="/"
       >
-        <SwimmingIcon className="h-8 w-auto text-gray-500" />
+        <SwimmingIcon className="h-8 w-auto text-slate-300" />
         <div className="text-white text-2xl font-bold">
           <span>Dev</span>
           <span className="text-gray-400 text-xl font-semibold">ware</span>

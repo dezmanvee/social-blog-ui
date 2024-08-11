@@ -20,12 +20,19 @@ import {
   PeerToPeer03Icon,
   UserListIcon,
   CrownIcon,
+  PlusSignIcon,
 } from "hugeicons-react";
 import { PiUsersFour, PiUsersThree, PiLadderBold } from "react-icons/pi";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import { RiFeedbackLine } from "react-icons/ri";
 import { Button } from "../../components/ui/button";
+import { FcFeedback } from "react-icons/fc";
+import Home from "../../components/svg/Home";
+import Search from "../../components/svg/Search";
+import Explore from "../../components/svg/Explore";
+import Profile from "../../components/svg/Profile";
+import Bell from "../../components/svg/Bell";
 
 const connectionsNavigation = [
   {
@@ -82,7 +89,69 @@ const settingsNavigation = [
   {
     name: "Feedback",
     href: "/dashboard/feedback",
-    icon: RiFeedbackLine,
+    icon: FcFeedback,
+    current: false,
+  },
+];
+
+// Tablet static data
+const sidebarNavigation = [
+  {
+    name: "Home",
+    href: "/",
+    icon: Home,
+    current: true,
+  },
+  {
+    name: "Explore",
+    href: "/dashboard/all-posts",
+    icon: Search,
+    current: false,
+  },
+  {
+    name: "Posts",
+    href: "/dashboard/posts",
+    icon: Explore,
+    current: false,
+  },
+  {
+    name: "Profile",
+    href: "/dashboard/profile",
+    icon: Profile,
+    current: false,
+  },
+];
+
+// Phone static data
+const footerNavigation = [
+  {
+    name: "Home",
+    href: "/",
+    icon: Home,
+    current: true,
+  },
+  {
+    name: "Explore",
+    href: "/dashboard/all-posts",
+    icon: Search,
+    current: false,
+  },
+  {
+    name: "",
+    href: "/dashboard/create-post",
+    icon: PlusSignIcon,
+    current: false,
+  },
+  {
+    name: "Alert",
+    href: "/dashboard/notifications",
+    icon: Bell,
+    current: false,
+  },
+  {
+    name: "Post",
+    href: "/dashboard/posts",
+    icon: Explore,
     current: false,
   },
 ];
@@ -279,13 +348,13 @@ export default function UserDashbaord() {
   //       </div>
   //     </div>
   //   </>
-  // );
-
+  // )
   return (
-    <aside className="w-[280px] lg:w-60 -translate-x-[280px] lg:top-16 lg:h-[calc(100vh-theme(space.16))] flex flex-col z-[77] lg:z-sidebar lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-0 h-full">
-      {/* Toggle Sidebar Here */}
+    <>
+      <aside className="max-lg:hidden w-[280px] lg:w-60 -translate-x-[280px] lg:top-16 lg:h-[calc(100vh-theme(space.16))] flex flex-col z-[77] lg:z-sidebar lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-0 h-full">
+        {/* Toggle Sidebar Here */}
 
-      {/* <Button
+        {/* <Button
         aria-label="close sidebar"
         variant="outline"
         className="focus-outline inline-flex cursor-pointer select-none flex-row
@@ -307,200 +376,115 @@ export default function UserDashbaord() {
         </svg>
       </Button> */}
 
-      {/* Content */}
-      <div className="flex overflow-x-hidden overflow-y-auto flex-col h-full no-scrollbar">
-        <nav className="my-4 mt-10 lg:mt-8">
-          {/* Explore all posts */}
-          <li className="hidden lg:flex px-3 opacity-100 text-sm text-gray-400 h-7 flex items-center font-bold  transition-opacity">
-            Activity
-          </li>
-          <li className="text-white bg-theme-active flex items-center hover:bg-theme-active">
-            <Link className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7" to="/dashboard/all-posts">
-              <span className="relative px-3">
-                <div className="rounded-sm bg-background-subtle">
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5 pointer-events-none"
-                  >
-                    <path
-                      d="M19.736 4.264c1.423 1.423.79 4.508-1.332 7.736 2.121 3.229 2.755 6.313 1.332 7.736-1.423 1.423-4.507.79-7.735-1.331-3.229 2.12-6.314 2.754-7.737 1.331s-.79-4.507 1.331-7.735c-2.12-3.229-2.754-6.314-1.331-7.737S8.772 3.474 12 5.596c3.229-2.121 6.313-2.755 7.736-1.332zm-2.27 9.045l.136-.176a23.365 23.365 0 01-2.086 2.383c-.72.72-1.462 1.374-2.208 1.952 2.466 1.509 4.617 1.97 5.373 1.213.757-.756.296-2.907-1.215-5.372zm-10.932.001l-.058.095c-1.464 2.425-1.904 4.53-1.157 5.276.756.757 2.906.296 5.37-1.214a23.666 23.666 0 01-2.205-1.95 23.483 23.483 0 01-1.95-2.207zM12 7.417l-.317.238c-.716.549-1.44 1.178-2.144 1.883-.81.81-1.52 1.643-2.122 2.462a21.67 21.67 0 002.122 2.462c.81.81 1.642 1.518 2.461 2.121a21.673 21.673 0 002.462-2.121c.809-.81 1.518-1.642 2.121-2.462a21.599 21.599 0 00-2.121-2.462A21.634 21.634 0 0012 7.417zm3.196-1.866l-.413.185c-.471.22-.966.487-1.473.798l-.177-.136c.805.61 1.607 1.309 2.383 2.086.72.72 1.373 1.461 1.95 2.207.311-.508.578-1.002.799-1.474l.184-.413c.687-1.627.787-2.93.232-3.485-.554-.555-1.858-.455-3.485.232zM5.32 5.32c-.555.554-.455 1.858.232 3.485l.185.413c.22.471.486.965.797 1.472a23.672 23.672 0 011.95-2.205c.72-.72 1.462-1.372 2.207-1.95a14.881 14.881 0 00-1.473-.798l-.413-.185c-1.627-.687-2.93-.787-3.485-.232z"
-                      fill="currentcolor"
-                      fill-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </span>
-              <span
-                className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                title="Explore"
-              >
-                Explore{" "}
-              </span>
-              <span className="relative"></span>
-            </Link>
-          </li>
-
-          {/* My post */}
-          <li className="hover:text-white text-gray-400 flex items-center hover:bg-theme-active">
-            <Link
-              className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-              to="/dashboard/posts"
-            >
-              <span className="relative px-3">
-                <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
-                  <img
-                    src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
-                    alt="Sam Bade"
-                    loading="lazy"
-                    className="absolute block inset-0 w-full h-full m-auto object-cover"
-                  />
-                </div>
-              </span>
-              <span
-                className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                title="My posts"
-              >
-                My posts
-              </span>
-            </Link>
-          </li>
-
-          {/* Create post */}
-          <li className="hover:text-white text-gray-400 flex items-center hover:bg-theme-active">
-            <Link
-              to="/dashboard/create-post"
-              className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-            >
-              <span className="relative px-3">
-                <div className="rounded-sm bg-background-subtle">
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5 pointer-events-none"
-                  >
-                    <path
-                      d="M18.361 11.259a.75.75 0 01-.009 1.484l-.102.007h-5.5v5.5a.75.75 0 01-1.491.111l-.009-.11V12.75h-5.5l-.111-.009a.75.75 0 01.009-1.484l.102-.007h5.5v-5.5a.75.75 0 011.491-.111l.009.11v5.501h5.5l.111.009z"
-                      fill="currentcolor"
-                      fill-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </span>
-              <span
-                className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                title="Create new post"
-              >
-                Create new post{" "}
-              </span>
-              <span className="relative"></span>
-            </Link>
-          </li>
-
-          {/* Discover Group */}
-          <ul className="mt-0 lg:mt-4">
-            <li className="hidden lg:flex px-3 opacity-100 text-sm text-gray-400 h-7 flex items-center font-bold  transition-opacity">
-              Discover
+        {/* Content */}
+        <div className="flex overflow-x-hidden overflow-y-auto flex-col h-full no-scrollbar">
+          <nav className="my-4 mt-10 lg:mt-8">
+            {/* Explore all posts */}
+            <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+              Activity
             </li>
-            <ul>
-              {discoverNavigation.map((item) => (
-                <li
-                  className={classNames(
-                    item.current
-                      ? "text-white bg-theme-active"
-                      : "text-gray-400 bg-transparent hover:text-white hover:bg-theme-active",
-                    "flex items-center"
-                  )}
-                >
-                  <Link
-                    to={item?.href}
-                    className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-                  >
-                    <span className="relative px-3">
-                      <div className="rounded-sm bg-background-subtle">
-                        <item.icon
-                          fontVariant="bulk"
-                          className={classNames(
-                            item.current
-                              ? "text-white"
-                              : "text-gray-400 bg-transparent hover:text-white hover:bg-theme-active",
-                            "w-5 h-5 pointer-events-none"
-                          )}
-                        />
-                      </div>
-                    </span>
-                    <span
-                      className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                      title="Create new post"
+            <li className="text-white bg-theme-active flex items-center hover:bg-theme-active">
+              <Link
+                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                to="/dashboard/all-posts"
+              >
+                <span className="relative px-3">
+                  <div className="rounded-sm bg-background-subtle">
+                    <svg
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5 pointer-events-none"
                     >
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </ul>
-
-          {/* Connections Group */}
-          <ul className="mt-0 lg:mt-4">
-            <li className="hidden lg:flex px-3 opacity-100 text-sm text-gray-400 h-7 flex items-center font-bold  transition-opacity">
-              Connection
+                      <path
+                        d="M19.736 4.264c1.423 1.423.79 4.508-1.332 7.736 2.121 3.229 2.755 6.313 1.332 7.736-1.423 1.423-4.507.79-7.735-1.331-3.229 2.12-6.314 2.754-7.737 1.331s-.79-4.507 1.331-7.735c-2.12-3.229-2.754-6.314-1.331-7.737S8.772 3.474 12 5.596c3.229-2.121 6.313-2.755 7.736-1.332zm-2.27 9.045l.136-.176a23.365 23.365 0 01-2.086 2.383c-.72.72-1.462 1.374-2.208 1.952 2.466 1.509 4.617 1.97 5.373 1.213.757-.756.296-2.907-1.215-5.372zm-10.932.001l-.058.095c-1.464 2.425-1.904 4.53-1.157 5.276.756.757 2.906.296 5.37-1.214a23.666 23.666 0 01-2.205-1.95 23.483 23.483 0 01-1.95-2.207zM12 7.417l-.317.238c-.716.549-1.44 1.178-2.144 1.883-.81.81-1.52 1.643-2.122 2.462a21.67 21.67 0 002.122 2.462c.81.81 1.642 1.518 2.461 2.121a21.673 21.673 0 002.462-2.121c.809-.81 1.518-1.642 2.121-2.462a21.599 21.599 0 00-2.121-2.462A21.634 21.634 0 0012 7.417zm3.196-1.866l-.413.185c-.471.22-.966.487-1.473.798l-.177-.136c.805.61 1.607 1.309 2.383 2.086.72.72 1.373 1.461 1.95 2.207.311-.508.578-1.002.799-1.474l.184-.413c.687-1.627.787-2.93.232-3.485-.554-.555-1.858-.455-3.485.232zM5.32 5.32c-.555.554-.455 1.858.232 3.485l.185.413c.22.471.486.965.797 1.472a23.672 23.672 0 011.95-2.205c.72-.72 1.462-1.372 2.207-1.95a14.881 14.881 0 00-1.473-.798l-.413-.185c-1.627-.687-2.93-.787-3.485-.232z"
+                        fill="currentcolor"
+                        fill-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </div>
+                </span>
+                <span
+                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                  title="Explore"
+                >
+                  Explore{" "}
+                </span>
+                <span className="relative"></span>
+              </Link>
             </li>
-            <ul>
-              {connectionsNavigation.map((item) => (
-                <li
-                  className={classNames(
-                    item.current
-                      ? "text-white bg-theme-active"
-                      : "text-gray-400 bg-transparent hover:text-white hover:bg-theme-active",
-                    "flex items-center"
-                  )}
-                >
-                  <Link
-                    to={item?.href}
-                    className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-                  >
-                    <span className="relative px-3">
-                      <div className="rounded-sm bg-background-subtle">
-                        <item.icon
-                          className={classNames(
-                            item.current
-                              ? "text-white"
-                              : "text-gray-400 bg-transparent hover:text-white hover:bg-gray-400",
-                            "w-5 h-5 pointer-events-none"
-                          )}
-                        />
-                      </div>
-                    </span>
-                    <span
-                      className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                      title="Create new post"
-                    >
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </ul>
 
-          {/* Admin Group */}
-          {role === "admin" ? (
+            {/* My post */}
+            <li className="hover:text-white text-slate-400 flex items-center hover:bg-theme-active">
+              <Link
+                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                to="/dashboard/posts"
+              >
+                <span className="relative px-3">
+                  <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
+                    <img
+                      src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
+                      alt="Sam Bade"
+                      loading="lazy"
+                      className="absolute block inset-0 w-full h-full m-auto object-cover"
+                    />
+                  </div>
+                </span>
+                <span
+                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                  title="My posts"
+                >
+                  My posts
+                </span>
+              </Link>
+            </li>
+
+            {/* Create post */}
+            <li className="hover:text-white text-slate-400 flex items-center hover:bg-theme-active">
+              <Link
+                to="/dashboard/create-post"
+                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+              >
+                <span className="relative px-3">
+                  <div className="rounded-sm bg-background-subtle">
+                    <svg
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5 pointer-events-none"
+                    >
+                      <path
+                        d="M18.361 11.259a.75.75 0 01-.009 1.484l-.102.007h-5.5v5.5a.75.75 0 01-1.491.111l-.009-.11V12.75h-5.5l-.111-.009a.75.75 0 01.009-1.484l.102-.007h5.5v-5.5a.75.75 0 011.491-.111l.009.11v5.501h5.5l.111.009z"
+                        fill="currentcolor"
+                        fill-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </div>
+                </span>
+                <span
+                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                  title="Create new post"
+                >
+                  Create new post{" "}
+                </span>
+                <span className="relative"></span>
+              </Link>
+            </li>
+
+            {/* Discover Group */}
             <ul className="mt-0 lg:mt-4">
-              <li className="hidden lg:flex px-3 opacity-100 text-sm text-gray-400 h-7 flex items-center font-bold  transition-opacity">
-                Admin
+              <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                Discover
               </li>
               <ul>
-                {adminNavigation.map((item) => (
+                {discoverNavigation.map((item) => (
                   <li
                     className={classNames(
                       item.current
                         ? "text-white bg-theme-active"
-                        : "text-gray-400 bg-transparent hover:text-white hover:bg-theme-active",
+                        : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
                       "flex items-center"
                     )}
                   >
@@ -511,10 +495,11 @@ export default function UserDashbaord() {
                       <span className="relative px-3">
                         <div className="rounded-sm bg-background-subtle">
                           <item.icon
+                            fontVariant="bulk"
                             className={classNames(
                               item.current
                                 ? "text-white"
-                                : "text-gray-400 bg-transparent hover:text-white hover:bg-gray-400",
+                                : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
                               "w-5 h-5 pointer-events-none"
                             )}
                           />
@@ -531,52 +516,199 @@ export default function UserDashbaord() {
                 ))}
               </ul>
             </ul>
-          ) : null}
-        </nav>
-        <div className="flex-1"></div>
 
-        {/* Buttom nav for settings and feedback */}
-        <nav className="my-4 mt-10 laptop:mt-8">
-          <ul className="mt-0 lg:mt-4">
-            <ul>
-              {settingsNavigation.map((item) => (
-                <li
+            {/* Connections Group */}
+            <ul className="mt-0 lg:mt-4">
+              <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                Connection
+              </li>
+              <ul>
+                {connectionsNavigation.map((item) => (
+                  <li
+                    className={classNames(
+                      item.current
+                        ? "text-white bg-theme-active"
+                        : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
+                      "flex items-center"
+                    )}
+                  >
+                    <Link
+                      to={item?.href}
+                      className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                    >
+                      <span className="relative px-3">
+                        <div className="rounded-sm bg-background-subtle">
+                          <item.icon
+                            className={classNames(
+                              item.current
+                                ? "text-white"
+                                : "text-slate-400 bg-transparent hover:text-white hover:bg-gray-400",
+                              "w-5 h-5 pointer-events-none"
+                            )}
+                          />
+                        </div>
+                      </span>
+                      <span
+                        className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                        title="Create new post"
+                      >
+                        {item.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </ul>
+
+            {/* Admin Group */}
+            {role === "admin" ? (
+              <ul className="mt-0 lg:mt-4">
+                <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                  Admin
+                </li>
+                <ul>
+                  {adminNavigation.map((item) => (
+                    <li
+                      className={classNames(
+                        item.current
+                          ? "text-white bg-theme-active"
+                          : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
+                        "flex items-center"
+                      )}
+                    >
+                      <Link
+                        to={item?.href}
+                        className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                      >
+                        <span className="relative px-3">
+                          <div className="rounded-sm bg-background-subtle">
+                            <item.icon
+                              className={classNames(
+                                item.current
+                                  ? "text-white"
+                                  : "text-slate-400 bg-transparent hover:text-white hover:bg-gray-400",
+                                "w-5 h-5 pointer-events-none"
+                              )}
+                            />
+                          </div>
+                        </span>
+                        <span
+                          className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                          title="Create new post"
+                        >
+                          {item.name}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </ul>
+            ) : null}
+          </nav>
+          <div className="flex-1"></div>
+
+          {/* Buttom nav for settings and feedback */}
+          <nav className="my-4 mt-10 laptop:mt-8">
+            <ul className="mt-0 lg:mt-4">
+              <ul>
+                {settingsNavigation.map((item) => (
+                  <li
+                    className={classNames(
+                      item.current
+                        ? "text-white bg-theme-active"
+                        : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
+                      "flex items-center"
+                    )}
+                  >
+                    <Link
+                      to={item?.href}
+                      className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                    >
+                      <span className="relative px-3">
+                        <div className="rounded-sm bg-background-subtle">
+                          <item.icon
+                            className={classNames(
+                              item.current
+                                ? "text-white"
+                                : "text-slate-400 bg-transparent hover:text-white hover:bg-gray-400",
+                              "w-5 h-5 pointer-events-none"
+                            )}
+                          />
+                        </div>
+                      </span>
+                      <span
+                        className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                        title="Create new post"
+                      >
+                        {item.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      {/* tablet */}
+      <aside className="lg:hidden w-16 items-center gap-4 max-md:hidden max-lg:flex flex-col z-[77] lg:z-[79] lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-14 h-full max-lg:h-[calc(100vh-theme(space.14))]">
+        {sidebarNavigation?.map((item) => {
+          return (
+            <Link
+              to={item.href}
+              className={classNames(
+                item.current
+                  ? "text-white hover:text-slate-400"
+                  : "text-slate-400 hover:text-slate-400",
+                "inline-flex items-center select-none shadow-none transition duration-200 ease-in-out text-xs h-12 px-2 rounded-xl flex-col gap-1 w-full !bg-transparent active:bg-transparent aria-pressed:bg-transparent"
+              )}
+            >
+              <item.icon />
+              {item.name}
+            </Link>
+          );
+        })}
+        <Button
+          aria-label="New Post"
+          className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700"
+        >
+          <PlusSignIcon className="text-lg" />
+        </Button>
+      </aside>
+
+      {/* Phone */}
+      <aside className="fixed md:hidden !bottom-0 left-0 z-50 w-full footer-navbar bg-gradient-to-t from-black to-transparent px-2 pt-2">
+        <nav className="grid w-full auto-cols-fr grid-flow-col items-center justify-between rounded-2xl bg-slate-900 border-t border-slate-500">
+          {footerNavigation?.map((item) => {
+            return (
+              <div className={`relative flex h-full flex-col items-center justify-center py-2 ${item.name === "Alert" ? "!p-0" : null}`}>
+                <Link
+                  to={item.href}
                   className={classNames(
                     item.current
-                      ? "text-white bg-theme-active"
-                      : "text-gray-400 bg-transparent hover:text-white hover:bg-theme-active",
-                    "flex items-center"
+                      ? "text-white"
+                      : "text-slate-400 hover:text-slate-400",
+                    `inline-flex items-center select-none shadow-none transition duration-200 ease-in-out text-xs h-12 px-2 rounded-xl flex-col gap-1 w-full bg-transparent active:bg-transparent aria-pressed:bg-transparent
+                ${
+                  item.href === "/dashboard/create-post"
+                    ? "flex items-center justify-center !w-10 !h-10 p-0 rounded-lg border border-slate-400 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700"
+                    : null
+                }
+                `
                   )}
                 >
-                  <Link
-                    to={item?.href}
-                    className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-                  >
-                    <span className="relative px-3">
-                      <div className="rounded-sm bg-background-subtle">
-                        <item.icon
-                          className={classNames(
-                            item.current
-                              ? "text-white"
-                              : "text-gray-400 bg-transparent hover:text-white hover:bg-gray-400",
-                            "w-5 h-5 pointer-events-none"
-                          )}
-                        />
-                      </div>
-                    </span>
-                    <span
-                      className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                      title="Create new post"
-                    >
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </ul>
+                  <item.icon notificationValue="50" />
+                  {item.name}
+                </Link>
+                {item.current ? (
+                  <div className="-top-0.5 w-6 absolute inset-x-0 bottom-0 h-0.5 my-0 mx-auto bg-white rounded-[1.008px]" />
+                ) : null}
+              </div>
+            );
+          })}
         </nav>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

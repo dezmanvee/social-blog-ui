@@ -166,7 +166,7 @@ const AllPosts = () => {
   // )
 
   return (
-    <div className="relative flex w-full flex-col xl:mx-auto Feed_container__nHOSZ">
+    <div className="relative flex w-full flex-col xl:mx-auto">
       <div
         className="flex w-full flex-col xl:mx-auto"
         style={{
@@ -187,7 +187,7 @@ const AllPosts = () => {
             />
           </span>
           {/* posts container */}
-          <div className="grid mt-8 gap-8 grid-cols-3">
+          <div className="grid mt-8 gap-8 grid-cols-auto-fit-minmax gap-x-8">
             {data?.allPosts?.map((post) => {
               return <PostCard key={post?.Id} post={post}/>
             })}

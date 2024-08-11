@@ -66,14 +66,14 @@ const Home = () => {
           to="/"
           aria-label="Home"
         >
-          <SwimmingIcon className="h-8 w-auto text-gray-500" />
+          <SwimmingIcon className="h-8 w-auto text-slate-300" />
           <div className="text-white text-2xl font-bold hidden xs:block">
             <span>Dev</span>
             <span className="text-gray-400 text-xl font-semibold">ware</span>
           </div>
         </Link>
         <div className="flex items-center gap-4">
-          <span className="hidden md:block text-gray-400">
+          <span className="hidden md:block text-slate-300">
             Already using Devware?
           </span>
           <Link to="/login">

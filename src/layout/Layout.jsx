@@ -4,7 +4,7 @@ import UserDashbaord from "../pages/users/UserDashboard";
 
 const Layout = () => {
   return (
-    <div className="bg-color">
+    <div className="bg-color w-full p-0">
       <PublicNavbar />
       <main className="flex flex-col md:pl-16 lg:pl-11 lg:!pl-60">
         <UserDashbaord />

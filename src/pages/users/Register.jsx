@@ -61,7 +61,7 @@ const Register = () => {
         className="flex items-center relative mt-0.5 lg:mt-0 w-auto px-10 py-8 lg:w-full pointer-events-none"
         to="/"
       >
-        <SwimmingIcon className="h-8 w-auto text-gray-500" />
+        <SwimmingIcon className="h-8 w-auto text-slate-300" />
         <div className="text-white text-2xl font-bold">
           <span>Dev</span>
           <span className="text-gray-400 text-xl font-semibold">ware</span>
@@ -170,7 +170,7 @@ const Register = () => {
               </div>
               {/* Email */}
               <div className="flex flex-col items-stretch">
-                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-red-400">
+                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-red-400">
                   <Mail01Icon className="mr-2 text-gray-400 hover:text-white" />
                   <div className="flex max-w-full flex-1 flex-col items-start">
                     <input
@@ -179,7 +179,7 @@ const Register = () => {
                       name="email"
                       id="email"
                       size="1"
-                      className="self-stretch text-ellipsis hover:field-placeholder-color  text-gray-400 hover:text-white min-w-0  bg-transparent typo-body caret-text-link focus:outline-none"
+                      className="self-stretch text-ellipsis hover:field-placeholder-color  text-gray-400 hover:text-white min-w-0  bg-transparent caret-text-link focus:outline-none"
                       required
                       {...formik.getFieldProps("email")}
                     />
@@ -198,7 +198,7 @@ const Register = () => {
               </div>
               {/* password */}
               <div className="flex flex-col items-stretch">
-                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 hover:border-l-white">
+                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 hover:border-l-white">
                   <LockKeyIcon className="mr-2 text-gray-400 hover:text-white" />
                   <div className="flex max-w-full flex-1 flex-col items-start">
                     <input
