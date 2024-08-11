@@ -3,6 +3,8 @@ import { Button } from "../ui/button";
 // import { PlusIcon } from "@radix-ui/react-icons";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { AiOutlineSetting } from "react-icons/ai";
+import { RiFeedbackLine } from "react-icons/ri";
 import {
   DashboardSquare02Icon,
   SwimmingIcon,
@@ -18,6 +20,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { logout } from "../../redux/features/user/authSlice";
 import NotificationCounts from "../notificationCount/NotificationCounts";
 import { allNotificationsAPI } from "../../API/notifications/notificationAPIs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../components/ui/dropdown-menu";
+import Profile from "../svg/Profile";
+import InviteFriend from "../svg/InviteFriend";
 
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
@@ -27,6 +39,8 @@ const PublicNavbar = () => {
   const navigate = useNavigate();
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const leaderBoard = 8;
 
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
@@ -209,11 +223,7 @@ const PublicNavbar = () => {
     <header className="sticky top-0 left-0 right-0 z-50 flex flex-row items-center justify-between gap-3 h-14 border-b border-gray-600 px-4 py-3 md:px-8  lg:h-16 lg:px-4 xl:grid xl:auto-cols-fr xl:grid-flow-col bg-color">
       {/* Logo */}
       <div className="flex lg:flex-none justify-start">
-        <Link
-          to="/"
-          className="flex items-center mt-0.5"
-          aria-label="Home"
-        >
+        <Link to="/" className="flex items-center mt-0.5" aria-label="Home">
           <SwimmingIcon className="h-8 w-auto text-slate-300" />
           <div className="text-white text-2xl font-bold">
             <span>Dev</span>
@@ -263,22 +273,38 @@ const PublicNavbar = () => {
         <div className="flex h-10 items-center rounded-xl bg-surface-float px-1">
           {/* Leaderboard */}
           <Button className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-slate-800">
-            <svg
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 pointer-events-none !h-6 !w-6 text-base -ml-2 mr-1"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M23.772 14.342a12.062 12.062 0 000-4.684l-.49.097-.491.097a11.056 11.056 0 010 4.296l.49.097.49.097zm-1.793 4.325l-.416-.278-.415-.278a11.066 11.066 0 01-3.037 3.037l.278.415.278.416a12.066 12.066 0 003.312-3.312zm-7.637 5.105l-.097-.49-.097-.491a11.057 11.057 0 01-4.296 0l-.097.49-.097.49a12.062 12.062 0 004.684 0zm-9.01-1.793l.279-.416.278-.415a11.066 11.066 0 01-3.037-3.037l-.415.278-.416.278a12.066 12.066 0 003.312 3.312zM.229 14.342a12.058 12.058 0 010-4.684l.49.097.491.097a11.059 11.059 0 000 4.296l-.49.097-.49.097zm1.793-9.01l.416.279.415.278A11.066 11.066 0 015.89 2.852l-.278-.415-.278-.416A12.066 12.066 0 002.02 5.333zM9.658.229l.097.49.097.491a11.059 11.059 0 014.296 0l.097-.49.097-.49a12.058 12.058 0 00-4.684 0zm9.01 1.793l-.279.416-.278.415c1.2.804 2.233 1.837 3.037 3.037l.415-.278.416-.278a12.066 12.066 0 00-3.312-3.312z"
-                fill="#FC538D"
-              ></path>
-            </svg>
-            <span className="font-bold">0</span>
+            {leaderBoard > 0 ? (
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 pointer-events-none"
+              >
+                <path
+                  d="M15.138 5.624l-.873-1.054-.576-.717a2.24 2.24 0 00-3.592.099l-.15.223c-.667 1.057-.972 1.94-.942 3.219l.009.215-.028-.01c-.745-.235-1.706.106-2.467.878-2.278 2.315-2.659 5.847-.988 8.78 1.273 2.267 3.82 3.741 6.456 3.741.113 0 .227-.002.343-.008 2.72-.134 5.302-1.86 6.466-4.321a7.182 7.182 0 00.586-4.389c-.337-1.805-1.209-2.923-2.868-4.992l-.532-.652-.844-1.012zm-2.654-.82l.6.745.876 1.058.834.999.523.641c1.27 1.585 2.243 2.633 2.557 4.315a5.655 5.655 0 01-.465 3.451c-.922 1.95-3 3.339-5.154 3.445-.09.004-.18.006-.268.006-2.083 0-4.118-1.176-5.123-2.967-1.338-2.348-1.037-5.129.748-6.943.638-.648.975-.64 1.013.023l.003.132.001.566.009.574.013.381.022.376c.102 1.426.44 2.665 1.557 2.852.682.114 1.407-.064 1.853-.818.295-.509.353-1.11.163-1.69l-.073-.193-.09-.195-.115-.236-.218-.431-.275-.522-.33-.614c-.775-1.43-.908-3.343.206-4.925a.707.707 0 011.133-.03z"
+                  fill="currentcolor"
+                  fill-rule="evenodd"
+                ></path>
+              </svg>
+            ) : (
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 pointer-events-none !h-6 !w-6 text-base -ml-2 mr-1"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M23.772 14.342a12.062 12.062 0 000-4.684l-.49.097-.491.097a11.056 11.056 0 010 4.296l.49.097.49.097zm-1.793 4.325l-.416-.278-.415-.278a11.066 11.066 0 01-3.037 3.037l.278.415.278.416a12.066 12.066 0 003.312-3.312zm-7.637 5.105l-.097-.49-.097-.491a11.057 11.057 0 01-4.296 0l-.097.49-.097.49a12.062 12.062 0 004.684 0zm-9.01-1.793l.279-.416.278-.415a11.066 11.066 0 01-3.037-3.037l-.415.278-.416.278a12.066 12.066 0 003.312 3.312zM.229 14.342a12.058 12.058 0 010-4.684l.49.097.491.097a11.059 11.059 0 000 4.296l-.49.097-.49.097zm1.793-9.01l.416.279.415.278A11.066 11.066 0 015.89 2.852l-.278-.415-.278-.416A12.066 12.066 0 002.02 5.333zM9.658.229l.097.49.097.491a11.059 11.059 0 014.296 0l.097-.49.097-.49a12.058 12.058 0 00-4.684 0zm9.01 1.793l-.279.416-.278.415c1.2.804 2.233 1.837 3.037 3.037l.415-.278.416-.278a12.066 12.066 0 00-3.312-3.312z"
+                  fill="#FC538D"
+                ></path>
+              </svg>
+            )}
+            <span className="font-bold">{leaderBoard}</span>
           </Button>
           {/* totalNumber of personal post */}
           <Button className="text-base gap-2 p-0 flex md:hidden lg:flex text-white">
@@ -302,14 +328,93 @@ const PublicNavbar = () => {
                 <span>10</span>
               </span>
             </div>
-            {/* profile picture */}
-            <img
-              src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
-              alt="Sam Bade"
-              className="object-cover w-8 h-8 rounded-lg"
-              loading="lazy"
-              type="avatar"
-            />
+            {/* Account Profile Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <img
+                  src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
+                  alt="Sam Bade"
+                  className="object-cover w-8 h-8 rounded-lg"
+                  loading="lazy"
+                  type="avatar"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="z-[90] overflow-hidden rounded-2xl bg-background-subtle shadow-2 w-full min-w-[230px] max-w-64 border border-slate-500 pb-4">
+                {/* Image container */}
+                <div className="relative flex h-24">
+                  <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
+                    <img
+                      src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
+                      alt="Sam Bade"
+                      className="object-cover w-24 h-full rounded-2xl"
+                      loading="lazy"
+                      type="avatar"
+                    />
+                  </div>
+                </div>
+                {/* Profile name and #nos of personal post */}
+                <div className="flex flex-col border-b border-slate-500 gap-3 p-4 mb-2">
+                  <div className="flex items-center">
+                    <h2 className="max-w-full shrink truncate font-bold text-white text-lg">
+                      Sam Bade
+                    </h2>
+                    {/* personal post */}
+                  <div className="flex items-center">
+                    <span className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white">
+                      <svg
+                        width="1em"
+                        height="1em"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6 pointer-events-none text-purple-500"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M8 13.605A5.333 5.333 0 108 2.938a5.333 5.333 0 000 10.667zm1.213-8.672a.494.494 0 00-.812-.517L4.944 7.922a.494.494 0 00.35.843H7.82l-1.034 2.844a.494.494 0 00.812.518l3.456-3.507a.494.494 0 00-.348-.842H8.179l1.034-2.845z"
+                          fill="currentcolor"
+                        ></path>
+                      </svg>
+                      <span>10</span>
+                    </span>
+                  </div>
+                  {/* @Profile name and date joined */}
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-slate-400 text-sm max-w-full shrink truncate">@sam</span>
+                    <span className="mx-1 text-gray-400">•</span>
+                    <div className="text-gray-400 text-xs">Joined&nbsp; June 2024</div>
+                  </div>
+
+                </div>
+
+                <DropdownMenuItem>
+                  <Profile className="!h-4 !w-4"/>
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <DashboardSquare02Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base"/>
+                  Account summary
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                 <InviteFriend />
+                  Invite friends
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <AiOutlineSetting className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base"/>
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <RiFeedbackLine className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
+                  Feedback
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Logout03Icon className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base"/>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </Button>
         </div>
       </div>

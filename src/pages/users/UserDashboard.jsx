@@ -51,7 +51,7 @@ const connectionsNavigation = [
 
 const discoverNavigation = [
   {
-    name: "Pricing",
+    name: "Subscription",
     href: "/dashboard/add-plan",
     icon: Tag01Icon,
     current: false,
@@ -149,9 +149,9 @@ const footerNavigation = [
     current: false,
   },
   {
-    name: "Post",
+    name: "My posts",
     href: "/dashboard/posts",
-    icon: Explore,
+    icon: Profile,
     current: false,
   },
 ];
@@ -679,7 +679,7 @@ export default function UserDashbaord() {
 
       {/* Phone */}
       <aside className="fixed md:hidden !bottom-0 left-0 z-50 w-full footer-navbar bg-gradient-to-t from-black to-transparent px-2 pt-2">
-        <nav className="grid w-full auto-cols-fr grid-flow-col items-center justify-between rounded-2xl bg-slate-900 border-t border-slate-500">
+        <nav className="grid w-full auto-cols-fr grid-flow-col items-center justify-between rounded-2xl bg-slate-950 border-t border-slate-500">
           {footerNavigation?.map((item) => {
             return (
               <div className={`relative flex h-full flex-col items-center justify-center py-2 ${item.name === "Alert" ? "!p-0" : null}`}>
