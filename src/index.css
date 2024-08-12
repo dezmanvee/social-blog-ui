@@ -131,6 +131,7 @@
     padding-bottom: max(env(safe-area-inset-bottom, 8px), 8px);
 }
 
+
   :root {
     --theme-background-default: #0e1217;
     --theme-background-subtle: #1c1f26;
@@ -469,6 +470,56 @@
     --theme-highlight-purple: #8d62f4;
     --theme-highlight-label: #cfd6e6;
   }
+
+  /* ===REACTQUILL=== */
+
+/* Remove all borders */
+/* Remove all borders */
+.ql-toolbar, .ql-container {
+  border: none !important;
+}
+
+/* Customize the toolbar background color */
+.ql-toolbar.ql-snow {
+  background-color: #1a202c !important; /* Dark background */
+}
+
+/* Customize the editor background color and text color */
+.ql-container.ql-snow {
+  background-color: #2d3748 !important; /* Dark background */
+  color: #e2e8f0 !important; /* Light text */
+}
+
+/* Customize the toolbar icon colors */
+.ql-toolbar.ql-snow .ql-stroke {
+  stroke: #cbd5e0 !important; /* Light icon color */
+}
+
+.ql-toolbar.ql-snow .ql-fill {
+  fill: #cbd5e0 !important; /* Light icon color */
+}
+
+/* Space out the toolbar icons */
+.ql-toolbar.ql-snow button {
+  margin-right: 12px !important; /* Adjust spacing */
+}
+
+/* Change the color of the dropdown icons */
+.ql-toolbar.ql-snow .ql-picker-label {
+  color: #cbd5e0 !important; /* Light text color for dropdowns */
+}
+
+/* Customize the hover state of toolbar buttons */
+.ql-toolbar.ql-snow button:hover {
+  background-color: #4a5568 !important; /* Slightly darker background on hover */
+}
+
+/* Customize the editor placeholder text */
+.ql-editor.ql-blank::before {
+  color: #a0aec0 !important; /* Placeholder text color */
+  opacity: 1 !important; /* Ensure it's visible */
+}
+
 
   .text-primary {
     color: var(--theme-text-primary);

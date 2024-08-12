@@ -23,6 +23,17 @@ import LoadingAlert from "../../components/alerts/LoadingAlert";
 import DangerAlert from "../../components/alerts/DangerAlert";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import { allCatgegoryAPI } from "../../API/categories/categoryAPIs";
+import {
+  SwimmingIcon,
+  Logout03Icon,
+  PlusSignIcon,
+  Search02Icon,
+  SearchDollarIcon,
+  GroupItemsIcon,
+  Camera01Icon,
+  Cancel01Icon,
+  CheckmarkCircle01Icon,
+} from "hugeicons-react";
 
 const CreatePost = () => {
   const [description, setDescription] = useState("");
@@ -91,145 +102,349 @@ const CreatePost = () => {
     setImagePreview(null);
   };
 
-  return (
-    <section className="py-16 px-8 m-auto">
-      <Card className="max-w-md w-full mx-auto">
-        <CardHeader>
-          <CardTitle>Add New Post</CardTitle>
-          <CardDescription>Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={formik.handleSubmit}>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                {/* Status display */}
+  // Custom style for react-select
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? "bg-gray-800" : "bg-background-subtle",
+      border: "none",
+      boxShadow: state.isFocused ? "ring-2 ring-white" : "shadow-md",
+      padding: "0.5rem", // Tailwind p-2
+      borderRadius: "0.375rem", // Tailwind rounded-md
+      width: "100%",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "text-white",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "slate-400",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: "bg-background-subtle",
+      // marginTop: '0.5rem', // Tailwind mt-2
+      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // Tailwind shadow-lg
+      border: "1px solid #94A3B8",
+      width: "100%",
+      // borderRadius: '0.75rem',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? "#2D323B" : "#1C1F26",
+      color: state.isFocused ? "#ffffff" : "#94A3B8", // Tailwind white
+      cursor: "pointer",
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      backgroundColor: "#94A3B8", // Customize the color of the separator
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#ffffff" : "#94A3B8", // Change the color of the dropdown icon
+    }),
+  };
 
-                {isPending && (
-                  <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
-                )}
-                {isError && (
-                  <DangerAlert
-                    error="Error"
-                    errorMsg={error?.response?.data?.message || error?.message}
-                  />
-                )}
-                {isSuccess && (
-                  <SuccessAlert success="Success" successMsg={data?.message} />
-                )}
-                <Label htmlFor="name" className="font-semibold text-sm">
-                  Description
-                </Label>
-                <ReactQuill
-                  className="h-40"
-                  value={formik.values.description}
-                  onChange={(value) => {
-                    setDescription(value);
-                    formik.setFieldValue("description", value);
-                  }}
+  return (
+    // <section className="py-16 px-8 m-auto">
+    //   <Card className="max-w-md w-full mx-auto">
+    //     <CardHeader>
+    //       <CardTitle>Add New Post</CardTitle>
+    //       <CardDescription>Description</CardDescription>
+    //     </CardHeader>
+    //     <CardContent>
+    //       <form onSubmit={formik.handleSubmit}>
+    //         <div className="grid w-full items-center gap-4">
+    //           <div className="flex flex-col space-y-1.5">
+    //             {/* Status display */}
+
+    //             {isPending && (
+    //               <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
+    //             )}
+    //             {isError && (
+    //               <DangerAlert
+    //                 error="Error"
+    //                 errorMsg={error?.response?.data?.message || error?.message}
+    //               />
+    //             )}
+    //             {isSuccess && (
+    //               <SuccessAlert success="Success" successMsg={data?.message} />
+    //             )}
+    //             <Label htmlFor="name" className="font-semibold text-sm">
+    //               Description
+    //             </Label>
+    //             <ReactQuill
+    //               className="h-40"
+    //               value={formik.values.description}
+    //               onChange={(value) => {
+    //                 setDescription(value);
+    //                 formik.setFieldValue("description", value);
+    //               }}
+    //             />
+    //             {formik.touched.description && formik.errors.description && (
+    //               <div
+    //                 style={{
+    //                   display: "flex",
+    //                   marginBlock: "10px",
+    //                   color: "red",
+    //                   fontSize: "12px",
+    //                 }}
+    //               >
+    //                 {formik.errors.description}
+    //               </div>
+    //             )}
+    //           </div>
+    //           {/* Image upload */}
+    //           <div className="flex flex-col items-center justify-center bg-gray-50 p-4 shadow rounded-lg mt-10">
+    //             <label
+    //               htmlFor="images"
+    //               className="block text-sm font-medium text-gray-700 mb-2"
+    //             >
+    //               Upload Image
+    //             </label>
+    //             <div className="flex justify-center items-center w-full">
+    //               <input
+    //                 id="images"
+    //                 type="file"
+    //                 name="image"
+    //                 accept="image/*"
+    //                 onChange={handleFileChange}
+    //                 className="hidden"
+    //               />
+    //               <label
+    //                 htmlFor="images"
+    //                 className="cursor-pointer text-white px-4 py-1.5 rounded shadow bg-black flex items-center"
+    //               >
+    //                 <LuUpload className="mr-2" />
+    //                 Choose a file
+    //               </label>
+    //             </div>
+    //             {/* Display error message */}
+    //             {formik.touched.image && formik.errors.image && (
+    //               <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
+    //                 <small className="text-tiny text-red-600 text-center">
+    //                   {formik.errors.image}
+    //                 </small>
+    //               </div>
+    //             )}
+
+    //             {/* error message */}
+    //             {imageError && (
+    //               <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
+    //                 <small className="text-tiny text-red-600 text-center">
+    //                   {imageError}
+    //                 </small>
+    //               </div>
+    //             )}
+    //             {/* Preview image */}
+    //             {imagePreview && (
+    //               <div className="mt-2 relative">
+    //                 <img
+    //                   src={imagePreview}
+    //                   alt="Preview"
+    //                   className="mt-2 h-24 w-24 object-cover rounded-full"
+    //                 />
+    //                 <button
+    //                   onClick={removeImageHandler}
+    //                   className="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1"
+    //                 >
+    //                   <FaTimesCircle className="text-red-500" />
+    //                 </button>
+    //               </div>
+    //             )}
+    //           </div>
+    //         </div>
+
+    //         <div className="flex flex-col space-y-1.5 mt-2">
+    //           <Label htmlFor="framework" className="font-semibold text-sm">
+    //             Category
+    //           </Label>
+    //           <Select
+    //             name="category"
+    //             options={fetchedCategories?.data?.allCategories.map(
+    //               (category) => ({
+    //                 value: category._id,
+    //                 label: category.categoryName,
+    //               })
+    //             )}
+    //             value={fetchedCategories?.data?.allCategories.find(
+    //               (option) => option.value === formik.values.category
+    //             )}
+
+    //             onChange={(option) =>
+    //               (formik.setFieldValue("category", option.value))
+    //             }
+
+    //           />
+    //         </div>
+    //         <Button className="mt-6 w-full" type="submit">
+    //           Add Post
+    //         </Button>
+    //       </form>
+    //     </CardContent>
+    //   </Card>
+    // </section>
+
+    <article className="!p-0 lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
+      <div className="flex flex-col">
+        <header className="flex flex-row px-1 border-b border-gray-600 bg-color md:bg-[unset]">
+          <ul className="relative flex flex-row">
+            <button className="relative p-2 py-4 text-center font-bold text-base ">
+              <span className="inline rounded-xl px-3 py-1.5 bg-theme-active text-white">
+                New post
+              </span>
+            </button>
+            <div
+              className="absolute bottom-0 mx-auto h-0.5 w-12 -translate-x-1/2 rounded-4 bg-white transition-[left] ease-linear"
+              style={{ left: "53.4896px" }}
+            />
+          </ul>
+        </header>
+
+        <div className="px-5">
+          <form className="mt-6 flex flex-col">
+            {/* category */}
+            <div className="mt-6 lg:w-[280px]">
+              <div className="focus-outline px-3 cursor-pointer select-none flex-row items-center border border-transparent active:border-slate-400 no-underline shadow-none transition duration-200 ease-in-out justify-center font-bold h-12 rounded-xl btn-tertiaryFloat group flex w-full bg-background-subtle text-slate-400 text-base hover:bg-surface-hover hover:text-white gap-x-4">
+                <GroupItemsIcon />
+                <div className="flex-1"></div>
+                <Select
+                  styles={customStyles}
+                  name="category"
+                  placeholder="Select Category"
+                  options={fetchedCategories?.data?.allCategories.map(
+                    (category) => ({
+                      value: category._id,
+                      label: category.categoryName,
+                    })
+                  )}
+                  value={fetchedCategories?.data?.allCategories.find(
+                    (option) => option.value === formik.values.category
+                  )}
+                  onChange={(option) =>
+                    formik.setFieldValue("category", option.value)
+                  }
                 />
-                {formik.touched.description && formik.errors.description && (
-                  <div
-                    style={{
-                      display: "flex",
-                      marginBlock: "10px",
-                      color: "red",
-                      fontSize: "12px",
-                    }}
-                  >
-                    {formik.errors.description}
-                  </div>
-                )}
               </div>
-              {/* Image upload */}
-              <div className="flex flex-col items-center justify-center bg-gray-50 p-4 shadow rounded-lg mt-10">
+            </div>
+            {/* Thumbnail */}
+            <div className="relative w-full md:w-min mt-5">
+              <div className="group relative flex items-center justify-center overflow-hidden border border-border-subtlest-primary w-24 h-24 rounded-3xl !w-full border-none bg-background-subtle text-slate-400 md:!w-[20.25rem] lg:!w-[11.5rem]">
+                <input
+                  id="images"
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
                 <label
                   htmlFor="images"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className={`items-center w-ful cursor-pointer ${
+                    imagePreview ? "hidden" : "flex"
+                  }`}
                 >
-                  Upload Image
+                  <Camera01Icon className="w-5 h-5 pointer-events-none" />
+                  <span className="ml-1.5 flex flex-row font-bold text-base">
+                    Thumbnail
+                  </span>
                 </label>
-                <div className="flex justify-center items-center w-full">
-                  <input
-                    id="images"
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                  <label
-                    htmlFor="images"
-                    className="cursor-pointer text-white px-4 py-1.5 rounded shadow bg-black flex items-center"
-                  >
-                    <LuUpload className="mr-2" />
-                    Choose a file
-                  </label>
-                </div>
-                {/* Display error message */}
-                {formik.touched.image && formik.errors.image && (
-                  <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
-                    <small className="text-tiny text-red-600 text-center">
-                      {formik.errors.image}
-                    </small>
-                  </div>
-                )}
-
-                {/* error message */}
-                {imageError && (
-                  <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
-                    <small className="text-tiny text-red-600 text-center">
-                      {imageError}
-                    </small>
-                  </div>
-                )}
-                {/* Preview image */}
                 {imagePreview && (
-                  <div className="mt-2 relative">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="mt-2 h-24 w-24 object-cover rounded-full"
-                    />
-                    <button
-                      onClick={removeImageHandler}
-                      className="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1"
-                    >
-                      <FaTimesCircle className="text-red-500" />
-                    </button>
-                  </div>
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="h-full w-full object-cover hover:opacity-65 z-1"
+                  />
                 )}
               </div>
+              {imagePreview && (
+                <Button
+                  variant="outline"
+                  className="h-8 w-8 p-0 rounded-lg absolute -right-2 -top-2 !shadow-2 z-40"
+                  onClick={removeImageHandler}
+                >
+                  <Cancel01Icon className="w-5 h-5 pointer-events-none" />
+                </Button>
+              )}
             </div>
+            {/* Display error message */}
+            {formik.touched.image && formik.errors.image && (
+              <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
+                <small className="text-tiny text-red-600 text-center">
+                  {formik.errors.image}
+                </small>
+              </div>
+            )}
 
-            <div className="flex flex-col space-y-1.5 mt-2">
-              <Label htmlFor="framework" className="font-semibold text-sm">
-                Category
-              </Label>
-              <Select
-                name="category"
-                options={fetchedCategories?.data?.allCategories.map(
-                  (category) => ({
-                    value: category._id,
-                    label: category.categoryName,
-                  })
-                )}
-                value={fetchedCategories?.data?.allCategories.find(
-                  (option) => option.value === formik.values.category
-                )}
+            {/* error message */}
+            {imageError && (
+              <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
+                <small className="text-tiny text-red-600 text-center">
+                  {imageError}
+                </small>
+              </div>
+            )}
 
-                onChange={(option) =>
-                  (formik.setFieldValue("category", option.value))
-                }
-                
-              />
+            {/* Description/Content */}
+            <div className="relative flex flex-col rounded-2xl bg-surface-float mt-4">
+              <span className="flex flex-row items-center gap-1 px-2 font-bold text-slate-400 absolute right-3 top-3">
+                <CheckmarkCircle01Icon className="w-5 h-5 pointer-events-none" />
+                Saved
+              </span>
+              <div className="flex flex-col min-h-[20.5rem]">
+                <header className="flex flex-row px-1 border-b border-slate-400 bg-background-default md:bg-[unset]">
+                  <ul className="relative flex flex-row">
+                    <button className="relative p-2 py-4 text-center font-bold">
+                      <span className="inline rounded-xl px-3 py-1.5 bg-theme-active text-white">
+                        Write
+                      </span>
+                    </button>
+                    <button className="relative p-2 py-4 text-center font-bold">
+                      <span className="inline rounded-xl px-3 py-1.5 bg-theme-active text-slate-400">
+                        Preview
+                      </span>
+                    </button>
+                    <div
+                      className="absolute bottom-0 mx-auto h-0.5 w-12 -translate-x-1/2 rounded bg-white transition-[left] ease-linear !w-6"
+                      style={{ left: "39.6302px" }}
+                    />
+                  </ul>
+                </header>
+                <span className="relative flex flex-1">
+                  {/* <ReactQuill
+                     className="flex min-w-full max-h-full flex-1 border-none bg-transparent placeholder:text-slate-400 outline-none text-slate-400"
+                     value={formik.values.description}
+                     onChange={(value) => {
+                       setDescription(value);
+                       formik.setFieldValue("description", value);
+                     }}
+                   /> */}
+                  <textarea
+                    name="description"
+                    rows="11"
+                    placeholder="Share your thoughts"
+                    className="flex max-h-[292px] flex-1 border-none bg-transparent placeholder:text-slate-400 outline-none text-white m-4"
+                    style={{ height: "246px" }}
+                    value={formik.values.description}
+                    onChange={(value) => {
+                       setDescription(value);
+                       formik.setFieldValue("description", value);
+                     }}
+                  ></textarea>
+                </span>
+              </div>
+              <span className="flex flex-row items-center gap-3 border-slate-400 p-3 px-4 text-slate-400 lg:justify-end lg:border-t"></span>
             </div>
-            <Button className="mt-6 w-full" type="submit">
-              Add Post
-            </Button>
+            <span className="relative flex flex-col items-center md:flex-row mt-5">
+              <Button type="submit" className="ml-auto hidden w-full md:mt-0 md:w-32 lg:flex bg-purple-600 hover:bg-purple-700">
+                Post
+              </Button>
+            </span>
           </form>
-        </CardContent>
-      </Card>
-    </section>
+        </div>
+      </div>
+    </article>
   );
 };
 export default CreatePost;

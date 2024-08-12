@@ -166,7 +166,7 @@ const AllPosts = () => {
   // )
 
   return (
-    <div className="relative flex w-full flex-col xl:mx-auto">
+    <article className="relative flex w-full flex-col xl:mx-auto pt-10">
       <div
         className="flex w-full flex-col xl:mx-auto"
         style={{
@@ -196,7 +196,7 @@ const AllPosts = () => {
       </div>
       {/* Pagination */}
         <Pagination page={page} data={data} paginationHandler={paginationHandler}/>
-    </div>
+    </article>
   );
 };
 export default AllPosts;

@@ -243,6 +243,7 @@ const PublicNavbar = () => {
           aria-label="New Post"
           variant="outline"
           className="w-10 h-10 p-0 rounded-xl hidden lg:flex"
+          onClick={() => navigate('/dashboard/create-post')}
         >
           <PlusSignIcon className="text-lg" />
         </Button>
