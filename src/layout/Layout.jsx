@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import PublicNavbar from "../components/navbar/PublicNavbar";
 import UserDashbaord from "../pages/users/UserDashboard";
+import { Button } from "../components/ui/button";
 
 const Layout = () => {
   return (
@@ -12,6 +13,7 @@ const Layout = () => {
           <Outlet/>
         </section>
       </main>
+      
     </div>
   );
 };

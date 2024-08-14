@@ -191,21 +191,21 @@ const Login = () => {
               </div>
               <span className="mt-4 flex w-full flex-row">
                 <Button
+                    type="submit"
+                    variant="outline"
+                    className="flex flex-1 h-10 text-base font-extrabold rounded-xl"
+                  >
+                    {isPending ? (
+                      <ImSpinner9 className="animate-spin text-lg text-purple-500" />
+                    ) : (
+                      "Log in"
+                    )}
+                  </Button>
+                <Button
                   className="flex flex-1 bg-transparent hover:bg-transparent text-gray-400 underline"
                   onClick={() => navigate("/forgot-password")}
                 >
                   Forgot Password?
-                </Button>
-                <Button
-                  type="submit"
-                  variant="outline"
-                  className="flex flex-1 h-10 text-base font-extrabold rounded-xl"
-                >
-                  {isPending ? (
-                    <ImSpinner9 className="animate-spin text-lg text-purple-500" />
-                  ) : (
-                    "Log in"
-                  )}
                 </Button>
               </span>
             </form>

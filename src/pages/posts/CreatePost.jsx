@@ -128,6 +128,7 @@ const CreatePost = () => {
       boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // Tailwind shadow-lg
       border: "1px solid #94A3B8",
       width: "100%",
+      zIndex: '60'
       // borderRadius: '0.75rem',
     }),
     option: (provided, state) => ({
@@ -303,7 +304,7 @@ const CreatePost = () => {
         </header>
 
         <div className="px-5">
-          <form className="mt-6 flex flex-col">
+          <form className="mt-6 flex flex-col" onSubmit={formik.handleSubmit}>
             {/* category */}
             <div className="mt-6 lg:w-[280px]">
               <div className="focus-outline px-3 cursor-pointer select-none flex-row items-center border border-transparent active:border-slate-400 no-underline shadow-none transition duration-200 ease-in-out justify-center font-bold h-12 rounded-xl btn-tertiaryFloat group flex w-full bg-background-subtle text-slate-400 text-base hover:bg-surface-hover hover:text-white gap-x-4">
@@ -370,7 +371,7 @@ const CreatePost = () => {
             </div>
             {/* Display error message */}
             {formik.touched.image && formik.errors.image && (
-              <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
+              <div className="bg-red-100 w-full lg:w-40 flex-start rounded-2xl py-2 px-4 mt-4">
                 <small className="text-tiny text-red-600 text-center">
                   {formik.errors.image}
                 </small>
@@ -379,7 +380,7 @@ const CreatePost = () => {
 
             {/* error message */}
             {imageError && (
-              <div className="bg-red-100 w-full rounded-md py-2 px-4 mx-auto mt-4">
+              <div className="bg-red-100 w-full lg:w-40 flex-start rounded-2xl py-2 px-4 mt-4">
                 <small className="text-tiny text-red-600 text-center">
                   {imageError}
                 </small>
@@ -427,20 +428,31 @@ const CreatePost = () => {
                     className="flex max-h-[292px] flex-1 border-none bg-transparent placeholder:text-slate-400 outline-none text-white m-4"
                     style={{ height: "246px" }}
                     value={formik.values.description}
-                    onChange={(value) => {
-                       setDescription(value);
-                       formik.setFieldValue("description", value);
-                     }}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setDescription(value);
+                      formik.setFieldValue("description", value);
+                    }}
                   ></textarea>
                 </span>
+                {/* Error message for Post's description */}
+                {formik.touched.description && formik.errors.description && (
+                  <div className="flex mt-3 text-red-500 text-xs ml-4">
+                    {formik.errors.description}
+                  </div>
+                )}
               </div>
               <span className="flex flex-row items-center gap-3 border-slate-400 p-3 px-4 text-slate-400 lg:justify-end lg:border-t"></span>
             </div>
-            <span className="relative flex flex-col items-center md:flex-row mt-5">
-              <Button type="submit" className="ml-auto hidden w-full md:mt-0 md:w-32 lg:flex bg-purple-600 hover:bg-purple-700">
+            <span className="relative flex flex-col items-center md:flex-row mt-5 max-md:mb-8">
+              <Button
+                type="submit"
+                variant="outline"
+                className="ml-auto border-none w-full md:mt-0 md:w-32 flex lg:text-white lg:bg-purple-600 lg:hover:bg-purple-700"
+              >
                 Post
               </Button>
-            </span>
+            </span> 
           </form>
         </div>
       </div>
