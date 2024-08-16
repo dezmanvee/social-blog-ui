@@ -30,6 +30,8 @@ import {
 } from "../../components/ui/dropdown-menu";
 import Profile from "../svg/Profile";
 import InviteFriend from "../svg/InviteFriend";
+import { format } from "date-fns";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
@@ -41,6 +43,7 @@ const PublicNavbar = () => {
   const dispatch = useDispatch();
 
   const leaderBoard = 8;
+  
 
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
@@ -243,7 +246,7 @@ const PublicNavbar = () => {
           aria-label="New Post"
           variant="outline"
           className="w-10 h-10 p-0 rounded-xl hidden lg:flex"
-          onClick={() => navigate('/dashboard/create-post')}
+          onClick={() => navigate("/dashboard/create-post")}
         >
           <PlusSignIcon className="text-lg" />
         </Button>
@@ -332,24 +335,30 @@ const PublicNavbar = () => {
             {/* Account Profile Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <img
-                  src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
-                  alt="Sam Bade"
-                  className="object-cover w-8 h-8 rounded-lg"
-                  loading="lazy"
-                  type="avatar"
-                />
+              <img
+                      src={authUser?.profilePicture}
+                      alt={`${authUser?.username || "User"}'s profile picture`}
+                      className="object-cover w-8 h-8 rounded-lg"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                        e.target.src = "https://github.com/shadcn.png";
+                      }}
+                    />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="z-[90] overflow-hidden rounded-2xl bg-background-subtle shadow-2 w-full min-w-[230px] max-w-64 border border-slate-500 pb-4">
+              <DropdownMenuContent className="z-[160] overflow-hidden rounded-2xl bg-background-subtle shadow-2 w-full min-w-[230px] max-w-64 border border-slate-500 pb-4">
                 {/* Image container */}
                 <div className="relative flex h-24">
                   <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
                     <img
-                      src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
-                      alt="Sam Bade"
+                      src={authUser?.profilePicture}
+                      alt={`${authUser?.username || "User"}'s profile picture`}
                       className="object-cover w-24 h-full rounded-2xl"
                       loading="lazy"
-                      type="avatar"
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                        e.target.src = "https://github.com/shadcn.png";
+                      }}
                     />
                   </div>
                 </div>
@@ -357,61 +366,67 @@ const PublicNavbar = () => {
                 <div className="flex flex-col border-b border-slate-500 gap-3 p-4 mb-2">
                   <div className="flex items-center">
                     <h2 className="max-w-full shrink truncate font-bold text-white text-lg">
-                      Sam Bade
+                      {authUser?.username}
                     </h2>
                     {/* personal post */}
+                    <div className="flex items-center">
+                      <span className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white">
+                        <svg
+                          width="1em"
+                          height="1em"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-6 h-6 pointer-events-none text-purple-500"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M8 13.605A5.333 5.333 0 108 2.938a5.333 5.333 0 000 10.667zm1.213-8.672a.494.494 0 00-.812-.517L4.944 7.922a.494.494 0 00.35.843H7.82l-1.034 2.844a.494.494 0 00.812.518l3.456-3.507a.494.494 0 00-.348-.842H8.179l1.034-2.845z"
+                            fill="currentcolor"
+                          ></path>
+                        </svg>
+                        <span>10</span>
+                      </span>
+                    </div>
+                    {/* @Profile name and date joined */}
+                  </div>
                   <div className="flex items-center">
-                    <span className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white">
-                      <svg
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 16 17"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6 pointer-events-none text-purple-500"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M8 13.605A5.333 5.333 0 108 2.938a5.333 5.333 0 000 10.667zm1.213-8.672a.494.494 0 00-.812-.517L4.944 7.922a.494.494 0 00.35.843H7.82l-1.034 2.844a.494.494 0 00.812.518l3.456-3.507a.494.494 0 00-.348-.842H8.179l1.034-2.845z"
-                          fill="currentcolor"
-                        ></path>
-                      </svg>
-                      <span>10</span>
+                    <span className="text-slate-400 text-sm max-w-full shrink truncate">
+                      @{authUser?.username}
                     </span>
-                  </div>
-                  {/* @Profile name and date joined */}
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-slate-400 text-sm max-w-full shrink truncate">@sam</span>
                     <span className="mx-1 text-gray-400">•</span>
-                    <div className="text-gray-400 text-xs">Joined&nbsp; June 2024</div>
+                    <div className="text-gray-400 text-xs">
+                      Joined&nbsp;{" "}
+                      {authUser?.createdAt
+                        ? format(new Date(authUser?.createdAt), "MMMM d") //For date format "Aug 21"
+                        : `invalid time`}
+                    </div>
                   </div>
-
                 </div>
 
                 <DropdownMenuItem>
-                  <Profile className="!h-4 !w-4"/>
+                  <Profile className="!h-4 !w-4" />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <DashboardSquare02Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base"/>
+                  <DashboardSquare02Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
                   Account summary
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                 <InviteFriend />
+                  <InviteFriend />
                   Invite friends
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <AiOutlineSetting className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base"/>
+                  <AiOutlineSetting className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <RiFeedbackLine className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
                   Feedback
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Logout03Icon className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base"/>
+                <DropdownMenuItem onClick={logoutHandler}>
+                  <Logout03Icon className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>

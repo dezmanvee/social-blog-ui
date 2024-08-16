@@ -33,6 +33,7 @@ import Search from "../../components/svg/Search";
 import Explore from "../../components/svg/Explore";
 import Profile from "../../components/svg/Profile";
 import Bell from "../../components/svg/Bell";
+import { useSelector } from "react-redux";
 
 const connectionsNavigation = [
   {
@@ -167,7 +168,7 @@ export default function UserDashbaord() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   //Get the auth user from redux store
-
+  const { authUser } = useSelector((state) => state.auth);
   // return (
   //   <>
   //     <div>
@@ -424,11 +425,18 @@ export default function UserDashbaord() {
                 <span className="relative px-3">
                   <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
                     <img
-                      src="https://res-console.cloudinary.com/dkc0j221n/thumbnails/v1/image/upload/v1718528996/c29jaWFsX2Jsb2dfYXBwL3VpZmQ1c2N5Zm5qd3I2M2loNTNt/drilldown"
-                      alt="Sam Bade"
-                      loading="lazy"
+                      src={authUser?.profilePicture}
+                      alt={`${
+                        authUser?.username || "User"
+                      }'s profile picture`}
                       className="absolute block inset-0 w-full h-full m-auto object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                        e.target.src = "https://github.com/shadcn.png";
+                      }}
                     />
+                    
                   </div>
                 </span>
                 <span
@@ -682,7 +690,11 @@ export default function UserDashbaord() {
         <nav className="grid w-full auto-cols-fr grid-flow-col items-center justify-between rounded-2xl bg-slate-950 border-t border-slate-500">
           {footerNavigation?.map((item) => {
             return (
-              <div className={`relative flex h-full flex-col items-center justify-center py-2 ${item.name === "Alert" ? "!p-0" : null}`}>
+              <div
+                className={`relative flex h-full flex-col items-center justify-center py-2 ${
+                  item.name === "Alert" ? "!p-0" : null
+                }`}
+              >
                 <Link
                   to={item.href}
                   className={classNames(

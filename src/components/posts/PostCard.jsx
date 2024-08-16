@@ -9,7 +9,11 @@ const PostCard = ({ post }) => {
   return (
     <article
       className="group min-w-[300px] flex-1 min-h-card snap-start relative max-h-cardLarge h-full flex flex-col p-2 rounded-2xl bg-background-subtle border border-slate-700 hover:border-slate-400 shadow-xl"
-      onClick={() => navigate(`/details/${post?._id}`)}
+      onClick={() => navigate(`/dashboard/post-details/${post?._id}`)}
+      // onClick={() =>
+      //   document.getElementById(`/dashboard/post-details/${post?._id}`).showModal()
+      // }
+      // href={`/${post?._id}`}
     >
       <Link className="post_card_index focus-outline absolute inset-0 h-full w-full"></Link>
       {/* A link or button for small screen sizes */}
@@ -18,24 +22,29 @@ const PostCard = ({ post }) => {
         <div className="relative flex flex-row gap-2">
           <Link className="z-0 flex min-w-0 shrink items-center no-underline">
             <img
-              src="https://res.cloudinary.com/daily-now/image/upload/s--3BoAETXw--/f_auto/v1717993214/squads/8a09782e-202a-450f-afda-d4dd3ae97589"
-              alt=""
+              src={post?.author?.profilePicture?.path || "https://github.com/shadcn.png"}
+              alt={`${post?.author?.username || "User"}'s profile picture`}
               className="object-cover w-8 h-8 rounded-full"
               loading="lazy"
-              type="avatar"
+              onError={(e) => {
+                e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                e.target.src = "https://github.com/shadcn.png";
+              }}
             />
           </Link>
         </div>
 
         <div className="ml-2 mr-6 flex flex-1 overflow-auto text-sm line-clamp-1 break-words text-gray-400 justify-start items-end">
-          <span className="max-w-full shrink truncate">Post Owner</span>
+          <span className="max-w-full shrink truncate">
+            {post?.author?.username}
+          </span>
           <span className="mx-1 text-slate-300">•</span>
           <span>{formatDistanceToNow(new Date(post?.createdAt))} ago</span>
         </div>
       </div>
 
       {/*Description  */}
-      <h3 className="line-clamp-3 px-2 font-bold !text-white mt-2 break-words multi-truncate font-bold text-xl">
+      <h3 className="line-clamp-3 px-2 font-bold !text-white mt-2 break-words multi-truncate text-xl">
         <div
           dangerouslySetInnerHTML={{
             __html: truncateString(post?.description, 100),

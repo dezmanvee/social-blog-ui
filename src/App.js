@@ -33,6 +33,7 @@ import UpdateProfilePhoto from "./pages/users/UpdateProfilePhoto";
 import AllUsers from "./pages/users/AllUsers";
 import DeleteUserAccount from "./pages/users/admin/DeleteUserAccount";
 import Layout from "./layout/Layout";
+import PostDetailModal from "./pages/posts/PostDetailModal";
 
 const App = () => {
   // const { authUser } = useSelector((state) => state.auth);
@@ -73,6 +74,14 @@ const App = () => {
               element={
                 <ProtectedRoutes>
                   <AllPosts />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="post-details/:postId"
+              element={
+                <ProtectedRoutes>
+                  <PostDetails />
                 </ProtectedRoutes>
               }
             />
@@ -200,7 +209,8 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/details/:postId" element={<PostDetails />} />
+          <Route path="/post-details/:postId" element={<PostDetails />} />
+          {/* <Route path="/details/:postId" element={<PostDetailModal />} /> */}
           <Route path="/update/:postId" element={<UpdatePost />} />
           <Route path="/ranking" element={<CreatorsRanking />} />
           <Route path="/pricing" element={<Pricing />} />
