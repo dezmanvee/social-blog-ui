@@ -10,7 +10,7 @@ const Layout = () => {
       <main className="flex flex-col md:pl-16 lg:pl-11 lg:!pl-60">
         <UserDashbaord />
         {/* px-6 lg:px-16 */}
-        <section className="relative flex flex-col flex-1 items-start max-w-full pb-16">
+        <section className="relative flex flex-col flex-1 items-start max-w-full pb-16 min-h-full">
           <Outlet/>
         </section>
       </main>

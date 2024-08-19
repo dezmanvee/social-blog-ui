@@ -8,12 +8,8 @@ const PostCard = ({ post }) => {
   const navigate = useNavigate();
   return (
     <article
-      className="group min-w-[300px] flex-1 min-h-card snap-start relative max-h-cardLarge h-full flex flex-col p-2 rounded-2xl bg-background-subtle border border-slate-700 hover:border-slate-400 shadow-xl"
+      className="group min-w-[300px] flex-1 min-h-card snap-start relative max-h-cardLarge h-full flex flex-col p-2 rounded-2xl bg-background-subtle border border-slate-700 hover:border-slate-600 hover:bg-gray-800 shadow-xl"
       onClick={() => navigate(`/dashboard/post-details/${post?._id}`)}
-      // onClick={() =>
-      //   document.getElementById(`/dashboard/post-details/${post?._id}`).showModal()
-      // }
-      // href={`/${post?._id}`}
     >
       <Link className="post_card_index focus-outline absolute inset-0 h-full w-full"></Link>
       {/* A link or button for small screen sizes */}
@@ -22,7 +18,10 @@ const PostCard = ({ post }) => {
         <div className="relative flex flex-row gap-2">
           <Link className="z-0 flex min-w-0 shrink items-center no-underline">
             <img
-              src={post?.author?.profilePicture?.path || "https://github.com/shadcn.png"}
+              src={
+                post?.author?.profilePicture?.path ||
+                "https://github.com/shadcn.png"
+              }
               alt={`${post?.author?.username || "User"}'s profile picture`}
               className="object-cover w-8 h-8 rounded-full"
               loading="lazy"
@@ -44,7 +43,7 @@ const PostCard = ({ post }) => {
       </div>
 
       {/*Description  */}
-      <h3 className="line-clamp-3 px-2 font-bold !text-white mt-2 break-words multi-truncate text-xl">
+      <h3 className="line-clamp-3 px-2 font-bold !text-white mt-2 break-words multi-truncate text-xl cursor-pointer">
         <div
           dangerouslySetInnerHTML={{
             __html: truncateString(post?.description, 100),
@@ -59,7 +58,7 @@ const PostCard = ({ post }) => {
         </div>
       </div>
       {/* Post image */}
-      <div className="relative flex flex-1 flex-col">
+      <div className="relative flex flex-1 flex-col cursor-pointer">
         <div className="flex-1"></div>
         <img
           src={post?.image?.path}
@@ -72,7 +71,7 @@ const PostCard = ({ post }) => {
         {/* Likes */}
         <div className="flex flex-row justify-center items-center rounded-xl bg-surface-float">
           <Button
-            className={`font-bold h-8 px-3 rounded-lg pointer-events-auto ${
+            className={`font-bold h-8 px-3 rounded-lg pointer-events-auto bg-transparent ${
               post?.likes.length > 0 ? "text-green-500" : "text-slate-400"
             }`}
           >
@@ -102,11 +101,11 @@ const PostCard = ({ post }) => {
           {/* Divider for likes and dislikes */}
           <div className="box-border border border-surface-float py-2.5" />
           {/* dislikes */}
-          <Button className="font-bold h-8 px-3 rounded-lg pointer-events-auto">
-            <span
-              className={`pointer-events-none relative ${
+          <Button className={`font-bold h-8 px-3 rounded-lg pointer-events-auto bg-transparent ${
                 post?.dislikes.length > 0 ? "text-red-500" : "text-slate-400"
-              }`}
+              }`}>
+            <span
+              className="pointer-events-none relative"
             >
               <svg
                 width="1em"
@@ -134,8 +133,8 @@ const PostCard = ({ post }) => {
         {/* Comment */}
         <div className="flex flex-row items-stretch select-none text-white">
           <Button
-            className={`font-bold h-8 w-8 p-0 rounded-lg pointer-events-auto ${
-              post?.comments.length > 0 ? "text-[#2cdce6]" : "text-slate-400"
+            className={`font-bold h-8 w-8 p-0 rounded-lg pointer-events-auto bg-transparent ${
+              post?.comments.length > 0 ? "text-cyan-400" : "text-slate-400"
             }`}
           >
             <svg
@@ -155,7 +154,7 @@ const PostCard = ({ post }) => {
           <label className="cursor-pointer items-center font-bold flex !pr-0">
             <span
               className={`flex h-5 min-w-[1ch] flex-col overflow-hidden text-sm ${
-                post?.comments.length > 0 ? "text-[#2cdce6]" : "text-slate-400"
+                post?.comments.length > 0 ? "text-cyan-400" : "text-slate-400"
               }`}
             >
               {post?.comments.length}
@@ -165,8 +164,8 @@ const PostCard = ({ post }) => {
         {/* Views */}
         <div className="flex flex-row items-stretch select-none text-white">
           <Button
-            className={`font-bold h-8 w-8 p-0 rounded-lg pointer-events-auto ${
-              post?.viewers.length > 0 ? "text-orange-400" : "text-slate-400"
+            className={`font-bold h-8 w-8 p-0 rounded-lg pointer-events-auto bg-transparent ${
+              post?.viewers.length > 0 ? "text-purple-400" : "text-slate-400"
             }`}
           >
             <EyeIcon className="w-5 h-5 text-sm" />
@@ -174,7 +173,7 @@ const PostCard = ({ post }) => {
           <label className="cursor-pointer items-center font-bold flex !pr-0">
             <span
               className={`flex h-5 min-w-[1ch] flex-col overflow-hidden text-sm ${
-                post?.viewers.length > 0 ? "text-orange-400" : "text-slate-400"
+                post?.viewers.length > 0 ? "text-purple-400" : "text-slate-400"
               }`}
             >
               {post?.viewers.length}

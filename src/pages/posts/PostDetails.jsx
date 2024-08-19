@@ -310,11 +310,12 @@ const PostDetails = () => {
           <div className="relative mb-6 text-slate-300 border-l border-purple-500 pl-4">
             <div className="overflow-hidden">
               <p className="select-text break-words text-lg">
-                <span className="pr-1 font-bold text-purple-500">TLDR</span>
+                <span className="pr-1 font-bold text-purple-500">READ</span>
                 <div
                   dangerouslySetInnerHTML={{ __html: data?.post?.description }}
                 />
               </p>
+              {/* show more or less for text */}
             </div>
           </div>
           {/* category */}
@@ -428,10 +429,10 @@ const PostDetails = () => {
               </div>
 
               {/* Views */}
-              <div className="flex flex-row items-stretch select-none hover:text-orange-400">
+              <div className="flex flex-row items-stretch select-none hover:text-purple-400">
                 <Button
                   id="view post"
-                  className="w-10 h-10 p-0 text-slate-400 bg-transparent hover:text-orange-400 hover:bg-orange-950 rounded-xl"
+                  className="w-10 h-10 p-0 text-slate-400 bg-transparent hover:text-purple-400 hover:bg-purple-950 rounded-xl"
                 >
                   <EyeIcon className="w-6 h-6 pointer-events-none" />
                 </Button>
@@ -503,11 +504,12 @@ const PostDetails = () => {
           <div className="flex flex-col mb-12 mt-6 gap-y-4">
             {/* comment card */}
             {data?.post?.comments?.map((commenter, idx) => {
+              console.log(data)
               return (
                 <div className="flex flex-col gap-4" key={idx}>
                   <section className="flex scroll-mt-16 flex-col items-stretch rounded-3xl border-gray-600 border">
                     <article className="flex flex-col rounded-3xl p-4 hover:bg-surface-hover focus:outline border-gray-600 hover:bg-gray-700">
-                      <header className="z-1 flex w-full flex-row self-start">
+                      <header className="z-1 flex w-full flex-row self-start items-center">
                         <img
                           src={commenter?.author?.profilePicture?.path || commenter?.author?.profilePicture}
                           alt={`${
@@ -521,11 +523,11 @@ const PostDetails = () => {
                           }}
                         />
                   
-                        <div className="ml-3 flex min-w-0 flex-1 flex-col text-sm justify-end">
+                        <div className="ml-1 rounded-xl flex min-w-0 flex-1 flex-col text-sm justify-end bg-background-subtle py-1 pl-3">
                           <span className="text-white font-semibold">
                             {commenter?.author?.username}
                           </span>
-                          <span className="text-slate-400 max-w-full shrink truncate">
+                          <span className="text-slate-400 max-w-full shrink truncate text-xs">
                             {formatDistanceToNow(
                               new Date(commenter?.createdAt)
                             )}{" "}

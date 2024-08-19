@@ -170,7 +170,7 @@ const AllPosts = () => {
   const follow = true;
 // ! Write a media query of phone, tablet, laptop and desktop for cards display different from tailwind
   return (
-    <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4">
+    <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4 min-h-full">
       <div
         className="flex w-full flex-col xl:mx-auto"
         // style={{

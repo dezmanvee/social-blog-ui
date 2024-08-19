@@ -253,7 +253,7 @@ const PublicNavbar = () => {
 
         {/* Notification */}
         <div className="relative hidden md:flex" aria-label="Notifications">
-          <Button className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-surface-float hover:bg-slate-800">
+          <Button className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-surface-float hover:bg-gray-700">
             <svg
               width="1em"
               height="1em"
@@ -276,7 +276,7 @@ const PublicNavbar = () => {
         {/* Leaderboard, totalNumber of personal post & Profile pix */}
         <div className="flex h-10 items-center rounded-xl bg-surface-float px-1">
           {/* Leaderboard */}
-          <Button className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-slate-800">
+          <Button className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-gray-700 bg-transparent">
             {leaderBoard > 0 ? (
               <svg
                 width="1em"
@@ -311,7 +311,7 @@ const PublicNavbar = () => {
             <span className="font-bold">{leaderBoard}</span>
           </Button>
           {/* totalNumber of personal post */}
-          <Button className="text-base gap-2 p-0 flex md:hidden lg:flex text-white">
+          <Button className="text-base gap-2 p-0 flex md:hidden lg:flex text-white hover:bg-gray-700 bg-transparent">
             <div className="flex items-center">
               <span className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white">
                 <svg

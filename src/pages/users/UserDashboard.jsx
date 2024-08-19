@@ -21,6 +21,10 @@ import {
   UserListIcon,
   CrownIcon,
   PlusSignIcon,
+  Dollar01Icon,
+  Dollar02Icon,
+  DollarCircleIcon,
+  PaymentSuccess01Icon
 } from "hugeicons-react";
 import { PiUsersFour, PiUsersThree, PiLadderBold } from "react-icons/pi";
 import { MdOutlineLeaderboard } from "react-icons/md";
@@ -53,7 +57,7 @@ const connectionsNavigation = [
 const discoverNavigation = [
   {
     name: "Subscription",
-    href: "/dashboard/add-plan",
+    href: "/dashboard/subscription",
     icon: Tag01Icon,
     current: false,
   },
@@ -76,6 +80,12 @@ const adminNavigation = [
     name: "List of all users",
     href: "/dashboard/users-list",
     icon: UserListIcon,
+    current: false,
+  },
+  {
+    name: "Add new plan",
+    href: "/dashboard/add-plan",
+    icon: DollarCircleIcon,
     current: false,
   },
 ];

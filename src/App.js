@@ -110,6 +110,14 @@ const App = () => {
               }
             />
             <Route
+              path="subscription"
+              element={
+                <ProtectedRoutes>
+                  <Pricing />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
               path="users-list"
               element={
                 <ProtectedRoutes>
@@ -210,10 +218,9 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/post-details/:postId" element={<PostDetails />} />
-          {/* <Route path="/details/:postId" element={<PostDetailModal />} /> */}
           <Route path="/update/:postId" element={<UpdatePost />} />
           <Route path="/ranking" element={<CreatorsRanking />} />
-          <Route path="/pricing" element={<Pricing />} />
+          {/* <Route path="/subscription" element={<Pricing />} />   */}
           <Route path="/payments/stripe-checkout/:planId" element={<StripePaymentForm />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/password-reset/:resetToken" element={<ResetPassword />} />

@@ -65,7 +65,7 @@ const Login = () => {
         </div>
       </Link>
       <div className="flex w-full flex-grow flex-col flex-wrap justify-center px-4 md:flex-row md:gap-10 md:px-6 max-w-[75rem] xl:max-w-[90rem]">
-        <div className="z-1 flex w-full max-w-[26.25rem] flex-col overflow-y-auto rounded-16 w-full rounded-none md:max-w-[30rem] h-full">
+        <div className="z-1 flex w-full max-w-[26.25rem] flex-col overflow-y-auto rounded-16 rounded-none md:max-w-[30rem] h-full">
           <h2 className="text-center font-bold text-2xl text-white">Log in</h2>
 
           <div className="px-6 md:px-[3.75rem] flex flex-col gap-3 self-center mt-6 w-full">
@@ -136,7 +136,7 @@ const Login = () => {
             >
               {/* Username */}
               <div className="flex flex-col items-stretch">
-                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-red-400">
+                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-purple-500">
                   <UserIcon className="mr-2 text-gray-400 hover:text-white" />
                   <div className="flex max-w-full flex-1 flex-col items-start">
                     <input
@@ -163,7 +163,7 @@ const Login = () => {
               </div>
               {/* password */}
               <div className="flex flex-col items-stretch">
-                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 hover:border-l-white">
+                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 hover:border-l-white">
                   <LockKeyIcon className="mr-2 text-gray-400 hover:text-white" />
                   <div className="flex max-w-full flex-1 flex-col items-start">
                     <input

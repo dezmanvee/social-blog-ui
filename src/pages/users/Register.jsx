@@ -143,7 +143,7 @@ const Register = () => {
             >
               {/* Username */}
               <div className="flex flex-col items-stretch">
-                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-red-400">
+                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-purple-500">
                   <UserIcon className="mr-2 text-gray-400 hover:text-white" />
                   <div className="flex max-w-full flex-1 flex-col items-start">
                     <input
@@ -170,7 +170,7 @@ const Register = () => {
               </div>
               {/* Email */}
               <div className="flex flex-col items-stretch">
-                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-red-400">
+                <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 px-4 overflow-hidden bg-gray-900 hover:bg-gray-800 border border-transparent cursor-text border-l-4 border-l-purple-500">
                   <Mail01Icon className="mr-2 text-gray-400 hover:text-white" />
                   <div className="flex max-w-full flex-1 flex-col items-start">
                     <input

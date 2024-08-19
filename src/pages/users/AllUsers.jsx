@@ -88,6 +88,7 @@ const AllUsers = () => {
   return (
     <>
     {/* Alerts for deleting users */}
+    <div className="max-w-96 m-auto">
       {isPending && (
         <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
       )}
@@ -105,13 +106,14 @@ const AllUsers = () => {
 
       {isErrorUserBlock && (
         <DangerAlert
-          error="Error"
+          error="Caution"
           errorMsg={errorUserBlock?.response?.data?.message || errorUserBlock?.message}
         />
       )}
       {isSuccessUserBlock && (
         <SuccessAlert success="Success" successMsg={DataUserBlock?.message} />
       )}
+      </div>
       <Table>
         <TableCaption>A list of all users</TableCaption>
         <TableHeader>

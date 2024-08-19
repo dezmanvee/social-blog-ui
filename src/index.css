@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -72,8 +72,9 @@
   * {
     @apply border-border;
   }
+  html,
   body {
-    @apply bg-color text-foreground;
+    @apply bg-color text-foreground h-full;
   }
 }
 
@@ -96,6 +97,33 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .bg-fixed-header {
+    background: rgb(79, 20, 205);
+    background: radial-gradient(
+      circle,
+      rgba(79, 20, 205, 1) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+
+  .bg-pink-radial {
+    background: rgb(252, 83, 141);
+    background: radial-gradient(
+      circle,
+      rgba(252, 83, 141, 1) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+
+  .bg-purple-radial {
+    background: rgb(168, 85, 247);
+    background: radial-gradient(
+      circle,
+      rgba(168, 85, 247, 1) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
   }
 
   @media (min-width: 420px) {
@@ -129,7 +157,7 @@
     min-height: 48px;
     grid-column-gap: 8px;
     padding-bottom: max(env(safe-area-inset-bottom, 8px), 8px);
-}
+  }
 
   :root {
     --theme-background-default: #0e1217;
@@ -470,7 +498,6 @@
     --theme-highlight-label: #cfd6e6;
   }
 
-
   .text-primary {
     color: var(--theme-text-primary);
   }
@@ -504,7 +531,7 @@
   .bg-background-subtle {
     background-color: var(--theme-background-subtle);
   }
-  .bg-modal{
+  .bg-modal {
     background-color: rgba(128, 0, 128, 0.2);
   }
   .bg-theme-active {
@@ -536,7 +563,6 @@
     --loader-color: var(--button-color, var(--button-default-color));
   } */
 
-  
   /* .btn-tertiary-avocado {
     --button-default-color: var(--theme-text-tertiary);
     --button-default-background: none;
@@ -607,4 +633,3 @@
     --button-disabled-color: var(--theme-text-disabled);
   } */
 }
-

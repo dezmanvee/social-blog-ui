@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import { Label } from "@radix-ui/react-label";
-import Select from "react-select";
+// import Select from "react-select";
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
 import { LuUpload } from "react-icons/lu";
 import { FaTimesCircle } from "react-icons/fa";
@@ -34,8 +34,19 @@ import {
   Cancel01Icon,
   CheckmarkCircle01Icon,
 } from "hugeicons-react";
+import { useNavigate } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
 
 const CreatePost = () => {
+  const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const [imageError, setImageError] = useState(""); //local state for image errors
   const [imagePreview, setImagePreview] = useState(null); //local state for image preview
@@ -66,12 +77,21 @@ const CreatePost = () => {
       category: Yup.string().required("Category is required"),
     }),
     //*submit
-    onSubmit: (values) => {
+    onSubmit: (values, { setFieldValue }) => {
       const formData = new FormData();
       formData.append("description", values.description);
       formData.append("image", values.image);
       formData.append("category", values.category);
-      postMutation.mutate(formData);
+      postMutation
+        .mutateAsync(formData)
+        .then(() => {
+          //Clear input fields
+          setFieldValue("description", "");
+          setFieldValue("image", "");
+          setFieldValue("category", "");
+          navigate("/dashboard/all-posts"); //rdirect to all-posts
+        })
+        .catch((e) => console.log(e));
     },
   });
 
@@ -128,7 +148,7 @@ const CreatePost = () => {
       boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // Tailwind shadow-lg
       border: "1px solid #94A3B8",
       width: "100%",
-      zIndex: '60'
+      zIndex: "60",
       // borderRadius: '0.75rem',
     }),
     option: (provided, state) => ({
@@ -305,8 +325,8 @@ const CreatePost = () => {
 
         <div className="px-5">
           <form className="mt-6 flex flex-col" onSubmit={formik.handleSubmit}>
-            {/* category */}
-            <div className="mt-6 lg:w-[280px]">
+           
+            {/* <div className="mt-6 lg:w-[280px]">
               <div className="focus-outline px-3 cursor-pointer select-none flex-row items-center border border-transparent active:border-slate-400 no-underline shadow-none transition duration-200 ease-in-out justify-center font-bold h-12 rounded-xl btn-tertiaryFloat group flex w-full bg-background-subtle text-slate-400 text-base hover:bg-surface-hover hover:text-white gap-x-4">
                 <GroupItemsIcon />
                 <div className="flex-1"></div>
@@ -328,67 +348,108 @@ const CreatePost = () => {
                   }
                 />
               </div>
-            </div>
-            {/* Thumbnail */}
-            <div className="relative w-full md:w-min mt-5">
-              <div className="group relative flex items-center justify-center overflow-hidden border border-border-subtlest-primary w-24 h-24 rounded-3xl !w-full border-none bg-background-subtle text-slate-400 md:!w-[20.25rem] lg:!w-[11.5rem]">
-                <input
-                  id="images"
-                  type="file"
-                  name="image"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="images"
-                  className={`items-center w-ful cursor-pointer ${
-                    imagePreview ? "hidden" : "flex"
-                  }`}
-                >
-                  <Camera01Icon className="w-5 h-5 pointer-events-none" />
-                  <span className="ml-1.5 flex flex-row font-bold text-base">
-                    Thumbnail
-                  </span>
-                </label>
-                {imagePreview && (
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="h-full w-full object-cover hover:opacity-65 z-1"
+            </div> */}
+            {/* Container for thumbnail and message */}
+            <div className="flex flex-col max-lg:flex-col-reverse lg:flex-row mt-5 items-end gap-4 justify-start lg:justify-between">
+              {/* Thumbnail */}
+              <div className="relative w-full md:w-min">
+                <div className="group relative flex items-center justify-center overflow-hidden border border-border-subtlest-primary w-24 h-24 rounded-3xl !w-full border-none bg-background-subtle hover:bg-gray-800 text-slate-400 md:!w-[20.25rem] lg:!w-[11.5rem]">
+                  <input
+                    id="images"
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
                   />
+                  <label
+                    htmlFor="images"
+                    className={`items-center w-ful cursor-pointer ${
+                      imagePreview ? "hidden" : "flex"
+                    }`}
+                  >
+                    <Camera01Icon className="w-5 h-5 pointer-events-none" />
+                    <span className="ml-1.5 flex flex-row font-bold text-base">
+                      Thumbnail
+                    </span>
+                  </label>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="h-full w-full object-cover hover:opacity-65 z-1"
+                    />
+                  )}
+                </div>
+                {imagePreview && (
+                  <Button
+                    variant="outline"
+                    className="h-8 w-8 p-0 rounded-lg absolute -right-2 -top-2 !shadow-2 z-40"
+                    onClick={removeImageHandler}
+                  >
+                    <Cancel01Icon className="w-5 h-5 pointer-events-none" />
+                  </Button>
                 )}
               </div>
-              {imagePreview && (
-                <Button
-                  variant="outline"
-                  className="h-8 w-8 p-0 rounded-lg absolute -right-2 -top-2 !shadow-2 z-40"
-                  onClick={removeImageHandler}
-                >
-                  <Cancel01Icon className="w-5 h-5 pointer-events-none" />
-                </Button>
+              {/* Status display */}
+
+              {isPending && (
+                <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
+              )}
+              {isError && (
+                <DangerAlert
+                  error="Error"
+                  errorMsg={error?.response?.data?.message || error?.message}
+                />
+              )}
+              {isSuccess && (
+                <SuccessAlert success="Success" successMsg={data?.message} />
               )}
             </div>
             {/* Display error message */}
             {formik.touched.image && formik.errors.image && (
-              <div className="bg-red-100 w-full lg:w-40 flex-start rounded-2xl py-2 px-4 mt-4">
-                <small className="text-tiny text-red-600 text-center">
-                  {formik.errors.image}
-                </small>
+              <div className="flex mt-1 text-red-500 text-xs ml-4">
+                {formik.errors.image}
               </div>
             )}
 
             {/* error message */}
             {imageError && (
-              <div className="bg-red-100 w-full lg:w-40 flex-start rounded-2xl py-2 px-4 mt-4">
-                <small className="text-tiny text-red-600 text-center">
-                  {imageError}
-                </small>
+              <div className="flex mt-1 text-red-500 text-xs ml-4">
+                {imageError}
+              </div>
+            )}
+
+             {/* category */}
+            <Select
+              value={formik.values.category} // Bind the formik value to the Select
+              onValueChange={(value) => formik.setFieldValue("category", value)} // Handle value change
+            >
+              <SelectTrigger className="w-full mt-10 text-slate-400 h-12 rounded-xl bg-background-subtle hover:bg-gray-800 text-md font-bold border-l-4 border-transparent hover:border-white hover:text-white">
+                <SelectValue placeholder="Select Category" />
+              </SelectTrigger>
+              <SelectContent className="bg-gray-800 text-slate-400 border-gray-600 rounded-lg">
+                <SelectGroup>
+                  <SelectLabel className="font-bold text-slate-200">
+                    Categories
+                  </SelectLabel>
+                  {fetchedCategories?.data?.allCategories.map((category) => (
+                    <SelectItem key={category._id} value={category._id}>
+                      {category.categoryName}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {/* Error status for category */}
+            {formik.touched.category && formik.errors.category && (
+              <div className="flex mt-3 text-red-500 text-xs ml-4">
+                {formik.errors.category}
               </div>
             )}
 
             {/* Description/Content */}
-            <div className="relative flex flex-col rounded-2xl bg-surface-float mt-4">
+            <div className="relative flex flex-col rounded-2xl bg-surface-float mt-10 hover:bg-gray-800">
               <span className="flex flex-row items-center gap-1 px-2 font-bold text-slate-400 absolute right-3 top-3">
                 <CheckmarkCircle01Icon className="w-5 h-5 pointer-events-none" />
                 Saved
@@ -413,14 +474,6 @@ const CreatePost = () => {
                   </ul>
                 </header>
                 <span className="relative flex flex-1">
-                  {/* <ReactQuill
-                     className="flex min-w-full max-h-full flex-1 border-none bg-transparent placeholder:text-slate-400 outline-none text-slate-400"
-                     value={formik.values.description}
-                     onChange={(value) => {
-                       setDescription(value);
-                       formik.setFieldValue("description", value);
-                     }}
-                   /> */}
                   <textarea
                     name="description"
                     rows="11"
@@ -452,7 +505,7 @@ const CreatePost = () => {
               >
                 Post
               </Button>
-            </span> 
+            </span>
           </form>
         </div>
       </div>
