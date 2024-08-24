@@ -74,8 +74,56 @@
   }
   html,
   body {
-    @apply bg-color text-foreground h-full;
+    @apply bg-color text-foreground h-full !important;
   }
+
+  /* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #0e1217 !important; /* Scrollbar background color */
+  border-radius: 4px !important; /* Rounded track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #A8B3CF !important; /* Thumb background color */
+  border-radius: 4px !important; /* Rounded thumb */
+  /* border: 3px solid #0e1217 !important;  */
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #FFF !important; /* Darker color on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #A8B3CF #0e1217 !important; /* Thumb color and track color */
+}
+
+/* Styling for scrollbar in Firefox */
+html {
+  scrollbar-width: thin; /* Make scrollbar thinner */
+  scrollbar-color: #A8B3CF #0e1217 !important; /* Customize colors */
+}
+
+/* For Edge/IE */
+::-ms-scrollbar {
+  width: 8px;
+}
+
+::-ms-scrollbar-track {
+  background-color: #0e1217 !important;
+}
+
+::-ms-scrollbar-thumb {
+  background-color: #A8B3CF !important;
+  border-radius: 4px !important;
+}
+
 }
 
 @layer utilities {
@@ -133,6 +181,10 @@
       );
     }
   }
+
+  .min-h-page {
+    min-height: calc(100vh - 64px);
+}
 
   .post-template {
     grid-template-columns: 100%;

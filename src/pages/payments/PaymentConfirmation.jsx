@@ -5,7 +5,7 @@ import { FaCheckCircle, FaSpinner, FaTimesCircle } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
 import DangerAlert from "../../components/alerts/DangerAlert";
 import { SwimmingIcon } from "hugeicons-react";
-import { PaymentSuccess01Icon, PaymentSuccess02Icon} from "hugeicons-react";
+import { PaymentSuccess01Icon, PaymentSuccess02Icon } from "hugeicons-react";
 
 const PaymentConfirmation = () => {
   const [searchParams] = useSearchParams();
@@ -57,14 +57,14 @@ const PaymentConfirmation = () => {
               <h1 className="text-2xl text-slate-200 font-bold text-center">
                 {data?.message}
               </h1>
-              <p className="text-slate-200">
-                Thank you for supporting our community. Your payment has been
-                processed successfully, and your account has been upgraded to
-                enjoy all the premium features our platform has to offer.
+              <p className="text-slate-200 text-base">
+                Your payment has been processed successfully, and your account
+                has been upgraded to enjoy all the premium features our platform
+                has to offer. Check <span className="text-blue-400">{data?.email}</span> to see your transaction ID.
               </p>
               <Link
                 to="/dashboard/create-post"
-                className="w-full h-12 mt-8 flex items-center justify-center py-2 px-4 bg-gray-800 border-l-4 border-purple-500 hover:border-white text-white font-bold rounded-xl hover:bg-gray-700 focus:outline-none"
+                className="w-full h-12 mt-8 flex items-center justify-center py-2 px-4 bg-gray-800 border-l-4 border-green-500 hover:border-white text-white font-bold rounded-xl hover:bg-gray-700 focus:outline-none"
               >
                 Happy blogging!
               </Link>

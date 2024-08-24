@@ -30,7 +30,6 @@ const AllUsers = () => {
     queryKey: ["users-list"],
     queryFn: userListAPI,
   });
- 
 
   //* Fetch the user to be blocked or unblocked
   const userBlockingMutation = useMutation({
@@ -38,26 +37,28 @@ const AllUsers = () => {
     mutationFn: blockOrUnBlockUserAPI,
   });
 
-  const {data: DataUserBlock,
+  const {
+    data: DataUserBlock,
     isError: isErrorUserBlock,
     error: errorUserBlock,
     isPending: isPendingUserBlock,
-    isSuccess: isSuccessUserBlock} = userBlockingMutation
+    isSuccess: isSuccessUserBlock,
+  } = userBlockingMutation;
 
   const toggleUserBlockingHandler = (user) => {
     const actionURL = user?.isBlocked
       ? `${BASE_URL}/users/account-active`
-      : `${BASE_URL}/users/account-inactive`; 
+      : `${BASE_URL}/users/account-inactive`;
     const userId = user._id;
     //Payload
     const data = {
       actionURL,
-      userId
+      userId,
     };
     userBlockingMutation
       .mutateAsync(data)
       .then(() => {
-        refetch() // refetch the users
+        refetch(); // refetch the users
       })
       .catch((e) => console.log(e));
   };
@@ -72,9 +73,9 @@ const AllUsers = () => {
     deletePostMutation
       .mutateAsync(postId)
       .then(() => {
-        refetch()
+        refetch();
       })
-      .catch((e) => console.log(e))
+      .catch((e) => console.log(e));
   };
 
   const {
@@ -84,38 +85,41 @@ const AllUsers = () => {
     isPending,
     isSuccess,
   } = deletePostMutation;
+  console.log(data)
 
   return (
     <>
-    {/* Alerts for deleting users */}
-    <div className="max-w-96 m-auto">
-      {isPending && (
-        <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
-      )}
-      {isError && (
-        <DangerAlert
-          error="Error"
-          errorMsg={error?.response?.data?.message || error?.message}
-        />
-      )}
-      {isSuccess && (
-        <SuccessAlert success="Success" successMsg={errorData?.message} />
-      )}
+      {/* Alerts for deleting users */}
+      <div className="max-w-96 m-auto">
+        {isPending && (
+          <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
+        )}
+        {isError && (
+          <DangerAlert
+            error="Error"
+            errorMsg={error?.response?.data?.message || error?.message}
+          />
+        )}
+        {isSuccess && (
+          <SuccessAlert success="Success" successMsg={errorData?.message} />
+        )}
 
-      {/* Alerts for blocking and unBlocking users */}
+        {/* Alerts for blocking and unBlocking users */}
 
-      {isErrorUserBlock && (
-        <DangerAlert
-          error="Caution"
-          errorMsg={errorUserBlock?.response?.data?.message || errorUserBlock?.message}
-        />
-      )}
-      {isSuccessUserBlock && (
-        <SuccessAlert success="Success" successMsg={DataUserBlock?.message} />
-      )}
+        {isErrorUserBlock && (
+          <DangerAlert
+            error="Caution"
+            errorMsg={
+              errorUserBlock?.response?.data?.message || errorUserBlock?.message
+            }
+          />
+        )}
+        {isSuccessUserBlock && (
+          <SuccessAlert success="Success" successMsg={DataUserBlock?.message} />
+        )}
       </div>
-      <Table>
-        <TableCaption>A list of all users</TableCaption>
+      <Table className="text-slate-400 px-4">
+        <TableCaption className="font-bold text-white">A list of all users</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Users</TableHead>
@@ -131,14 +135,27 @@ const AllUsers = () => {
           {data?.users?.map((user) => (
             <TableRow key={user?._id}>
               <TableCell className="font-medium flex justify-start items-center gap-4">
-                <Avatar>
-                  <AvatarImage src={user?.profilePicture} />
-                  <AvatarFallback>
-                    <UserIcon />
-                  </AvatarFallback>
-                </Avatar>
-                <div>{user?.username}</div>
-                <small className="text-blue-500">{user?.role === "admin"? "(Admin)" : ""}</small>
+                <img
+                  src={user?.profilePicture || "https://github.com/shadcn.png"}
+                  alt={`${user?.username || "User"}'s profile picture`}
+                  className="!w-10 !h-10 pointer-events-none rounded hidden md:flex"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                    e.target.src = "https://github.com/shadcn.png";
+                  }}
+                />
+                <div className="flex items-center justify-between w-full">
+                  <div>{user?.username}</div>
+
+                  {user?.role === "admin" ? (
+                    <Badge className="text-xs bg-purple-500 hover:bg-purple-500 py-0 px-1">
+                      <small>admin</small>
+                    </Badge>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </TableCell>
               <TableCell className="text-right">
                 {new Date(user?.createdAt).toDateString()}
@@ -150,12 +167,12 @@ const AllUsers = () => {
                 {user?.totalEarnings?.toFixed(2)}
               </TableCell>
               <TableCell className="text-right">
-                {user?.plan?.planName || "Nill"}
+                {user?.plan?.planName || user?.planName || "Nill"}
               </TableCell>
               <TableCell className="text-right">
                 <Badge
                   variant="outlined"
-                  className="cursor-pointer"
+                  className="cursor-pointer border-none bg-surface-float hover:bg-color hover:text-[#FC538D]"
                   onClick={() => {
                     toggleUserBlockingHandler(user);
                   }}
@@ -163,19 +180,19 @@ const AllUsers = () => {
                   {user?.isBlocked ? (
                     <small className="text-red-500">Suspended</small>
                   ) : (
-                    <small className="text-green-500">Active</small>
+                    <small className="text-green-500 ">Active</small>
                   )}
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
                 <Link to={`/dashboard/delete-user-account/${user?._id}`}>
-                    <Badge
+                  <Badge
                     variant="outlined"
-                    className="cursor-pointer"
-                    //   onClick={() => deletePostHandler(post?._id)}
-                    >
-                    <Delete01Icon className="text-red-400 text-sm" />
-                    </Badge>
+                    className="cursor-pointer w-10 h-10 border-none bg-surface-float hover:bg-color hover:text-[#FC538D]"
+                    // onClick={() => setSelectedPostId(post?._id)}
+                  >
+                    <Delete01Icon className="text-sm" />
+                  </Badge>
                 </Link>
               </TableCell>
             </TableRow>

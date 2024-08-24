@@ -34,11 +34,14 @@ import AllUsers from "./pages/users/AllUsers";
 import DeleteUserAccount from "./pages/users/admin/DeleteUserAccount";
 import Layout from "./layout/Layout";
 import PostDetailModal from "./pages/posts/PostDetailModal";
+import AccountLayout from "./pages/users/userProfile/AccountLayout";
+import InviteFriends from "./pages/users/InviteFriends";
+import Feedback from "./pages/users/Feedback";
 
 const App = () => {
   // const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const {  data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["auth-user-status"],
     queryFn: authUserStatusAPI,
   });
@@ -51,7 +54,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-        <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
           <Route path="/dashboard" element={<Layout />}>
             <Route
               path="create-post"
@@ -94,13 +97,21 @@ const App = () => {
               }
             />
             <Route
-              path=""
+              path="account/summary"
               element={
                 <ProtectedRoutes>
                   <AccountSummary />
                 </ProtectedRoutes>
               }
             />
+            {/* <Route
+              path="account/profile"
+              element={
+                <ProtectedRoutes>
+                  <Profile />
+                </ProtectedRoutes>
+              }
+            /> */}
             <Route
               path="add-category"
               element={
@@ -134,36 +145,36 @@ const App = () => {
               }
             />
             <Route
-            path="settings"
-            element={
-              <ProtectedRoutes>
-                <Settings />
-              </ProtectedRoutes>
-            }
+              path="settings"
+              element={
+                <ProtectedRoutes>
+                  <Settings />
+                </ProtectedRoutes>
+              }
             />
+            {/* <Route
+              path="notifications"
+              element={
+                <ProtectedRoutes>
+                  <NotificationList />
+                </ProtectedRoutes>
+              }
+            /> */}
+            {/* <Route
+              path="update-account-email"
+              element={
+                <ProtectedRoutes>
+                  <UpdateEmail />
+                </ProtectedRoutes>
+              }
+            /> */}
             <Route
-            path="notifications"
-            element={
-              <ProtectedRoutes>
-                <NotificationList />
-              </ProtectedRoutes>
-            }
-            />
-            <Route
-            path="update-account-email"
-            element={
-              <ProtectedRoutes>
-                <UpdateEmail />
-              </ProtectedRoutes>
-            }
-            />
-            <Route
-            path="update-profile-photo"
-            element={
-              <ProtectedRoutes>
-                <UpdateProfilePhoto />
-              </ProtectedRoutes>
-            }
+              path="update-profile-photo"
+              element={
+                <ProtectedRoutes>
+                  <UpdateProfilePhoto />
+                </ProtectedRoutes>
+              }
             />
             <Route
               path="my-earnings"
@@ -189,15 +200,53 @@ const App = () => {
                 </ProtectedRoutes>
               }
             />
-            <Route
-            path="profile"
-            element={
-              <ProtectedRoutes>
-                <Profile />
-              </ProtectedRoutes>
-            }
-          />
+
+            {/* Nexted Account Layout */}
+            <Route path="account/:accountId" element={<AccountLayout />}>
+              <Route
+                path="profile"
+                element={
+                  <ProtectedRoutes>
+                    <Profile />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="email"
+                element={
+                  <ProtectedRoutes>
+                    <UpdateEmail />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="notifications"
+                element={
+                  <ProtectedRoutes>
+                    <NotificationList />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="invite"
+                element={
+                  <ProtectedRoutes>
+                    <InviteFriends />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="feedback"
+                element={
+                  <ProtectedRoutes>
+                    <Feedback />
+                  </ProtectedRoutes>
+                }
+              />
+            </Route>
+
           </Route>
+          {/* Non Layout Components */}
           <Route
             path="success"
             element={
@@ -220,10 +269,15 @@ const App = () => {
           <Route path="/post-details/:postId" element={<PostDetails />} />
           <Route path="/update/:postId" element={<UpdatePost />} />
           <Route path="/ranking" element={<CreatorsRanking />} />
-          {/* <Route path="/subscription" element={<Pricing />} />   */}
-          <Route path="/payments/stripe-checkout/:planId" element={<StripePaymentForm />} />
+          <Route
+            path="/payments/stripe-checkout/:planId"
+            element={<StripePaymentForm />}
+          />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/password-reset/:resetToken" element={<ResetPassword />} />
+          <Route
+            path="/password-reset/:resetToken"
+            element={<ResetPassword />}
+          />
         </Routes>
       </BrowserRouter>
     </>

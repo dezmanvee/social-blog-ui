@@ -5,26 +5,13 @@ import { BsPeople } from "react-icons/bs";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import {
-  UserEdit01Icon,
-  File01Icon,
-  AddTeamIcon,
-  BookmarkAdd01Icon,
-  Wallet01Icon,
   CatalogueIcon,
   Tag01Icon,
-  ConnectIcon,
-  CheckmarkBadge01Icon,
-  SwimmingIcon,
-  SettingsError01Icon,
-  DashboardSquare02Icon,
-  PeerToPeer03Icon,
   UserListIcon,
-  CrownIcon,
+  UserIcon,
+  UserSettings01Icon,
   PlusSignIcon,
-  Dollar01Icon,
-  Dollar02Icon,
   DollarCircleIcon,
-  PaymentSuccess01Icon
 } from "hugeicons-react";
 import { PiUsersFour, PiUsersThree, PiLadderBold } from "react-icons/pi";
 import { MdOutlineLeaderboard } from "react-icons/md";
@@ -93,13 +80,13 @@ const adminNavigation = [
 const settingsNavigation = [
   {
     name: "Settings",
-    href: "/dashboard/settings",
+    href: "/dashboard/account/profile/profile",
     icon: AiOutlineSetting,
     current: false,
   },
   {
     name: "Feedback",
-    href: "/dashboard/feedback",
+    href: "/dashboard/account/feedback/feedback",
     icon: FcFeedback,
     current: false,
   },
@@ -127,8 +114,8 @@ const sidebarNavigation = [
   },
   {
     name: "Profile",
-    href: "/dashboard/profile",
-    icon: Profile,
+    href: "/dashboard/account/profile/profile",
+    icon: UserSettings01Icon,
     current: false,
   },
 ];
@@ -162,7 +149,7 @@ const footerNavigation = [
   {
     name: "My posts",
     href: "/dashboard/posts",
-    icon: Profile,
+    icon: UserIcon,
     current: false,
   },
 ];
@@ -175,8 +162,11 @@ function classNames(...classes) {
 const role = "admin";
 
 export default function UserDashbaord() {
+
+
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const [current, setCurrent] = useState(false)
   //Get the auth user from redux store
   const { authUser } = useSelector((state) => state.auth);
   // return (
@@ -398,6 +388,7 @@ export default function UserDashbaord() {
               <Link
                 className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
                 to="/dashboard/all-posts"
+                
               >
                 <span className="relative px-3">
                   <div className="rounded-sm bg-background-subtle">
@@ -435,7 +426,7 @@ export default function UserDashbaord() {
                 <span className="relative px-3">
                   <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
                     <img
-                      src={authUser?.profilePicture}
+                      src={authUser?.profilePicture || "https://github.com/shadcn.png"}
                       alt={`${
                         authUser?.username || "User"
                       }'s profile picture`}
@@ -690,6 +681,7 @@ export default function UserDashbaord() {
         <Button
           aria-label="New Post"
           className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700"
+          onClick={() => navigate("/dashboard/create-post")}
         >
           <PlusSignIcon className="text-lg" />
         </Button>

@@ -2,34 +2,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createPostAPI } from "../../API/posts/postAPIs";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
-import { Label } from "@radix-ui/react-label";
-// import Select from "react-select";
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
-import { LuUpload } from "react-icons/lu";
-import { FaTimesCircle } from "react-icons/fa";
 import LoadingAlert from "../../components/alerts/LoadingAlert";
 import DangerAlert from "../../components/alerts/DangerAlert";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import { allCatgegoryAPI } from "../../API/categories/categoryAPIs";
 import {
-  SwimmingIcon,
-  Logout03Icon,
-  PlusSignIcon,
-  Search02Icon,
-  SearchDollarIcon,
-  GroupItemsIcon,
   Camera01Icon,
   Cancel01Icon,
   CheckmarkCircle01Icon,
@@ -122,50 +101,6 @@ const CreatePost = () => {
     setImagePreview(null);
   };
 
-  // Custom style for react-select
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isFocused ? "bg-gray-800" : "bg-background-subtle",
-      border: "none",
-      boxShadow: state.isFocused ? "ring-2 ring-white" : "shadow-md",
-      padding: "0.5rem", // Tailwind p-2
-      borderRadius: "0.375rem", // Tailwind rounded-md
-      width: "100%",
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: "text-white",
-    }),
-    placeholder: (provided) => ({
-      ...provided,
-      color: "slate-400",
-    }),
-    menu: (provided) => ({
-      ...provided,
-      backgroundColor: "bg-background-subtle",
-      // marginTop: '0.5rem', // Tailwind mt-2
-      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // Tailwind shadow-lg
-      border: "1px solid #94A3B8",
-      width: "100%",
-      zIndex: "60",
-      // borderRadius: '0.75rem',
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isFocused ? "#2D323B" : "#1C1F26",
-      color: state.isFocused ? "#ffffff" : "#94A3B8", // Tailwind white
-      cursor: "pointer",
-    }),
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      backgroundColor: "#94A3B8", // Customize the color of the separator
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? "#ffffff" : "#94A3B8", // Change the color of the dropdown icon
-    }),
-  };
 
   return (
     // <section className="py-16 px-8 m-auto">
@@ -307,7 +242,7 @@ const CreatePost = () => {
     //   </Card>
     // </section>
 
-    <article className="!p-0 lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
+    <article className="!p-0 mx-auto !pb-12 lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
       <div className="flex flex-col">
         <header className="flex flex-row px-1 border-b border-gray-600 bg-color md:bg-[unset]">
           <ul className="relative flex flex-row">
@@ -326,29 +261,6 @@ const CreatePost = () => {
         <div className="px-5">
           <form className="mt-6 flex flex-col" onSubmit={formik.handleSubmit}>
            
-            {/* <div className="mt-6 lg:w-[280px]">
-              <div className="focus-outline px-3 cursor-pointer select-none flex-row items-center border border-transparent active:border-slate-400 no-underline shadow-none transition duration-200 ease-in-out justify-center font-bold h-12 rounded-xl btn-tertiaryFloat group flex w-full bg-background-subtle text-slate-400 text-base hover:bg-surface-hover hover:text-white gap-x-4">
-                <GroupItemsIcon />
-                <div className="flex-1"></div>
-                <Select
-                  styles={customStyles}
-                  name="category"
-                  placeholder="Select Category"
-                  options={fetchedCategories?.data?.allCategories.map(
-                    (category) => ({
-                      value: category._id,
-                      label: category.categoryName,
-                    })
-                  )}
-                  value={fetchedCategories?.data?.allCategories.find(
-                    (option) => option.value === formik.values.category
-                  )}
-                  onChange={(option) =>
-                    formik.setFieldValue("category", option.value)
-                  }
-                />
-              </div>
-            </div> */}
             {/* Container for thumbnail and message */}
             <div className="flex flex-col max-lg:flex-col-reverse lg:flex-row mt-5 items-end gap-4 justify-start lg:justify-between">
               {/* Thumbnail */}
@@ -501,7 +413,7 @@ const CreatePost = () => {
               <Button
                 type="submit"
                 variant="outline"
-                className="ml-auto border-none w-full md:mt-0 md:w-32 flex lg:text-white lg:bg-purple-600 lg:hover:bg-purple-700"
+                className="ml-auto rounded-xl text-lg border-none font-bold w-full md:mt-0 md:w-32 flex lg:text-white lg:bg-purple-600 lg:hover:bg-purple-700"
               >
                 Post
               </Button>

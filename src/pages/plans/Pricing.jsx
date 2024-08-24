@@ -206,7 +206,7 @@ const Pricing = () => {
         <h1 className="text-center md:text-3xl text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 mb-6 mx-auto">
           Unlock the Full Experience: Choose Your Plan
         </h1>
-        <p className="text-slate-200 text-lg text-center mb-10 max-w-lg mx-auto">
+        <p className="text-white text-lg text-center mb-10 max-w-lg mx-auto">
           Whether you're here to learn, share, or simply explore, we offer
           flexible plans to meet your needs. Choose a plan that gives you the
           access you need.
@@ -217,9 +217,9 @@ const Pricing = () => {
         {/* Free plan */}
         <Card className="min-w-80 max-w-[500px] bg-gray-700 border border-gray-600 hover:border-gray-500 rounded-2xl bg-background-subtle">
           <CardHeader className="bg-pink-radial rounded-2xl rounded-b-none">
-            <CardTitle className="text-2xl font-bold mb-4 text-white">{`${freePlan?.[0]?.planName} plan`}</CardTitle>
+            <CardTitle className="text-2xl font-bold mb-4 text-slate-200">{`${freePlan?.[0]?.planName} plan`}</CardTitle>
             <CardDescription>
-              <p className="text-base text-white">
+              <p className="text-base text-slate-200">
                 <span className="font-bold">Perfect For:</span> Developers who
                 want to explore the platform and enjoy some of our content
                 without any cost.
@@ -227,20 +227,20 @@ const Pricing = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4 bg-transparent lg:mt-4">
-            <div className="flex items-center gap-4 flex-wrap mb-4 text-white">
+            <div className="flex items-center gap-4 flex-wrap mb-4 text-slate-200">
               <h2 className="text-5xl font-bold font-heading ">
                 $ {freePlan?.[0]?.price}
               </h2>
               <span className="-ml-2 text-xl font-medium">/ month</span>
             </div>
             <Button
-              className="lg:h-12 rounded-xl lg:text-lg font-bold bg-gray-700 text-white hover:bg-white hover:text-[#FC538D]"
+              className="lg:h-12 rounded-xl lg:text-lg font-bold bg-gray-700 text-slate-200 hover:bg-slate-200 hover:text-[#FC538D]"
               // variant="outline"
               onClick={() => navigate("/free-plan")}
             >
               Sign up
             </Button>
-            <h3 className="text-white text-lg font-bold">What You Get:</h3>
+            <h3 className="text-slate-200 text-lg font-bold">What You Get:</h3>
             <ul className="flex flex-col gap-4">
               {freePlan?.[0]?.features?.map((feature) => {
                 return (
@@ -274,9 +274,9 @@ const Pricing = () => {
         {/* Premiun plan */}
         <Card className="min-w-80 max-w-[500px] bg-gray-700 border border-gray-600 hover:border-gray-500 rounded-2xl bg-background-subtle">
           <CardHeader className="bg-purple-radial rounded-2xl rounded-b-none">
-            <CardTitle className="text-2xl font-bold mb-4 text-white">{`${premiumPlan?.[0]?.planName} plan`}</CardTitle>
+            <CardTitle className="text-2xl font-bold mb-4 text-slate-200">{`${premiumPlan?.[0]?.planName} plan`}</CardTitle>
             <CardDescription>
-              <p className="text-base text-white">
+              <p className="text-base text-slate-200">
                 <span className="font-bold">Perfect For:</span> Developers who
                 want full access to the platform and the ability to share and
                 interact without limits.
@@ -285,22 +285,22 @@ const Pricing = () => {
           </CardHeader>
           <CardContent className="flex flex-col gap-4 bg-transparent lg:mt-4">
             <div className="flex items-center gap-4 flex-wrap mb-4">
-              <h2 className="text-5xl font-bold font-heading text-white">
+              <h2 className="text-5xl font-bold font-heading text-slate-200">
                 $ {premiumPlan?.[0]?.price}
               </h2>
-              <span className="-ml-2 text-xl font-medium text-white">
+              <span className="-ml-2 text-xl font-medium text-slate-200">
                 / month
               </span>
             </div>
             <Button
-              className="lg:h-12 rounded-xl lg:text-lg font-bold bg-gray-700 text-white hover:bg-white hover:text-purple-600"
+              className="lg:h-12 rounded-xl lg:text-lg font-bold bg-gray-700 text-slate-200 hover:bg-slate-200 hover:text-purple-600"
               onClick={() =>
                 navigate(`/payments/stripe-checkout/${premiumPlan?.[0]?._id}`)
               }
             >
               Sign up
             </Button>
-            <h3 className="text-white text-lg font-bold">What You Get:</h3>
+            <h3 className="text-slate-200 text-lg font-bold">What You Get:</h3>
             <ul className="flex flex-col gap-4">
               {premiumPlan?.[0]?.features?.map((feature) => {
                 return (

@@ -1,37 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-// import { PlusIcon } from "@radix-ui/react-icons";
-import { Disclosure } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { AiOutlineSetting } from "react-icons/ai";
-import { RiFeedbackLine } from "react-icons/ri";
 import {
-  DashboardSquare02Icon,
+  DashboardSquareSettingIcon,
+  DashboardCircleSettingsIcon,
   SwimmingIcon,
   Logout03Icon,
   PlusSignIcon,
-  Search02Icon,
-  SearchDollarIcon,
+  Note01Icon,
+  UserSettings01Icon,
 } from "hugeicons-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAPI } from "../../API/users/userAPIs";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { logout } from "../../redux/features/user/authSlice";
-import NotificationCounts from "../notificationCount/NotificationCounts";
 import { allNotificationsAPI } from "../../API/notifications/notificationAPIs";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
 import Profile from "../svg/Profile";
 import InviteFriend from "../svg/InviteFriend";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { allPostsAPI } from "../../API/posts/postAPIs";
 
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
@@ -42,9 +36,23 @@ const PublicNavbar = () => {
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const leaderBoard = 8;
-  
+  // Fetch all personal posts
+  const {data: postData} = useQuery({
+    queryKey: ["post-list"],
+    queryFn: allPostsAPI
+  })
 
+  // Notification
+  const { data, refetch } = useQuery({
+    queryKey: ["notification-list"],
+    queryFn: allNotificationsAPI,
+  });
+
+  const unreadNotifications = data?.allNotifications?.filter(
+    (notification) => notification.isRead === false
+  );
+
+  //logout
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
     mutationFn: logoutAPI,
@@ -61,7 +69,7 @@ const PublicNavbar = () => {
       })
       .catch((err) => console.log(err));
   };
-  // sticky top-0 z-header w-full tablet:pl-16 bg-background-default
+  
   return (
     // <Disclosure as="nav" className="bg-teal-50 shadow z-50">
     //   {({ open }) => (
@@ -252,7 +260,13 @@ const PublicNavbar = () => {
         </Button>
 
         {/* Notification */}
-        <div className="relative hidden md:flex" aria-label="Notifications">
+        <div
+          className="relative hidden md:flex"
+          aria-label="Notifications"
+          onClick={() =>
+            navigate("/dashboard/account/notifications/notifications")
+          }
+        >
           <Button className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-surface-float hover:bg-gray-700">
             <svg
               width="1em"
@@ -268,16 +282,18 @@ const PublicNavbar = () => {
               ></path>
             </svg>
           </Button>
-          <span className="-right-1.5 -top-1.5 cursor-pointer px-1 absolute flex justify-center items-center min-w-[1.25rem] min-h-[1.25rem] font-normal text-white rounded-lg bg-accent-cabbage-default text-[14px]">
-            1
-          </span>
+          {unreadNotifications?.length > 0 ? (
+            <span className="-right-1.5 -top-1.5 cursor-pointer px-1 absolute flex justify-center items-center min-w-[1.25rem] min-h-[1.25rem] font-normal text-white rounded-lg bg-accent-cabbage-default text-[14px]">
+              {unreadNotifications?.length}
+            </span>
+          ) : null}
         </div>
 
         {/* Leaderboard, totalNumber of personal post & Profile pix */}
         <div className="flex h-10 items-center rounded-xl bg-surface-float px-1">
           {/* Leaderboard */}
           <Button className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-gray-700 bg-transparent">
-            {leaderBoard > 0 ? (
+            {postData?.allPosts?.length > 0 ? (
               <svg
                 width="1em"
                 height="1em"
@@ -308,12 +324,15 @@ const PublicNavbar = () => {
                 ></path>
               </svg>
             )}
-            <span className="font-bold">{leaderBoard}</span>
+            <span className="font-bold">{postData?.allPosts?.length || 0}</span>
           </Button>
           {/* totalNumber of personal post */}
           <Button className="text-base gap-2 p-0 flex md:hidden lg:flex text-white hover:bg-gray-700 bg-transparent">
             <div className="flex items-center">
-              <span className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white">
+              <span
+                className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white"
+                onClick={() => navigate("/dashboard/account/profile/profile")}
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -335,23 +354,28 @@ const PublicNavbar = () => {
             {/* Account Profile Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger>
-              <img
-                      src={authUser?.profilePicture}
-                      alt={`${authUser?.username || "User"}'s profile picture`}
-                      className="object-cover w-8 h-8 rounded-lg"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.onerror = null; // Prevent infinite loop if fallback also fails
-                        e.target.src = "https://github.com/shadcn.png";
-                      }}
-                    />
+                <img
+                  src={
+                    authUser?.profilePicture || "https://github.com/shadcn.png"
+                  }
+                  alt={`${authUser?.username || "User"}'s profile picture`}
+                  className="object-cover w-8 h-8 rounded-lg"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                    e.target.src = "https://github.com/shadcn.png";
+                  }}
+                />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="z-[160] overflow-hidden rounded-2xl bg-background-subtle shadow-2 w-full min-w-[230px] max-w-64 border border-slate-500 pb-4">
                 {/* Image container */}
                 <div className="relative flex h-24">
                   <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
                     <img
-                      src={authUser?.profilePicture}
+                      src={
+                        authUser?.profilePicture ||
+                        "https://github.com/shadcn.png"
+                      }
                       alt={`${authUser?.username || "User"}'s profile picture`}
                       className="object-cover w-24 h-full rounded-2xl"
                       loading="lazy"
@@ -405,28 +429,32 @@ const PublicNavbar = () => {
                   </div>
                 </div>
 
-                <DropdownMenuItem>
-                  <Profile className="!h-4 !w-4" />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <DashboardSquare02Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
-                  Account summary
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <InviteFriend />
-                  Invite friends
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <AiOutlineSetting className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <RiFeedbackLine className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
-                  Feedback
-                </DropdownMenuItem>
+                <Link to="/dashboard/account/summary">
+                  <DropdownMenuItem>
+                    <DashboardSquareSettingIcon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
+                    Account summary
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/dashboard/account/profile/profile">
+                  <DropdownMenuItem>
+                    <UserSettings01Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
+                    Profile
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/dashboard/account/invite/invite">
+                  <DropdownMenuItem>
+                    <InviteFriend />
+                    Invite friends
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/dashboard/account/feedback/feedback">
+                  <DropdownMenuItem>
+                    <Note01Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
+                    Feedback
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem onClick={logoutHandler}>
-                  <Logout03Icon className="w-6 h-6 ml-1 mr-1 pointer-events-none text-base" />
+                  <Logout03Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>

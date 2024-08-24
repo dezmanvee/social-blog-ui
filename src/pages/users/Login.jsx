@@ -6,16 +6,14 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "../../components/ui/button";
 import DangerAlert from "../../components/alerts/DangerAlert";
 
-import {
-  SwimmingIcon,
-  LockKeyIcon,
-  UserIcon,
-  EyeIcon,
-} from "hugeicons-react";
+import { SwimmingIcon, LockKeyIcon, UserIcon, EyeIcon } from "hugeicons-react";
 import { ImSpinner9 } from "react-icons/im";
+import { useEffect, useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [showError, setShowError] = useState(false);
 
   const userMutation = useMutation({
     mutationKey: ["user-login"],
@@ -42,14 +40,28 @@ const Login = () => {
         .mutateAsync(values)
         .then(() => {
           //Navigate to user dashboard
-          navigate("/dashboard");
+          navigate("/dashboard/account/summary");
         })
         .catch((err) => console.log(err));
     },
   });
 
   const { error, isError, isPending } = userMutation;
- 
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
   //* Update current year for footer
   const currentYear = new Date().getFullYear();
   return (
@@ -70,7 +82,7 @@ const Login = () => {
 
           <div className="px-6 md:px-[3.75rem] flex flex-col gap-3 self-center mt-6 w-full">
             {/* Error Messege */}
-            {isError && (
+            {showError && (
               <DangerAlert
                 error="Error"
                 errorMsg={error?.response?.data || error?.message}
@@ -191,16 +203,16 @@ const Login = () => {
               </div>
               <span className="mt-4 flex w-full flex-row">
                 <Button
-                    type="submit"
-                    variant="outline"
-                    className="flex flex-1 h-10 text-base font-extrabold rounded-xl"
-                  >
-                    {isPending ? (
-                      <ImSpinner9 className="animate-spin text-lg text-purple-500" />
-                    ) : (
-                      "Log in"
-                    )}
-                  </Button>
+                  type="submit"
+                  variant="outline"
+                  className="flex flex-1 h-10 text-base font-extrabold rounded-xl"
+                >
+                  {isPending ? (
+                    <ImSpinner9 className="animate-spin text-lg text-purple-500" />
+                  ) : (
+                    "Log in"
+                  )}
+                </Button>
                 <Button
                   className="flex flex-1 bg-transparent hover:bg-transparent text-gray-400 underline"
                   onClick={() => navigate("/forgot-password")}

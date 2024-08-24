@@ -307,7 +307,7 @@ const UpdatePost = () => {
     //   </Card>
     // </section>
 
-    <article className="!p-0 lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
+    <article className="!p-0 mx-auto lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
       <div className="flex flex-col">
         <header className="flex flex-row px-1 border-b border-gray-600 bg-color md:bg-[unset]">
           <ul className="relative flex flex-row">
@@ -469,7 +469,7 @@ const UpdatePost = () => {
                         Rewrite
                       </span>
                     </button>
-                    <button className="relative p-2 py-4 text-center font-bold">
+                    <button className="relative p-2 py-4 text-center font-bold disabled">
                       <span className="inline rounded-xl px-3 py-1.5 bg-theme-active text-slate-400">
                         Preview
                       </span>

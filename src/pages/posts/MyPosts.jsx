@@ -147,15 +147,11 @@ const MyPosts = () => {
                 <TableCell className="text-right">
                   {new Date(post?.createdAt).toDateString()}
                 </TableCell>
-                {/* <TableCell className="text-right">
-                {post?.thisMonthEarnings?.toFixed(2)}{" "}
-              </TableCell> */}
+               
                 <TableCell className="text-right">
                   {post?.totalEarnings?.toFixed(2)}
                 </TableCell>
-                {/* <TableCell className="text-right">
-                {new Date(post?.nextEarningDate).toDateString()}
-              </TableCell> */}
+               
                 <TableCell className="text-right">
                   <Link to={`/dashboard/update-post/${post?._id}`}>
                     <Badge

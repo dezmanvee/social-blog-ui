@@ -8,8 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import { deleteUserAPI, userProfileAPI } from "../../../API/users/userAPIs";
-import { useParams } from "react-router-dom";
+import {
+  deleteUserAPI,
+  thirdUserProfileAPI,
+  userProfileAPI,
+} from "../../../API/users/userAPIs";
+import { useParams, useNavigate } from "react-router-dom";
 import SuccessAlert from "../../../components/alerts/SuccessAlert";
 import DangerAlert from "../../../components/alerts/DangerAlert";
 import LoadingAlert from "../../../components/alerts/LoadingAlert";
@@ -17,63 +21,71 @@ import LoadingAlert from "../../../components/alerts/LoadingAlert";
 const DeleteUserAccount = () => {
   //Get the user ID
   const { userId } = useParams();
+  const navigate = useNavigate();
 
-  //* Fetch the user data
-  const {data: userData} = useQuery({
-    queryKey: ['user'],
-    queryFn: userProfileAPI
-  })
-
+  //* Fetch the user data to be deleted
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => thirdUserProfileAPI(userId),
+  });
 
   //* Deleting of post
   const deleteUserMutation = useMutation({
     mutationKey: ["delete-user"],
     mutationFn: deleteUserAPI,
   });
-  console.log(deleteUserMutation, userId);
 
   const deleteUserHandler = () => {
     deleteUserMutation.mutate(userId);
   };
 
-  const {
-    data,
-    isError,
-    error,
-    isPending,
-    isSuccess,
-  } = deleteUserMutation;
+  const { data, isError, error, isPending, isSuccess } = deleteUserMutation;
 
   return (
     <section className="py-16 px-8 m-auto">
-      <Card className="max-w-md w-full mx-auto">
+      {/* Alert Message */}
+      {isPending && (
+        <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
+      )}
+      {isError && (
+        <DangerAlert
+          error="Error"
+          errorMsg={error?.response?.data?.message || error?.message}
+        />
+      )}
+      {isSuccess && (
+        <SuccessAlert success="Success" successMsg={data?.message} />
+      )}
+      <Card className="max-w-md mt-10 w-full mx-auto text-slate-200 rounded-xl bg-background-subtle hover:bg-gray-800 text-md border-gray-600">
         <CardHeader>
-          <CardTitle>Delete User Account</CardTitle>
-         {/* Alert Message */}
-          {isPending && (
-            <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
-          )}
-          {isError && (
-            <DangerAlert
-              error="Error"
-              errorMsg={error?.response?.data?.message || error?.message}
-            />
-          )}
-          {isSuccess && (
-            <SuccessAlert success="Success" successMsg={data?.message} />
-          )}
+          <CardTitle className="text-red-500 font-bold">
+            Delete User Account
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p>
-            You are about to delete this user from our database. Note that this action cannot be undone once it is
-            completed. Click the "delete" button to confirm or "cancel" to go
-            back.
-          </p>
+          {!isSuccess && (
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{userData?.user?.username}'s</strong> account? This action
+              is irreversible. Click 'Delete' to confirm or 'Cancel' to go back.
+            </p>
+          )}
+          {isSuccess && <p>Action is completed! Click 'Cancel' to go back.</p>}
           <CardFooter className="flex justify-between mt-6">
-            <Button onClick={() => {}} variant="outline">
-              Return
+            <Button
+              className="bg-white text-gray-800 rounded-xl hover:bg-slate-100 hover:text-gray-600"
+              onClick={() => navigate("/dashboard/users-list")}
+            >
+              Cancel
             </Button>
-            <Button onClick={deleteUserHandler}>Delete</Button>
+            {!isSuccess && (
+              <Button
+                className="bg-red-500 text-white rounded-xl hover:bg-red-600 hover:text-slate-100"
+                onClick={deleteUserHandler}
+              >
+                Delete
+              </Button>
+            )}
           </CardFooter>
         </CardContent>
       </Card>
