@@ -80,13 +80,14 @@ const CreatePost = () => {
 
     if (file.size > 1048576) {
       //Limits file size to 1MB
+      setImageError("Oops! The file size exceeds the 1MB limit. Please select a smaller file.");
       return;
     }
 
-    if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
+    if (!["image/webp","image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
       // Supported file type
       setImageError(
-        "This file type is not supported. Only png, jpg, or jpeg is allowed."
+        "Oops! The file type you've selected is not supported. Please upload a valid image in JPG, PNG, or WEBP format."
       );
     }
 

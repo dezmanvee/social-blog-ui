@@ -4,16 +4,18 @@ import { useMutation } from "@tanstack/react-query";
 import { updateEmailAPI } from "../../API/users/userAPIs";
 import "react-quill/dist/quill.snow.css";
 import { Button } from "../../components/ui/button";
-import {
-  Mail01Icon,
-} from "hugeicons-react";
+import { Mail01Icon } from "hugeicons-react";
 
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
 import LoadingAlert from "../../components/alerts/LoadingAlert";
 import DangerAlert from "../../components/alerts/DangerAlert";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
+import { useEffect, useState } from "react";
 
 const UpdateEmail = () => {
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const emailMutation = useMutation({
     mutationKey: ["update-email"],
     mutationFn: updateEmailAPI,
@@ -21,6 +23,34 @@ const UpdateEmail = () => {
 
   // get all states from useMutation hook
   const { data, isPending, isError, error, isSuccess } = emailMutation;
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  // Handle success state
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccess(true);
+
+      // Set a timeout to hide the success message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
   const formik = useFormik({
     //*initial values
@@ -88,11 +118,29 @@ const UpdateEmail = () => {
     //   </Card>
     // </section>
 
-    <form>
+    <form onSubmit={formik.handleSubmit}>
+      {isPending && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+          <LoadingAlert loading="Loading" loadingMsg="Hang tight! We're getting things ready for you..." />
+        </div>
+      )}
+      {showError && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+          <DangerAlert
+            error="Error"
+            errorMsg={error?.message || error?.response?.data?.message}
+          />
+        </div>
+      )}
+      {showSuccess && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+          <SuccessAlert success="Success" successMsg={data?.message} />
+        </div>
+      )}
       <h2 className="mt-0 font-bold text-white" id="profilePicture">
         Account Email
       </h2>
-      <p className="mt-1 text-sm text-slate-400">
+      <p className="mt-1 text-slate-400">
         Please add or update your email address to ensure you receive important
         notifications and account-related updates
       </p>
@@ -109,17 +157,15 @@ const UpdateEmail = () => {
               size="1"
               className="self-stretch text-ellipsis hover:field-placeholder-color min-w-0  bg-transparent typo-body caret-text-link focus:outline-none"
               required
-              // {...formik.getFieldProps("categoryName")}
+              {...formik.getFieldProps("email")}
             />
           </div>
         </div>
-        {/* {formik.touched.categoryName && formik.errors.categoryName && (
-          <div className="text-red-500 text-xs ml-2">
-            {formik.errors.categoryName}
-          </div>
-        )} */}
+        {formik.touched.email && formik.errors.email && (
+          <div className="text-red-500 text-xs ml-2">{formik.errors.email}</div>
+        )}
       </div>
-      <div className="h-[70%] w-full"></div>
+      <div className="h-[65%] w-full"></div>
       <Button
         type="submit"
         variant="outline"

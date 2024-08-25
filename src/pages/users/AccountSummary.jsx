@@ -41,7 +41,6 @@ const AccountSummary = () => {
     queryKey: ["user-profile"],
     queryFn: userProfileAPI,
   });
- 
 
   const generateEmailTokenMutation = useMutation({
     mutationKey: ["generate-email-token"],
@@ -194,12 +193,12 @@ const AccountSummary = () => {
       {/* display account verification status */}
       {isPendingEmail ? (
         <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
-          <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
+          <LoadingAlert loading="Loading" loadingMsg="Hang tight! We're getting things ready for you..." />
         </div>
       ) : showError ? (
         <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
           <DangerAlert
-            error="error"
+            error="Error"
             errorMsg={
               errorEmail?.message || errorEmail?.response?.data?.message
             }
@@ -207,7 +206,7 @@ const AccountSummary = () => {
         </div>
       ) : showSuccess ? (
         <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
-          <SuccessAlert success="success" successMsg={dataEmail?.message} />
+          <SuccessAlert success="Success" successMsg={dataEmail?.message} />
         </div>
       ) : null}
       {/* show alert for copied link */}
@@ -233,7 +232,7 @@ const AccountSummary = () => {
           </header>
 
           {/* !Our account summary in a grand style */}
-          <div className="flex flex-col gap-6 px-4 py-6 md:px-6">
+          <div className="flex flex-col gap-6 px-4 md:px-6">
             {/* Account verification wrapper */}
             <div className="flex flex-col gap-6 py-6">
               {/* choose a plan */}
@@ -281,7 +280,7 @@ const AccountSummary = () => {
               )}
             </div>
             {/* short discription */}
-            <p className="text-sm text-slate-400">
+            <p className="text-slate-400">
               Here's an overview of your account details along with some of the
               most popular categories that other users are exploring!
             </p>
@@ -411,16 +410,15 @@ const AccountSummary = () => {
           <div className="relative flex h-24 mx-4">
             <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
               <img
-                src={
-                  data?.user?.profilePicture?.path ||
-                  "https://github.com/shadcn.png"
-                }
+                src={data?.user?.profilePicture}
                 alt={`${data?.user?.username || "User"}'s profile`}
                 className="object-cover w-24 h-full rounded-2xl"
                 loading="lazy"
                 onError={(e) => {
                   e.target.onerror = null; // Prevent infinite loop if fallback also fails
-                  e.target.src = "https://github.com/shadcn.png";
+                  e.target.src =
+                    data?.user?.profilePicture?.path ||
+                    "https://github.com/shadcn.png";
                 }}
               />
             </div>

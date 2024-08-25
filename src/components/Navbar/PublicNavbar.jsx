@@ -35,7 +35,6 @@ const PublicNavbar = () => {
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  console.log(authUser);
 
   // Fetch all personal posts
   const { data: postData } = useQuery({
@@ -292,8 +291,11 @@ const PublicNavbar = () => {
 
         {/* Leaderboard, totalNumber of personal post & Profile pix */}
         <div className="flex h-10 items-center rounded-xl bg-surface-float px-1">
-          {/* Leaderboard */}
-          <Button className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-gray-700 bg-transparent">
+          {/* Personal posts */}
+          <Button
+            className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-gray-700 bg-transparent"
+            onClick={() => navigate("/dashboard/posts")}
+          >
             {postData?.allPosts?.length > 0 ? (
               <svg
                 width="1em"

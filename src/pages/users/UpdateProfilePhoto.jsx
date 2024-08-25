@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { uploadPhotoAPI } from "../../API/users/userAPIs";
-import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
@@ -38,9 +37,9 @@ const UpdateProfilePhoto = () => {
       image: "",
     },
     //*validation
-    // validationSchema: Yup.object({
-    //   image: Yup.string().required("Image is required"),
-    // }),
+    validationSchema: Yup.object({
+      image: Yup.string().required("Image is required"),
+    }),
     //*submit
     onSubmit: (values) => {
       const formData = new FormData();
@@ -55,13 +54,14 @@ const UpdateProfilePhoto = () => {
 
     if (file.size > 1048576) {
       //Limits file size to 1MB
+      setImageError("The file size exceeds the 1MB limit. Please select a smaller file.");
       return;
     }
 
-    if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
+    if (!["image/webp","image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
       // Supported file type
       setImageError(
-        "This file type is not supported. Only png, jpg, or jpeg is allowed."
+        "Oops! The file type you've selected is not supported. Please upload a valid image in JPG, PNG, or WEBP format."
       );
     }
 
