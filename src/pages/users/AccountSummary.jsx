@@ -23,6 +23,7 @@ import {
   userProfileAPI,
 } from "../../API/users/userAPIs";
 import Dislike from "../../components/svg/Dislike";
+import { format } from "date-fns";
 
 const AccountSummary = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const AccountSummary = () => {
     queryKey: ["user-profile"],
     queryFn: userProfileAPI,
   });
+ 
 
   const generateEmailTokenMutation = useMutation({
     mutationKey: ["generate-email-token"],
@@ -151,7 +153,7 @@ const AccountSummary = () => {
     {
       icon: <Flag02Icon className="w-5 h-5 text-purple-400" />,
       label: "Posts",
-      value: userPosts?.length || 0,
+      value: userPosts || 0,
     },
     {
       icon: <EyeIcon className="w-5 h-5 text-amber-300" />,
@@ -384,7 +386,10 @@ const AccountSummary = () => {
                 Edit profile
               </Button>
             </div>
-            <Button className="h-8 !px-1 rounded-lg bg-background-subtle text-slate-400 hover:text-white hover:bg-gray-700 ml-auto mr-2 hidden lg:flex">
+            <Button
+              className="h-8 !px-1 rounded-lg bg-background-subtle text-slate-400 hover:text-white hover:bg-gray-700 ml-auto mr-2 hidden lg:flex"
+              onClick={() => navigate("/dashboard/all-posts")}
+            >
               <svg
                 width="1em"
                 height="1em"
@@ -406,12 +411,11 @@ const AccountSummary = () => {
           <div className="relative flex h-24 mx-4">
             <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
               <img
-                // src={
-                //   authUser?.profilePicture || "https://github.com/shadcn.png"
-                // }
-                // alt={`${authUser?.username || "User"}'s profile picture`}
-                src="https://github.com/shadcn.png"
-                alt=""
+                src={
+                  data?.user?.profilePicture?.path ||
+                  "https://github.com/shadcn.png"
+                }
+                alt={`${data?.user?.username || "User"}'s profile`}
                 className="object-cover w-24 h-full rounded-2xl"
                 loading="lazy"
                 onError={(e) => {
@@ -425,34 +429,34 @@ const AccountSummary = () => {
           <div className="relative flex flex-col gap-6 px-4 text-slate-400">
             <div className="flex flex-col items-start">
               <h2 className="max-w-full shrink truncate font-bold text-white text-lg">
-                {/* {authUser?.username} */} Ayo
+                {data?.user?.username}
               </h2>
               {/* @Profile name and date joined */}
               <div className="flex items-center">
                 <span className="text-slate-400 text-xs max-w-full shrink truncate">
-                  {/* @{authUser?.username} */} @Ayo
+                  @{data?.user?.username}
                 </span>
                 <span className="mx-1 text-gray-400">•</span>
                 <div className="text-gray-400 text-xs">
-                  Joined&nbsp; Aug 2024
-                  {/* {authUser?.createdAt
-                    ? format(new Date(authUser?.createdAt), "MMMM d") //For date format "Aug 21"
-                    : `invalid time`} */}
+                  Joined&nbsp;
+                  {data?.user?.createdAt
+                    ? format(new Date(data?.user?.createdAt), "MMMM d yyyy") //For date format "Aug 21 2024"
+                    : `invalid time`}
                 </div>
               </div>
             </div>
             {/* Stat */}
             <div className="flex text-slate-400 flex-wrap text-xs gap-2">
               <div className="flex items-center gap-1 text-xs">
-                <b className="text-white">60</b>
+                <b className="text-white">{userPosts}</b>
                 <span className="capitalize">posts</span>
               </div>
               <div className="flex items-center gap-1 text-xs">
-                <b className="text-white">5</b>
+                <b className="text-white">{totalViews}</b>
                 <span className="capitalize">views</span>
               </div>
               <div className="flex items-center gap-1 text-xs">
-                <b className="text-white">0</b>
+                <b className="text-white">$ {totalEarnings}</b>
                 <span className="capitalize">earnings</span>
               </div>
             </div>

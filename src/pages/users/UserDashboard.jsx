@@ -162,11 +162,9 @@ function classNames(...classes) {
 const role = "admin";
 
 export default function UserDashbaord() {
-
-
   const navigate = useNavigate();
-  
-  const [current, setCurrent] = useState(false)
+
+  const [current, setCurrent] = useState(false);
   //Get the auth user from redux store
   const { authUser } = useSelector((state) => state.auth);
   // return (
@@ -388,7 +386,6 @@ export default function UserDashbaord() {
               <Link
                 className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
                 to="/dashboard/all-posts"
-                
               >
                 <span className="relative px-3">
                   <div className="rounded-sm bg-background-subtle">
@@ -426,18 +423,17 @@ export default function UserDashbaord() {
                 <span className="relative px-3">
                   <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
                     <img
-                      src={authUser?.profilePicture || "https://github.com/shadcn.png"}
-                      alt={`${
-                        authUser?.username || "User"
-                      }'s profile picture`}
+                      src={authUser?.profilePicture}
+                      alt={`${authUser?.username || "User"}'s profile`}
                       className="absolute block inset-0 w-full h-full m-auto object-cover"
                       loading="lazy"
                       onError={(e) => {
                         e.target.onerror = null; // Prevent infinite loop if fallback also fails
-                        e.target.src = "https://github.com/shadcn.png";
+                        e.target.src =
+                          authUser?.profilePicture?.path ||
+                          "https://github.com/shadcn.png";
                       }}
                     />
-                    
                   </div>
                 </span>
                 <span

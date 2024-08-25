@@ -21,7 +21,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
-import Profile from "../svg/Profile";
 import InviteFriend from "../svg/InviteFriend";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -36,11 +35,13 @@ const PublicNavbar = () => {
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  console.log(authUser);
+
   // Fetch all personal posts
-  const {data: postData} = useQuery({
+  const { data: postData } = useQuery({
     queryKey: ["post-list"],
-    queryFn: allPostsAPI
-  })
+    queryFn: allPostsAPI,
+  });
 
   // Notification
   const { data, refetch } = useQuery({
@@ -69,7 +70,7 @@ const PublicNavbar = () => {
       })
       .catch((err) => console.log(err));
   };
-  
+
   return (
     // <Disclosure as="nav" className="bg-teal-50 shadow z-50">
     //   {({ open }) => (
@@ -355,15 +356,15 @@ const PublicNavbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <img
-                  src={
-                    authUser?.profilePicture || "https://github.com/shadcn.png"
-                  }
-                  alt={`${authUser?.username || "User"}'s profile picture`}
+                  src={authUser?.profilePicture}
+                  alt={`${authUser?.username || "User"}'s profile`}
                   className="object-cover w-8 h-8 rounded-lg"
                   loading="lazy"
                   onError={(e) => {
                     e.target.onerror = null; // Prevent infinite loop if fallback also fails
-                    e.target.src = "https://github.com/shadcn.png";
+                    e.target.src =
+                      authUser?.profilePicture?.path ||
+                      "https://github.com/shadcn.png";
                   }}
                 />
               </DropdownMenuTrigger>
@@ -372,16 +373,15 @@ const PublicNavbar = () => {
                 <div className="relative flex h-24">
                   <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
                     <img
-                      src={
-                        authUser?.profilePicture ||
-                        "https://github.com/shadcn.png"
-                      }
-                      alt={`${authUser?.username || "User"}'s profile picture`}
+                      src={authUser?.profilePicture}
+                      alt={`${authUser?.username || "User"}'s profile`}
                       className="object-cover w-24 h-full rounded-2xl"
                       loading="lazy"
                       onError={(e) => {
                         e.target.onerror = null; // Prevent infinite loop if fallback also fails
-                        e.target.src = "https://github.com/shadcn.png";
+                        e.target.src =
+                          authUser?.profilePicture?.path ||
+                          "https://github.com/shadcn.png";
                       }}
                     />
                   </div>

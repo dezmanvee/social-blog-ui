@@ -54,7 +54,7 @@ export const loginAPI = async (userData) => {
     return response.data
   }
 
-  //! User profile 
+  //! Third User profile 
 
   export const thirdUserProfileAPI = async (userId) => {
     const response = await axios.get(`${BASE_URL}/users/${userId}`, { withCredentials: true })

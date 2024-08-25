@@ -11,7 +11,7 @@ const LoadingAlert = ({ loading, loadingMsg }) => {
         <AiOutlineLoading3Quarters className=" animate-spin w-6 h-6 text-purple-400" />
       </div>
       <div className="flex items-start flex-col gap-1">
-        <AlertTitle>{loading}</AlertTitle>
+        <AlertTitle className="text-purple-400">{loading}</AlertTitle>
         <AlertDescription className="text-black">
           {loadingMsg}
         </AlertDescription>

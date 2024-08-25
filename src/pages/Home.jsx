@@ -14,7 +14,6 @@ import { ImSpinner9 } from "react-icons/im";
 import { Button } from "../components/ui/button";
 
 const Home = () => {
-
   //* Update current year for footer
   const currentYear = new Date().getFullYear();
 
@@ -23,7 +22,7 @@ const Home = () => {
     mutationKey: ["user-registration"],
     mutationFn: registerAPI,
   });
- 
+
   //!Formik Configuration
   const formik = useFormik({
     //*Initail values
@@ -91,12 +90,12 @@ const Home = () => {
         {/* Left banner */}
         <div className="mt-5 flex flex-1 flex-col md:mt-0 lg:mr-8 lg:max-w-[27.5rem] flex-grow-0 md:flex-grow">
           <h1 className="mb-4 md:text-3xl text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
-            Embark on a journey of discovery and growth
+            Unleash Your Ideas: Connect, Create, and Grow on Devware
           </h1>
           <h2 className="mb-8 text-lg md:text-xl text-white">
-            We know how hard it is to be a developer. It doesn't have to be.
-            Personalized news feed, dev community and search, much better than
-            what's out there.
+            Discover a platform where developers connect, share knowledge, and
+            inspire innovation. Dive into discussions, showcase your skills, and
+            collaborate on groundbreaking ideas.
           </h2>
           {/* Form Wrapper */}
           <div className="z-1 flex w-full max-w-[26.25rem] flex-col overflow-y-auto rounded-16 w-full rounded-none md:max-w-[30rem] max-w-full">
@@ -122,15 +121,15 @@ const Home = () => {
                     />
                   </div>
                 </div>
-                  {/* Error alert */}
-                  {formik.touched.username && formik.errors.username && (
-                    <div
-                      className="mt-1 px-2 text-xs h-4 text-red-500"
-                      role="alert"
-                    >
-                      {formik.errors.username}
-                    </div>
-                  )}
+                {/* Error alert */}
+                {formik.touched.username && formik.errors.username && (
+                  <div
+                    className="mt-1 px-2 text-xs h-4 text-red-500"
+                    role="alert"
+                  >
+                    {formik.errors.username}
+                  </div>
+                )}
                 {/* Email */}
                 <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-surface-float border border-transparent cursor-text border-l-4 hover:border-l-white">
                   <Mail01Icon className="mr-2 text-gray-400 hover:text-white" />
@@ -147,15 +146,15 @@ const Home = () => {
                     />
                   </div>
                 </div>
-                 {/* Error alert */}
-                 {formik.touched.email && formik.errors.email && (
-                    <div
-                      className="mt-1 px-2 text-xs h-4 text-red-500"
-                      role="alert"
-                    >
-                      {formik.errors.email}
-                    </div>
-                  )}
+                {/* Error alert */}
+                {formik.touched.email && formik.errors.email && (
+                  <div
+                    className="mt-1 px-2 text-xs h-4 text-red-500"
+                    role="alert"
+                  >
+                    {formik.errors.email}
+                  </div>
+                )}
                 {/* password */}
                 <div className="relative flex rounded-xl flex-row items-center pl-3 h-12 flex px-4 overflow-hidden bg-surface-float border border-transparent cursor-text border-l-4 hover:border-l-white">
                   <LockKeyIcon className="mr-2 text-gray-400 hover:text-white" />
@@ -172,15 +171,15 @@ const Home = () => {
                     />
                   </div>
                 </div>
-                 {/* Error alert */}
-                 {formik.touched.password && formik.errors.password && (
-                    <div
-                      className="mt-1 px-2 text-xs h-4 text-red-500"
-                      role="alert"
-                    >
-                      {formik.errors.password}
-                    </div>
-                  )}
+                {/* Error alert */}
+                {formik.touched.password && formik.errors.password && (
+                  <div
+                    className="mt-1 px-2 text-xs h-4 text-red-500"
+                    role="alert"
+                  >
+                    {formik.errors.password}
+                  </div>
+                )}
               </div>
 
               <Button

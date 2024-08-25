@@ -224,8 +224,8 @@ const Register = () => {
                   </div>
                 )}
               </div>
-              <span className="mt-4 flex w-full flex-row">
-                <Button className="flex flex-1 bg-transparent hover:bg-transparent text-gray-400 underline">
+              <span className="mt-4 flex w-full flex-row flex-wrap-reverse">
+                <Button className="flex flex-1 disabled:bg-transparent disabled:cursor-not-allowed hover:bg-transparent text-gray-400 underline" disabled>
                   We recommend a strong password
                 </Button>
                 <Button

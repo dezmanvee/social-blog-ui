@@ -214,7 +214,7 @@ const Login = () => {
                   )}
                 </Button>
                 <Button
-                  className="flex flex-1 bg-transparent hover:bg-transparent text-gray-400 underline"
+                  className="flex flex-1 bg-transparent hover:bg-transparent text-gray-400 hover:text-white underline"
                   onClick={() => navigate("/forgot-password")}
                 >
                   Forgot Password?
