@@ -24,6 +24,7 @@ const UpdateEmail = () => {
   // get all states from useMutation hook
   const { data, isPending, isError, error, isSuccess } = emailMutation;
 
+// Handle Error state
   useEffect(() => {
     if (isError) {
       setShowError(true);
@@ -165,7 +166,7 @@ const UpdateEmail = () => {
           <div className="text-red-500 text-xs ml-2">{formik.errors.email}</div>
         )}
       </div>
-      <div className="h-[65%] w-full"></div>
+      <div className="h-[60%] w-full"></div>
       <Button
         type="submit"
         variant="outline"

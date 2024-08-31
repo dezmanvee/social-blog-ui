@@ -7,7 +7,10 @@ import {
   Notification01Icon,
   Note01Icon,
   UserSettings01Icon,
-} from "hugeicons-react";
+  SecurityPasswordIcon,
+  PasswordValidationIcon,
+    CirclePasswordIcon
+    } from "hugeicons-react";
 import Profile from "../../../components/svg/Profile";
 import Bell from "../../../components/svg/Bell";
 import InviteFriend from "../../../components/svg/InviteFriend";
@@ -32,6 +35,12 @@ const AccountLayout = () => {
       link: "/dashboard/account/email/email",
       current: "email",
     },
+    // {
+    //   name: "Forgot password",
+    //   icon: <CirclePasswordIcon className="!w-5 !h-5 mr-2" />,
+    //   link: "/dashboard/account/forgot-password/password",
+    //   current: "password-reset",
+    // },
     {
       name: "Notifications",
       icon: <Notification01Icon className="!w-5 !h-5 mr-2" />,

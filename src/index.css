@@ -79,19 +79,17 @@
 
   /* For WebKit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 8px; /* Adjust scrollbar width */
+  width: 7px; /* Adjust scrollbar width */
 }
 
 ::-webkit-scrollbar-track {
   background-color: #0e1217 !important; /* Scrollbar background color */
-  border-radius: 4px !important; /* Rounded track */
+  /* border-radius: 4px !important; Rounded track */
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: #A8B3CF !important; /* Thumb background color */
-  border-radius: 4px !important; /* Rounded thumb */
-  /* border: 3px solid #0e1217 !important;  */
-  background-clip: padding-box;
+  border-radius: 5px !important; 
 }
 
 ::-webkit-scrollbar-thumb:hover {

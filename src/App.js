@@ -144,14 +144,14 @@ const App = () => {
                 </ProtectedRoutes>
               }
             />
-            <Route
+            {/* <Route
               path="settings"
               element={
                 <ProtectedRoutes>
                   <Settings />
                 </ProtectedRoutes>
               }
-            />
+            /> */}
             {/* <Route
               path="notifications"
               element={
@@ -168,14 +168,14 @@ const App = () => {
                 </ProtectedRoutes>
               }
             /> */}
-            <Route
+            {/* <Route
               path="update-profile-photo"
               element={
                 <ProtectedRoutes>
                   <UpdateProfilePhoto />
                 </ProtectedRoutes>
               }
-            />
+            /> */}
             <Route
               path="my-earnings"
               element={

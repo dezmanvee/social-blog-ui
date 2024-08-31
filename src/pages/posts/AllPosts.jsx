@@ -20,14 +20,18 @@ import { Badge } from "../../components/ui/badge";
 import DangerAlert from "../../components/alerts/DangerAlert";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import LoadingAlert from "../../components/alerts/LoadingAlert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchAndFilter from "../../components/posts/SearchAndFilter";
 import Pagination from "./Pagination";
 import truncateString from "../../lib/truncateString";
 import PostCard from "../../components/posts/PostCard";
 import PostDetailModal from "./PostDetailModal";
+import LoadingSkeleton from "../../components/Loading/LoadingSkeleton";
 
 const AllPosts = () => {
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   //Some filter states
   const [filters, setFilters] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,6 +43,35 @@ const AllPosts = () => {
     queryFn: () =>
       allPostsAPI({ ...filters, page, title: searchTerm, limit: 9 }),
   });
+
+  // Handle Error state
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  // Handle success state
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccess(true);
+
+      // Set a timeout to hide the success message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
   // Filter by category handler using buttons
   const filterByCategoryBtnHandler = (categoryId) => {
@@ -168,43 +201,59 @@ const AllPosts = () => {
   // )
 
   const follow = true;
-// ! Write a media query of phone, tablet, laptop and desktop for cards display different from tailwind
-  return (
-    <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4 min-h-full">
-      <div
-        className="flex w-full flex-col xl:mx-auto"
-        // style={{
-        //   "--num-cards": 3,
-        //   "--post-gap": "16px",
-        // }}
-      >
-        <div className="relative mx-auto w-full post-template post-cards">
-          {/* Search and filter */}
-          <span className="flex flex-1 items-center lg:items-start flex-col-reverse">
-            <SearchAndFilter
-              SubmitHandlerFilterByCategoryInput={
-                SubmitHandlerFilterByCategoryInput
-              }
-              filterByCategoryInputHandler={filterByCategoryInputHandler}
-              searchTerm={searchTerm}
-              clearFilterHandler={clearFilterHandler}
-            />
-          </span>
-          {/* posts container */}
-          <div className="grid mt-8 gap-8 grid-cols-auto-fit-minmax !gap-x-8">
-            {data?.allPosts?.map((post) => {
-              return <PostCard key={post?._id} post={post} />;
-            })}
+  // ! Write a media query of phone, tablet, laptop and desktop for cards display different from tailwind
+
+  if (isPending) {
+    return <LoadingSkeleton />;
+  }
+
+  if (showError) {
+    <div className="fixed top-15 left-1/2 transform -translate-x-1/2 z-[200]">
+      <DangerAlert
+        error="Error"
+        errorMsg={error?.message || error?.response?.data?.message}
+      />
+    </div>;
+  }
+
+  if (showSuccess) {
+    <div className="fixed top-15 left-1/2 transform -translate-x-1/2 z-[200]">
+      <SuccessAlert success="Success" successMsg={data?.message} />
+    </div>;
+  }
+
+  if (data) {
+    return (
+      <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4 min-h-full">
+        <div className="flex w-full flex-col xl:mx-auto">
+          <div className="relative mx-auto w-full post-template post-cards">
+            {/* Search and filter */}
+            <span className="flex flex-1 items-center lg:items-start flex-col-reverse">
+              <SearchAndFilter
+                SubmitHandlerFilterByCategoryInput={
+                  SubmitHandlerFilterByCategoryInput
+                }
+                filterByCategoryInputHandler={filterByCategoryInputHandler}
+                searchTerm={searchTerm}
+                clearFilterHandler={clearFilterHandler}
+              />
+            </span>
+            {/* posts container */}
+            <div className="grid mt-8 gap-8 grid-cols-auto-fit-minmax !gap-x-8">
+              {data?.allPosts?.map((post) => {
+                return <PostCard key={post?._id} post={post} />;
+              })}
+            </div>
           </div>
         </div>
-      </div>
-      {/* Pagination */}
-      <Pagination
-        page={page}
-        data={data}
-        paginationHandler={paginationHandler}
-      />
-    </article>
-  );
+        {/* Pagination */}
+        <Pagination
+          page={page}
+          data={data}
+          paginationHandler={paginationHandler}
+        />
+      </article>
+    );
+  }
 };
 export default AllPosts;

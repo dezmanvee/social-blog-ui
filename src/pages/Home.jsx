@@ -47,7 +47,7 @@ const Home = () => {
         .mutateAsync(values)
         .then(
           //Navigate to user profile
-          navigate("/profile")
+          navigate("/dashboard/account/summary")
         )
         .catch((err) => console.log(err));
     },

@@ -47,6 +47,7 @@ const Login = () => {
   });
 
   const { error, isError, isPending } = userMutation;
+  console.log(error)
 
   useEffect(() => {
     if (isError) {
@@ -83,10 +84,12 @@ const Login = () => {
           <div className="px-6 md:px-[3.75rem] flex flex-col gap-3 self-center mt-6 w-full">
             {/* Error Messege */}
             {showError && (
+              <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-[200]">
               <DangerAlert
                 error="Error"
                 errorMsg={error?.response?.data || error?.message}
               />
+            </div>
             )}
             {/* Google auth */}
             <div className="flex flex-col gap-4">

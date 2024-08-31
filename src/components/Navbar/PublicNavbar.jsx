@@ -35,7 +35,6 @@ const PublicNavbar = () => {
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-
   // Fetch all personal posts
   const { data: postData } = useQuery({
     queryKey: ["post-list"],
@@ -243,10 +242,7 @@ const PublicNavbar = () => {
         </Link>
       </div>
       <div className="flex-1 h-8"></div>
-      {/* Search bar */}
-      {/* <div className="left-0 top-0 z-50 mr-auto items-center py-3 md:left-16 lg:left-0 xl:mx-auto xl:w-full hidden lg:flex flex flex-col">
-        
-      </div> */}
+
       {/* Profile Wrapper*/}
       <div className="flex justify-end gap-3">
         {/* Add post */}

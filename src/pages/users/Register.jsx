@@ -15,13 +15,34 @@ import {
   EyeIcon,
 } from "hugeicons-react";
 import { ImSpinner9 } from "react-icons/im";
+import { useEffect, useState } from "react";
 
 const Register = () => {
+
+  const [showError, setShowError] = useState(false);
+
+
   const navigate = useNavigate();
   const userMutation = useMutation({
     mutationKey: ["user-registration"],
     mutationFn: registerAPI,
   });
+
+  const { error, isError, isPending } = userMutation;
+  
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
 
   //!Formik Configuration
   const formik = useFormik({
@@ -47,13 +68,12 @@ const Register = () => {
         .mutateAsync(values)
         .then(
           //Navigate to user dashboard
-          navigate("/dashboard")
+          navigate("/dashboard/account/summary")
         )
         .catch((err) => console.log(err));
     },
   });
   const currentYear = new Date().getFullYear();
-  const { error, isError, isPending } = userMutation;
 
   return (
     <div className="z-3 flex h-full max-h-screen min-h-screen w-full flex-1 flex-col items-center overflow-x-hidden bg-color">
@@ -76,12 +96,14 @@ const Register = () => {
           </p>
 
           <div className="px-6 md:px-[3.75rem] flex flex-col gap-3 self-center mt-6 w-full">
-            {/* Error Messege */}
-            {isError && (
+             {/* Error Messege */}
+            {showError && (
+              <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-[200]">
               <DangerAlert
                 error="Error"
-                errorMsg={error?.response?.data || error?.message}
+                errorMsg={error?.message || error?.response?.data?.message}
               />
+            </div>
             )}
             {/* Google auth */}
             <div className="flex flex-col gap-4">

@@ -14,14 +14,14 @@ const ProtectedRoutes = ({children}) => {
     //Loading
     if (isLoading) return <AuthLoading />
 
-    //User authenticated
+    //User not authenticated
     if (!data) {
        return <Navigate to='/login' />
     }
-    //User not authenticated
+    //User authenticated
     
     if (data) {
         return children
     }
 }
-export default ProtectedRoutes
+export default ProtectedRoutes;

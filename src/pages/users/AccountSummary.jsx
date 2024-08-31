@@ -5,11 +5,8 @@ import { authUserStatusAPI } from "../../API/users/userAPIs";
 import { isAuthenticated } from "../../redux/features/user/authSlice";
 import { Button } from "../../components/ui/button";
 import {
-  ArrowRight05Icon,
   ArrowRight04Icon,
   EyeIcon,
-  DollarCircleIcon,
-  Flag02Icon,
 } from "hugeicons-react";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import DangerAlert from "../../components/alerts/DangerAlert";
@@ -18,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Like from "../../components/svg/Like";
 import { PiUsersFour, PiUsersThree } from "react-icons/pi";
 import Comment from "../../components/svg/Comment";
+import FireIcon from "../../components/svg/FireIcon";
 import {
   generateEmailTokenAPI,
   userProfileAPI,
@@ -150,12 +148,12 @@ const AccountSummary = () => {
   // Account Stats Data
   const stats = [
     {
-      icon: <Flag02Icon className="w-5 h-5 text-purple-400" />,
+      icon: <FireIcon className="w-5 h-5 text-purple-400" />,
       label: "Posts",
       value: userPosts || 0,
     },
     {
-      icon: <EyeIcon className="w-5 h-5 text-amber-300" />,
+      icon: <EyeIcon className="w-4 h-4 text-purple-500" />,
       label: "Views",
       value: totalViews,
     },

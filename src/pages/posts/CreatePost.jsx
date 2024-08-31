@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createPostAPI } from "../../API/posts/postAPIs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import LoadingAlert from "../../components/alerts/LoadingAlert";
 import DangerAlert from "../../components/alerts/DangerAlert";
@@ -30,6 +30,9 @@ const CreatePost = () => {
   const [imageError, setImageError] = useState(""); //local state for image errors
   const [imagePreview, setImagePreview] = useState(null); //local state for image preview
 
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const postMutation = useMutation({
     mutationKey: ["create-post"],
     mutationFn: createPostAPI,
@@ -42,6 +45,34 @@ const CreatePost = () => {
 
   // get all states from useMutation hook
   const { data, isPending, isError, error, isSuccess } = postMutation;
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  // Handle success state
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccess(true);
+
+      // Set a timeout to hide the success message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
   const formik = useFormik({
     //*initial values
     initialValues: {
@@ -80,11 +111,17 @@ const CreatePost = () => {
 
     if (file.size > 1048576) {
       //Limits file size to 1MB
-      setImageError("Oops! The file size exceeds the 1MB limit. Please select a smaller file.");
+      setImageError(
+        "Oops! The file size exceeds the 1MB limit. Please select a smaller file."
+      );
       return;
     }
 
-    if (!["image/webp","image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
+    if (
+      !["image/webp", "image/png", "image/jpg", "image/jpeg"].includes(
+        file.type
+      )
+    ) {
       // Supported file type
       setImageError(
         "Oops! The file type you've selected is not supported. Please upload a valid image in JPG, PNG, or WEBP format."
@@ -101,7 +138,6 @@ const CreatePost = () => {
     formik.setFieldValue("image", null);
     setImagePreview(null);
   };
-
 
   return (
     // <section className="py-16 px-8 m-auto">
@@ -244,6 +280,27 @@ const CreatePost = () => {
     // </section>
 
     <article className="!p-0 mx-auto !pb-12 lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
+      {isPending && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+          <LoadingAlert
+            loading="Loading"
+            loadingMsg="Hang tight! We're getting things ready for you..."
+          />
+        </div>
+      )}
+      {showError && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+          <DangerAlert
+            error="Error"
+            errorMsg={error?.response?.data?.message || error?.message}
+          />
+        </div>
+      )}
+      {showSuccess && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+          <SuccessAlert success="Success" successMsg={data?.message} />
+        </div>
+      )}
       <div className="flex flex-col">
         <header className="flex flex-row px-1 border-b border-gray-600 bg-color md:bg-[unset]">
           <ul className="relative flex flex-row">
@@ -261,7 +318,6 @@ const CreatePost = () => {
 
         <div className="px-5">
           <form className="mt-6 flex flex-col" onSubmit={formik.handleSubmit}>
-           
             {/* Container for thumbnail and message */}
             <div className="flex flex-col max-lg:flex-col-reverse lg:flex-row mt-5 items-end gap-4 justify-start lg:justify-between">
               {/* Thumbnail */}
@@ -305,7 +361,7 @@ const CreatePost = () => {
                 )}
               </div>
               {/* Status display */}
-
+              {/* 
               {isPending && (
                 <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
               )}
@@ -317,7 +373,7 @@ const CreatePost = () => {
               )}
               {isSuccess && (
                 <SuccessAlert success="Success" successMsg={data?.message} />
-              )}
+              )} */}
             </div>
             {/* Display error message */}
             {formik.touched.image && formik.errors.image && (
@@ -333,7 +389,7 @@ const CreatePost = () => {
               </div>
             )}
 
-             {/* category */}
+            {/* category */}
             <Select
               value={formik.values.category} // Bind the formik value to the Select
               onValueChange={(value) => formik.setFieldValue("category", value)} // Handle value change
@@ -413,8 +469,7 @@ const CreatePost = () => {
             <span className="relative flex flex-col items-center md:flex-row mt-5 max-md:mb-8">
               <Button
                 type="submit"
-                variant="outline"
-                className="ml-auto rounded-xl text-lg border-none font-bold w-full md:mt-0 md:w-32 flex lg:text-white lg:bg-purple-600 lg:hover:bg-purple-700"
+                className="ml-auto rounded-xl text-lg border-none font-bold w-full md:mt-0 md:w-32 flex text-white bg-purple-600 hover:bg-purple-700"
               >
                 Post
               </Button>

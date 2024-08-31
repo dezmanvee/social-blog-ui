@@ -7,8 +7,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { GroupItemsIcon } from "hugeicons-react";
 import { Button } from "../../components/ui/button";
+import { useEffect, useState } from "react";
 
 const AddCategory = () => {
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+
   const categoryMutation = useMutation({
     mutationKey: ["create-category"],
     mutationFn: createCategoryAPI,
@@ -16,6 +21,35 @@ const AddCategory = () => {
 
   // get all states from useMutation hook
   const { data, isPending, isError, error, isSuccess } = categoryMutation;
+
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  // Handle success state
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccess(true);
+
+      // Set a timeout to hide the success message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
   const formik = useFormik({
     //*initial values
     initialValues: {
@@ -31,7 +65,6 @@ const AddCategory = () => {
     },
   });
   return (
-
     <article className="!p-0 lg:min-h-page h-[100vh] !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
       <div className="flex flex-col">
         <header className="flex flex-row px-1 border-b border-gray-600 bg-color md:bg-[unset]">
@@ -54,16 +87,25 @@ const AddCategory = () => {
         >
           {/* show mesage */}
           {isPending && (
-            <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
+            <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+              <LoadingAlert
+                loading="Loading"
+                loadingMsg="Hang tight! We're getting things ready for you..."
+              />
+            </div>
           )}
-          {isError && (
-            <DangerAlert
-              error="Error"
-              errorMsg={error?.response?.data?.message || error?.message}
-            />
+          {showError && (
+            <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+              <DangerAlert
+                error="Error"
+                errorMsg={error?.message || error?.response?.data?.message}
+              />
+            </div>
           )}
-          {isSuccess && (
-            <SuccessAlert success="Success" successMsg={data?.message} />
+          {showSuccess && (
+            <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+              <SuccessAlert success="Success" successMsg={data?.message} />
+            </div>
           )}
 
           {/* Category */}
