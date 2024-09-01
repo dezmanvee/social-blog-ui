@@ -33,7 +33,6 @@ import UpdateProfilePhoto from "./pages/users/UpdateProfilePhoto";
 import AllUsers from "./pages/users/AllUsers";
 import DeleteUserAccount from "./pages/users/admin/DeleteUserAccount";
 import Layout from "./layout/Layout";
-import PostDetailModal from "./pages/posts/PostDetailModal";
 import AccountLayout from "./pages/users/userProfile/AccountLayout";
 import InviteFriends from "./pages/users/InviteFriends";
 import Feedback from "./pages/users/Feedback";

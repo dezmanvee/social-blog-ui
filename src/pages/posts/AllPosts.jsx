@@ -25,7 +25,6 @@ import SearchAndFilter from "../../components/posts/SearchAndFilter";
 import Pagination from "./Pagination";
 import truncateString from "../../lib/truncateString";
 import PostCard from "../../components/posts/PostCard";
-import PostDetailModal from "./PostDetailModal";
 import LoadingSkeleton from "../../components/Loading/LoadingSkeleton";
 
 const AllPosts = () => {

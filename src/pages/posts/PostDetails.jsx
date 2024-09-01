@@ -265,7 +265,7 @@ const PostDetails = () => {
     //   </div>
     // </div>
 
-    <div className="!p-0 lg:min-h-page h-full !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
+    <div className="!p-0 lg:min-h-page h-full mx-auto !max-w-[100vw] lg:!max-w-[42.5rem] lg:border-r lg:border-l border-gray-600 px-4 md:px-8 relative z-1 flex w-full flex-col">
       {/* wrapper */}
       <div className="flex flex-col">
         {/* header */}
