@@ -408,7 +408,8 @@ const AccountSummary = () => {
           <div className="relative flex h-24 mx-4">
             <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
               <img
-                src={data?.user?.profilePicture}
+                src={data?.user?.profilePicture || data?.user?.profilePicture?.path ||
+                  "https://github.com/shadcn.png"}
                 alt={`${data?.user?.username || "User"}'s profile`}
                 className="object-cover w-24 h-full rounded-2xl"
                 loading="lazy"

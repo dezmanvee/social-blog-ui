@@ -432,7 +432,8 @@ export default function UserDashbaord() {
                 <span className="relative px-3">
                   <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
                     <img
-                      src={authUser?.profilePicture}
+                      src={authUser?.profilePicture || authUser?.profilePicture?.path ||
+                        "https://github.com/shadcn.png"}
                       alt={`${authUser?.username || "User"}'s profile`}
                       className="absolute block inset-0 w-full h-full m-auto object-cover"
                       loading="lazy"

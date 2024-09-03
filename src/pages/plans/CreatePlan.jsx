@@ -97,7 +97,7 @@ const CreatePlan = () => {
               <SelectTrigger className="w-full mt-10 text-slate-400 h-12 rounded-xl bg-background-subtle hover:bg-gray-800 text-md font-bold border-l-4 border-transparent hover:border-white hover:text-white">
                 <SelectValue placeholder="Select a plan" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-800 text-slate-400 border-gray-600 rounded-lg">
+              <SelectContent className="bg-background-subtle text-slate-400 border-gray-600 rounded-lg">
                 <SelectGroup
                   id="planName"
                   {...formik.getFieldProps("planName")}

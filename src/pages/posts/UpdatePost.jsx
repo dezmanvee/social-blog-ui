@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { postAPI, updatePostAPI } from "../../API/posts/postAPIs";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   Card,
@@ -55,6 +55,9 @@ const UpdatePost = () => {
   const [imageError, setImageError] = useState(""); //local state for image errors
   const [imagePreview, setImagePreview] = useState(null); //local state for image preview
 
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const postMutation = useMutation({
     mutationKey: ["update-post"],
     mutationFn: updatePostAPI,
@@ -101,11 +104,17 @@ const UpdatePost = () => {
 
     if (file.size > 1048576) {
       //Limits file size to 1MB
-      setImageError("Oops! The file size exceeds the 1MB limit. Please select a smaller file.");
+      setImageError(
+        "Oops! The file size exceeds the 1MB limit. Please select a smaller file."
+      );
       return;
     }
 
-    if (!["image/webp","image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
+    if (
+      !["image/webp", "image/png", "image/jpg", "image/jpeg"].includes(
+        file.type
+      )
+    ) {
       // Supported file type
       setImageError(
         "Oops! The file type you've selected is not supported. Please upload a valid image in JPG, PNG, or WEBP format."
@@ -169,6 +178,35 @@ const UpdatePost = () => {
   };
 
   const { data, isPending, isError, error, isSuccess } = postMutation;
+
+  // Handle Error state
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+
+      // Set a timeout to hide the error after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+
+      // Clean up the timer on unmount or when isError changes
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  // Handle success state
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccess(true);
+
+      // Set a timeout to hide the success message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
   return (
     // <section className="py-16 px-8 m-auto">
@@ -376,7 +414,20 @@ const UpdatePost = () => {
                       imagePreview ? "hidden" : "flex"
                     }`}
                   >
-                    <Camera01Icon className="w-5 h-5 pointer-events-none" />
+                    {/* <Camera01Icon className="w-5 h-5 pointer-events-none" /> */}
+                    <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-8 h-8 pointer-events-none"
+                  >
+                    <path
+                      d="M12.833 4a4.83 4.83 0 013.781 1.823l.146.192.069.01a4.834 4.834 0 014.151 4.346l.015.223.005.218v4.046a4.833 4.833 0 01-4.171 4.788c-1.721.238-3.33.357-4.829.357-1.498 0-3.108-.12-4.829-.357a4.833 4.833 0 01-4.166-4.57L3 14.858v-4.046a4.833 4.833 0 013.956-4.753l.283-.044a4.835 4.835 0 013.454-1.992l.248-.018.226-.005h1.666zm0 1.5h-1.666a3.331 3.331 0 00-3.015 1.91c-.255.03-.514.064-.775.1a3.333 3.333 0 00-2.872 3.118l-.005.184v4.046a3.333 3.333 0 002.877 3.302 33.88 33.88 0 004.623.343 33.88 33.88 0 004.623-.343 3.333 3.333 0 002.872-3.118l.005-.184v-4.046a3.333 3.333 0 00-2.877-3.302c-.261-.036-.52-.07-.774-.099a3.335 3.335 0 00-2.807-1.905l-.209-.006zM12 9.5a3.333 3.333 0 110 6.667A3.333 3.333 0 0112 9.5zm0 1.5a1.833 1.833 0 100 3.667A1.833 1.833 0 0012 11zm5-1.333a.833.833 0 110 1.666.833.833 0 010-1.666z"
+                      fill="currentcolor"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
                     <span className="ml-1.5 flex flex-row font-bold text-base">
                       Thumbnail
                     </span>
@@ -402,16 +453,25 @@ const UpdatePost = () => {
               {/* Status display */}
 
               {isPending && (
-                <LoadingAlert loading="Updating" loadingMsg="Please wait..." />
+                <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+                  <LoadingAlert
+                    loading="Loading"
+                    loadingMsg="Hang tight! We're getting things ready for you..."
+                  />
+                </div>
               )}
-              {isError && (
-                <DangerAlert
-                  error="Caution"
-                  errorMsg={error?.response?.data?.message || error?.message}
-                />
+              {showError && (
+                <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+                  <DangerAlert
+                    error="Error"
+                    errorMsg={error?.message || error?.response?.data?.message}
+                  />
+                </div>
               )}
-              {isSuccess && (
-                <SuccessAlert success="Success" successMsg={data?.message} />
+              {showSuccess && (
+                <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
+                  <SuccessAlert success="Success" successMsg={data?.message} />
+                </div>
               )}
             </div>
             {/* Display error message */}
@@ -436,7 +496,7 @@ const UpdatePost = () => {
               <SelectTrigger className="w-full mt-10 text-slate-400 h-12 rounded-xl bg-background-subtle hover:bg-gray-800 text-md font-bold border-l-4 border-transparent hover:border-white hover:text-white">
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-800 text-slate-400 border-gray-600 rounded-lg">
+              <SelectContent className="bg-background-subtle text-slate-400 border-gray-600 rounded-lg">
                 <SelectGroup>
                   <SelectLabel className="font-bold text-slate-200">
                     Categories
@@ -508,8 +568,8 @@ const UpdatePost = () => {
             <span className="relative flex flex-col items-center md:flex-row mt-5 max-md:mb-8">
               <Button
                 type="submit"
-                variant="outline"
-                className="ml-auto border-none w-full md:mt-0 md:w-32 flex lg:text-white lg:bg-purple-600 lg:hover:bg-purple-700"
+                // variant="outline"
+                className="ml-auto border-none w-full md:mt-0 md:w-32 flex text-lg font-bold lg:text-white lg:bg-purple-600 lg:hover:bg-purple-700"
               >
                 Update
               </Button>

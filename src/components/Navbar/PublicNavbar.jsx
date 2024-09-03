@@ -23,12 +23,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import InviteFriend from "../svg/InviteFriend";
 import { format } from "date-fns";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { allPostsAPI } from "../../API/posts/postAPIs";
-
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(" ");
-// }
 
 const PublicNavbar = () => {
   const navigate = useNavigate();
@@ -42,7 +37,7 @@ const PublicNavbar = () => {
   });
 
   // Notification
-  const { data, refetch } = useQuery({
+  const { data } = useQuery({
     queryKey: ["notification-list"],
     queryFn: allNotificationsAPI,
   });
@@ -70,166 +65,6 @@ const PublicNavbar = () => {
   };
 
   return (
-    // <Disclosure as="nav" className="bg-teal-50 shadow z-50">
-    //   {({ open }) => (
-    //     <>
-    //       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    //         <div className="flex h-16 justify-between">
-    //           <div className="flex">
-    //             <div className="-ml-2 mr-2 flex items-center md:hidden">
-    //               <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-teal-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
-    //                 <span className="absolute -inset-0.5" />
-    //                 <span className="sr-only">Open main menu</span>
-    //                 {open ? (
-    //                   <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-    //                 ) : (
-    //                   <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-    //                 )}
-    //               </Disclosure.Button>
-    //             </div>
-    //             <div
-    //               className="flex flex-shrink-0 items-center"
-    //               onClick={() => navigate("/")}
-    //             >
-    //               {/* Logo */}
-    //               <SwimmingIcon className="h-8 w-auto text-orange-500" />
-    //               <span className="text-teal-700 text-xl font-bold self-end animate-pulse">
-    //                 Blog
-    //               </span>
-    //             </div>
-    //             {/* large screens */}
-    //           </div>
-    //           <div className="hidden md:ml-6 md:flex md:space-x-8">
-    //             {authUser ? null : (
-    //               <Link
-    //                 to="/"
-    //                 className="inline-flex items-center border-b-2 border-transparent focus:border-orange-500 px-1 pt-1 text-sm font-medium hover:text-gray-700 focus:text-gray-900"
-    //               >
-    //                 Home
-    //               </Link>
-    //             )}
-    //             <Link
-    //               to="/dashboard/all-posts"
-    //               className="inline-flex items-center text-sm font-medium border-b-2 border-transparent focus:border-orange-500 px-1 pt-1 text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:text-gray-900"
-    //             >
-    //               Latest Posts
-    //             </Link>
-    //             <Link
-    //               to="/ranking"
-    //               className="inline-flex items-center border-b-2 border-transparent focus:border-orange-500 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:text-gray-900"
-    //             >
-    //               Creator's Ranking
-    //             </Link>
-    //             <Link
-    //               to="/pricing"
-    //               className="inline-flex items-center border-b-2 border-transparent focus:border-orange-500 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:text-gray-900"
-    //             >
-    //               Pricing
-    //             </Link>
-    //             {authUser ? null : (
-    //               <Link
-    //                 to="/register"
-    //                 className="inline-flex items-center border-b-2 border-transparent focus:border-orange-500 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:text-gray-900"
-    //               >
-    //                 Create Account
-    //               </Link>
-    //             )}
-    //           </div>
-    //           {/* Right-Hand-Container */}
-    //           <div className="flex items-center">
-
-    //             <div className="flex-shrink-0">
-    //               {authUser ? (
-    //                 <div className="flex items-center justify-center gap-2">
-    //                   <div className="relative inline-flex items-center justify-center rounded-md border-2 border-teal-700 p-0.5">
-    //                     <Link
-    //                       to="/dashboard"
-    //                       className="relative inline-flex items-center justify-center gap-x-1.5 rounded-sm bg-teal-700 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-teal-700 border-2 border-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
-    //                     >
-    //                       <DashboardSquare02Icon size="16" />
-    //                       Dashboard
-    //                     </Link>
-    //                   </div>
-    //                   <NotificationCounts />
-    //                   <button
-    //                     onClick={logoutHandler}
-    //                     type="button"
-    //                     className="relative m-2 inline-flex items-center gap-x-1.5 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
-    //                   >
-    //                     <Logout03Icon className="h-5 w-5" aria-hidden="true" />
-    //                   </button>
-    //                 </div>
-    //               ) : (
-    //                 <div className="relative inline-flex items-center justify-center rounded-md border-2 border-orange-500 p-0.5">
-    //                   <Link
-    //                     to="/register"
-    //                     className="relative inline-flex items-center justify-center gap-x-1.5 rounded-sm bg-orange-500 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-teal-50 hover:text-orange-500 border-2 border-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-    //                   >
-    //                     {/* <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" /> */}
-    //                     Create post
-    //                   </Link>
-    //                 </div>
-    //               )}
-    //             </div>
-
-    //             <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
-    //               <button
-    //                 type="button"
-    //                 className="relative rounded-full bg-teal-50 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-    //               >
-    //                 <span className="absolute -inset-1.5" />
-    //               </button>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       {/* small screens */}
-    //       <Disclosure.Panel className="md:hidden">
-    //         <div className="space-y-1 pt-2">
-    //           {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-
-    //           {!authUser && (
-    //             <Disclosure.Button
-    //               as="a"
-    //               href="/"
-    //               className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-teal-500 hover:bg-teal-100 hover:text-gray-700 sm:pl-5 sm:pr-6"
-    //             >
-    //               Home
-    //             </Disclosure.Button>
-    //           )}
-    //           <Disclosure.Button
-    //             as="a"
-    //             href="/posts"
-    //             className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-teal-500 hover:bg-teal-100 hover:text-gray-700 sm:pl-5 sm:pr-6"
-    //           >
-    //             Latest Posts
-    //           </Disclosure.Button>
-    //           <Disclosure.Button
-    //             as="a"
-    //             href="/ranking"
-    //             className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-teal-500 hover:bg-teal-100 hover:text-gray-700 sm:pl-5 sm:pr-6"
-    //           >
-    //             Creator's Ranking
-    //           </Disclosure.Button>
-    //           <Disclosure.Button
-    //             as="a"
-    //             href="#"
-    //             className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-teal-500 hover:bg-teal-100 hover:text-gray-700 sm:pl-5 sm:pr-6"
-    //           >
-    //             Pricing
-    //           </Disclosure.Button>
-    //           <Disclosure.Button
-    //             as="a"
-    //             href="/pricing"
-    //             className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-teal-500 hover:bg-teal-100 hover:text-gray-700 sm:pl-5 sm:pr-6"
-    //           >
-    //             Create Account
-    //           </Disclosure.Button>
-    //         </div>
-    //       </Disclosure.Panel>
-    //     </>
-    //   )}
-    // </Disclosure>
     <header className="sticky top-0 left-0 right-0 z-50 flex flex-row items-center justify-between gap-3 h-14 border-b border-gray-600 px-4 py-3 md:px-8  lg:h-16 lg:px-4 xl:grid xl:auto-cols-fr xl:grid-flow-col bg-color">
       {/* Logo */}
       <div className="flex lg:flex-none justify-start">
@@ -252,7 +87,7 @@ const PublicNavbar = () => {
           className="w-10 h-10 p-0 rounded-xl hidden lg:flex"
           onClick={() => navigate("/dashboard/create-post")}
         >
-          <PlusSignIcon className="text-lg" />
+          <PlusSignIcon stroke-width="2.0" className="text-lg" />
         </Button>
 
         {/* Notification */}
@@ -354,7 +189,8 @@ const PublicNavbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <img
-                  src={authUser?.profilePicture}
+                  src={authUser?.profilePicture || authUser?.profilePicture?.path ||
+                    "https://github.com/shadcn.png"}
                   alt={`${authUser?.username || "User"}'s profile`}
                   className="object-cover w-8 h-8 rounded-lg"
                   loading="lazy"
@@ -371,7 +207,8 @@ const PublicNavbar = () => {
                 <div className="relative flex h-24">
                   <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
                     <img
-                      src={authUser?.profilePicture}
+                      src={authUser?.profilePicture || authUser?.profilePicture?.path ||
+                        "https://github.com/shadcn.png"}
                       alt={`${authUser?.username || "User"}'s profile`}
                       className="object-cover w-24 h-full rounded-2xl"
                       loading="lazy"

@@ -17,7 +17,17 @@ import {
 import { Badge } from "../../components/ui/badge";
 import { htmlToText } from "html-to-text";
 import truncateString from "../../lib/truncateString";
-import { Edit01Icon, Delete01Icon, ArrowLeft01Icon } from "hugeicons-react";
+import {
+  Edit01Icon,
+  Delete01Icon,
+  ArrowLeft01Icon,
+  WhatsappIcon,
+  Facebook01Icon,
+  Facebook02Icon,
+  Linkedin01Icon,
+  Linkedin02Icon,
+  NewTwitterIcon,
+} from "hugeicons-react";
 import { deletePostAPI } from "../../API/posts/postAPIs";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingAlert from "../../components/alerts/LoadingAlert";
@@ -34,6 +44,12 @@ import {
   DialogFooter,
 } from "../../components/ui/dialog";
 import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+} from "react-share";
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -46,6 +62,8 @@ import Dislike from "../../components/svg/Dislike";
 import Comment from "../../components/svg/Comment";
 
 const MyPosts = () => {
+  const postURL = "https://localhost:3000/dashboard/post-details/";
+
   const navigate = useNavigate();
 
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -330,23 +348,58 @@ const MyPosts = () => {
                       </Button>
 
                       {/* Here is the dialog to delete a post */}
-                      <Button className="h-8 w-8 p-0 rounded-lg text-slate-400 bg-transparent pointer-events-auto hover:bg-purple-950 hover:text-purple-500 ml-4">
-                        <svg
-                          width="1em"
-                          height="1em"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="w-6 h-6 pointer-events-none"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M14.302 3.805a2.75 2.75 0 10-3.89 3.89L11.5 8.78h-1.142a7.367 7.367 0 00-7.078 5.323l-1.233 4.271c-.315 1.09 1.068 1.849 1.818.999l2.287-2.59a5.25 5.25 0 013.935-1.775h1.422l-1.095 1.095a2.75 2.75 0 103.889 3.889l6.149-6.15a2.75 2.75 0 000-3.889l-6.15-6.149zm-.473 9.92a.75.75 0 01.012 1.073l-2.367 2.366a1.25 1.25 0 101.767 1.768l6.15-6.15a1.25 1.25 0 000-1.767l-6.15-6.149a1.25 1.25 0 10-1.768 1.768L13.74 8.9a.75.75 0 01-.396 1.38.753.753 0 01-.065 0h-2.922a5.867 5.867 0 00-5.637 4.24l-.694 2.403 1-1.133a6.75 6.75 0 015.06-2.283h3.216c.205 0 .391.083.527.216z"
-                            fill="currentcolor"
-                          ></path>
-                        </svg>
-                      </Button>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button className="h-8 w-8 p-0 rounded-lg text-slate-400 bg-transparent pointer-events-auto hover:bg-purple-950 hover:text-purple-500 ml-4">
+                            <svg
+                              width="1em"
+                              height="1em"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="w-6 h-6 pointer-events-none"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M14.302 3.805a2.75 2.75 0 10-3.89 3.89L11.5 8.78h-1.142a7.367 7.367 0 00-7.078 5.323l-1.233 4.271c-.315 1.09 1.068 1.849 1.818.999l2.287-2.59a5.25 5.25 0 013.935-1.775h1.422l-1.095 1.095a2.75 2.75 0 103.889 3.889l6.149-6.15a2.75 2.75 0 000-3.889l-6.15-6.149zm-.473 9.92a.75.75 0 01.012 1.073l-2.367 2.366a1.25 1.25 0 101.767 1.768l6.15-6.15a1.25 1.25 0 000-1.767l-6.15-6.149a1.25 1.25 0 10-1.768 1.768L13.74 8.9a.75.75 0 01-.396 1.38.753.753 0 01-.065 0h-2.922a5.867 5.867 0 00-5.637 4.24l-.694 2.403 1-1.133a6.75 6.75 0 015.06-2.283h3.216c.205 0 .391.083.527.216z"
+                                fill="currentcolor"
+                              ></path>
+                            </svg>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="!p-0 w-auto border-none">
+                          <div className="flex flex-col lg:flex-row justify-center lg:justify-start items-center gap-4 rounded-lg w-auto p-4">
+                            <h3 className="text-lg font-bold">Share this post on:</h3>
+                            <WhatsappShareButton
+                              className="!w-auto"
+                              url={`${postURL}/${post?._id}`}
+                            >
+                              <WhatsappIcon className="text-[#25D366] w-8 h-8 lg:w-12 lg:h-12" />
+                            </WhatsappShareButton>
+                            <FacebookShareButton
+                              className="!w-auto"
+                              url={`${postURL}/${post?._id}`}
+                            >
+                              <Facebook02Icon className="text-[#1877F2] w-8 h-8 lg:w-12 lg:h-12" />
+                            </FacebookShareButton>
+                            <TwitterShareButton
+                              className="!w-auto"
+                              url={`${postURL}/${post?._id}`}
+                            >
+                              <NewTwitterIcon className="text-[#000000] w-8 h-8 lg:w-12 lg:h-12" />
+                            </TwitterShareButton>
+
+                            <LinkedinShareButton
+                              className="!w-auto"
+                              url={`${postURL}/${post?._id}`}
+                            >
+                              <Linkedin02Icon className="text-[#0077B5] w-8 h-8 lg:w-12 lg:h-12" />
+                            </LinkedinShareButton>
+                          </div>
+                        
+                        </PopoverContent>
+                      </Popover>
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
@@ -380,7 +433,7 @@ const MyPosts = () => {
                           <DialogHeader>
                             {/* text-[#FC538D] */}
                             <DialogTitle className="text-red-500 font-bold">
-                              Delete post ? 
+                              Delete post ?
                             </DialogTitle>
                             <DialogDescription className="text-white text-base">
                               Are you sure you want to delete this post? This

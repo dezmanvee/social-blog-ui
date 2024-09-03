@@ -337,7 +337,20 @@ const CreatePost = () => {
                       imagePreview ? "hidden" : "flex"
                     }`}
                   >
-                    <Camera01Icon className="w-5 h-5 pointer-events-none" />
+                    {/* <Camera01Icon className="w-5 h-5 pointer-events-none" /> */}
+                    <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-8 h-8 pointer-events-none"
+                  >
+                    <path
+                      d="M12.833 4a4.83 4.83 0 013.781 1.823l.146.192.069.01a4.834 4.834 0 014.151 4.346l.015.223.005.218v4.046a4.833 4.833 0 01-4.171 4.788c-1.721.238-3.33.357-4.829.357-1.498 0-3.108-.12-4.829-.357a4.833 4.833 0 01-4.166-4.57L3 14.858v-4.046a4.833 4.833 0 013.956-4.753l.283-.044a4.835 4.835 0 013.454-1.992l.248-.018.226-.005h1.666zm0 1.5h-1.666a3.331 3.331 0 00-3.015 1.91c-.255.03-.514.064-.775.1a3.333 3.333 0 00-2.872 3.118l-.005.184v4.046a3.333 3.333 0 002.877 3.302 33.88 33.88 0 004.623.343 33.88 33.88 0 004.623-.343 3.333 3.333 0 002.872-3.118l.005-.184v-4.046a3.333 3.333 0 00-2.877-3.302c-.261-.036-.52-.07-.774-.099a3.335 3.335 0 00-2.807-1.905l-.209-.006zM12 9.5a3.333 3.333 0 110 6.667A3.333 3.333 0 0112 9.5zm0 1.5a1.833 1.833 0 100 3.667A1.833 1.833 0 0012 11zm5-1.333a.833.833 0 110 1.666.833.833 0 010-1.666z"
+                      fill="currentcolor"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
                     <span className="ml-1.5 flex flex-row font-bold text-base">
                       Thumbnail
                     </span>
@@ -360,20 +373,6 @@ const CreatePost = () => {
                   </Button>
                 )}
               </div>
-              {/* Status display */}
-              {/* 
-              {isPending && (
-                <LoadingAlert loading="Loading" loadingMsg="Please wait..." />
-              )}
-              {isError && (
-                <DangerAlert
-                  error="Error"
-                  errorMsg={error?.response?.data?.message || error?.message}
-                />
-              )}
-              {isSuccess && (
-                <SuccessAlert success="Success" successMsg={data?.message} />
-              )} */}
             </div>
             {/* Display error message */}
             {formik.touched.image && formik.errors.image && (
@@ -397,7 +396,7 @@ const CreatePost = () => {
               <SelectTrigger className="w-full mt-10 text-slate-400 h-12 rounded-xl bg-background-subtle hover:bg-gray-800 text-md font-bold border-l-4 border-transparent hover:border-white hover:text-white">
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-800 text-slate-400 border-gray-600 rounded-lg">
+              <SelectContent className="bg-background-subtle text-slate-400 border-gray-600 rounded-lg">
                 <SelectGroup>
                   <SelectLabel className="font-bold text-slate-200">
                     Categories
