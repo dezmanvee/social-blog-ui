@@ -30,6 +30,8 @@ const PublicNavbar = () => {
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+
+
   // Fetch all personal posts
   const { data: postData } = useQuery({
     queryKey: ["post-list"],

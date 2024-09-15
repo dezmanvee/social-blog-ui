@@ -124,6 +124,12 @@ html {
 
 }
 
+@media (max-width: 640px) {
+  .btn-w-dialog {
+    width: 100%;
+  }
+}
+
 @layer utilities {
   .bg-image-desktop {
     background: #0e1217; /* Fallback background color */

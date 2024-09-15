@@ -33,12 +33,14 @@ import UpdateProfilePhoto from "./pages/users/UpdateProfilePhoto";
 import AllUsers from "./pages/users/AllUsers";
 import DeleteUserAccount from "./pages/users/admin/DeleteUserAccount";
 import Layout from "./layout/Layout";
+// import LayoutWrapper from "./layout/LayoutWrapper";
 import AccountLayout from "./pages/users/userProfile/AccountLayout";
 import InviteFriends from "./pages/users/InviteFriends";
 import Feedback from "./pages/users/Feedback";
+import LayoutWrapper from "./layout/Layout";
 
 const App = () => {
-  // const { authUser } = useSelector((state) => state.auth);
+  
   const dispatch = useDispatch();
   const { data } = useQuery({
     queryKey: ["auth-user-status"],
@@ -49,12 +51,13 @@ const App = () => {
   useEffect(() => {
     dispatch(isAuthenticated(data));
   }, [data]);
+
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Layout />}>
+          <Route path="/dashboard/:pathname" element={<LayoutWrapper />}>
             <Route
               path="create-post"
               element={
@@ -96,7 +99,7 @@ const App = () => {
               }
             />
             <Route
-              path="account/summary"
+              path="account-summary"
               element={
                 <ProtectedRoutes>
                   <AccountSummary />
@@ -175,11 +178,19 @@ const App = () => {
                 </ProtectedRoutes>
               }
             /> */}
-            <Route
+            {/* <Route
               path="my-earnings"
               element={
                 <ProtectedRoutes>
                   <MyEarnings />
+                </ProtectedRoutes>
+              }
+            /> */}
+            <Route
+              path="leaderboard"
+              element={
+                <ProtectedRoutes>
+                  <CreatorsRanking />
                 </ProtectedRoutes>
               }
             />

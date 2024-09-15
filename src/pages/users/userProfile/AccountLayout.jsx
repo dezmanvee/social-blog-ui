@@ -26,37 +26,31 @@ const AccountLayout = () => {
     {
       name: "Profile picture",
       icon: <UserSettings01Icon className="w-5 h-5 ml-1 mr-2" />,
-      link: "/dashboard/account/profile/profile",
+      link: "/dashboard/account/account/profile/profile",
       current: "profile",
     },
     {
       name: "Account email",
       icon: <MailAdd01Icon className="!w-5 !h-5 mr-2" />,
-      link: "/dashboard/account/email/email",
+      link: "/dashboard/account/account/email/email",
       current: "email",
     },
-    // {
-    //   name: "Forgot password",
-    //   icon: <CirclePasswordIcon className="!w-5 !h-5 mr-2" />,
-    //   link: "/dashboard/account/forgot-password/password",
-    //   current: "password-reset",
-    // },
     {
       name: "Notifications",
       icon: <Notification01Icon className="!w-5 !h-5 mr-2" />,
-      link: "/dashboard/account/notifications/notifications",
+      link: "/dashboard/account/account/notifications/notifications",
       current: "notifications",
     },
     {
       name: "Invite friends",
       icon: <InviteFriend className="!w-5 !h-5" />,
-      link: "/dashboard/account/invite/invite",
+      link: "/dashboard/account/account/invite/invite",
       current: "invite",
     },
     {
       name: "Feedback",
       icon: <Note01Icon className="!w-5 !h-5" />,
-      link: "/dashboard/account/feedback/feedback",
+      link: "/dashboard/account/account/feedback/feedback",
       current: "feedback",
     },
   ];

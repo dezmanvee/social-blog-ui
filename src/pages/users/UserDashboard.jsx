@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { BsPeople } from "react-icons/bs";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
 import {
   CatalogueIcon,
@@ -12,7 +12,9 @@ import {
   UserSettings01Icon,
   PlusSignIcon,
   DollarCircleIcon,
-  DashboardSquareSettingIcon
+  DashboardSquareSettingIcon,
+  ArrowLeft01Icon,
+  ChartIncreaseIcon,
 } from "hugeicons-react";
 import { PiUsersFour, PiUsersThree, PiLadderBold } from "react-icons/pi";
 import { MdOutlineLeaderboard } from "react-icons/md";
@@ -25,72 +27,93 @@ import Search from "../../components/svg/Search";
 import Explore from "../../components/svg/Explore";
 import Profile from "../../components/svg/Profile";
 import Bell from "../../components/svg/Bell";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FireIcon from "../../components/svg/FireIcon";
+import { setIsSidebarCollapsed } from "../../redux/features/user/asideSlice";
+
+const UserAvatar = ({ user }) => {
+  return (
+    <img
+      src={
+        user?.profilePicture ||
+        user?.profilePicture?.path ||
+        "https://github.com/shadcn.png"
+      }
+      alt={`${user?.username || "User"}'s profile`}
+      className="absolute block inset-0 w-full h-full m-auto object-cover"
+      loading="lazy"
+      onError={(e) => {
+        e.target.onerror = null; // Prevent infinite loop if fallback also fails
+        e.target.src =
+          user?.profilePicture?.path || "https://github.com/shadcn.png";
+      }}
+    />
+  );
+};
 
 const connectionsNavigation = [
   {
     name: "Followers",
-    href: "/dashboard/followers",
+    href: "/dashboard/followers/followers",
     icon: PiUsersFour,
-    current: false,
+    current: "followers",
   },
   {
     name: "Following",
-    href: "/dashboard/following",
+    href: "/dashboard/following/following",
     icon: PiUsersThree,
-    current: false,
+    current: "following",
   },
 ];
 
 const discoverNavigation = [
   {
     name: "Subscription",
-    href: "/dashboard/subscription",
+    href: "/dashboard/subscription/subscription",
     icon: Tag01Icon,
-    current: false,
+    current: "subscription",
   },
   {
     name: "Leaderboard",
-    href: "/dashboard/my-earnings",
-    icon: MdOutlineLeaderboard,
-    current: false,
+    href: "/dashboard/leaderboard/leaderboard",
+    icon: ChartIncreaseIcon,
+    current: "leaderboard",
   },
 ];
 
 const adminNavigation = [
   {
     name: "Add new category",
-    href: "/dashboard/add-category",
+    href: "/dashboard/add-category/add-category",
     icon: CatalogueIcon,
-    current: false,
+    current: "add-category",
   },
   {
     name: "List of all users",
-    href: "/dashboard/users-list",
+    href: "/dashboard/users-list/users-list",
     icon: UserListIcon,
-    current: false,
+    current: "users-list",
   },
   {
     name: "Add new plan",
-    href: "/dashboard/add-plan",
+    href: "/dashboard/add-plan/add-plan",
     icon: DollarCircleIcon,
-    current: false,
+    current: "add-plan",
   },
 ];
 
 const settingsNavigation = [
   {
     name: "Settings",
-    href: "/dashboard/account/profile/profile",
+    href: "/dashboard/account/account/profile/profile",
     icon: AiOutlineSetting,
-    current: false,
+    current: "account",
   },
   {
     name: "Feedback",
-    href: "/dashboard/account/feedback/feedback",
+    href: "/dashboard/account/account/feedback/feedback",
     icon: FcFeedback,
-    current: false,
+    current: "account",
   },
 ];
 
@@ -98,27 +121,27 @@ const settingsNavigation = [
 const sidebarNavigation = [
   {
     name: "Home",
-    href: "/",
+    href: "/dashboard/account-summary/account-summary",
     icon: Home,
-    current: true,
+    current: "account",
   },
   {
     name: "Explore",
-    href: "/dashboard/all-posts",
+    href: "/dashboard/all-posts/all-posts",
     icon: Search,
-    current: false,
+    current: "all-posts",
   },
   {
     name: "Posts",
-    href: "/dashboard/posts",
+    href: "/dashboard/posts/posts",
     icon: Explore,
-    current: false,
+    current: "posts",
   },
   {
     name: "Profile",
-    href: "/dashboard/account/profile/profile",
+    href: "/dashboard/account/account/profile/profile",
     icon: UserSettings01Icon,
-    current: false,
+    current: "account",
   },
 ];
 
@@ -126,33 +149,33 @@ const sidebarNavigation = [
 const footerNavigation = [
   {
     name: "Home",
-    href: "/",
+    href: "/dashboard/account-summary/account-summary",
     icon: Home,
-    current: true,
+    current: "account",
   },
   {
     name: "Explore",
-    href: "/dashboard/all-posts",
+    href: "/dashboard/all-posts/all-posts",
     icon: Search,
-    current: false,
+    current: "all-posts",
   },
   {
     name: "",
-    href: "/dashboard/create-post",
+    href: "/dashboard/create-post/create-post",
     icon: PlusSignIcon,
-    current: false,
+    current: "create-post",
   },
   {
     name: "Alert",
-    href: "/dashboard/notifications",
+    href: "/dashboard/account/account/notifications/notifications",
     icon: Bell,
-    current: false,
+    current: "notifications",
   },
   {
     name: "My posts",
-    href: "/dashboard/posts",
+    href: "/dashboard/posts/posts",
     icon: UserIcon,
-    current: false,
+    current: "posts",
   },
 ];
 
@@ -160,368 +183,164 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-// For Admin Nav Group
-const role = "admin";
-
 export default function UserDashbaord() {
   const navigate = useNavigate();
+  const { pathname } = useParams();
 
   const [current, setCurrent] = useState(false);
+  const dispatch = useDispatch();
   //Get the auth user from redux store
   const { authUser } = useSelector((state) => state.auth);
-  // return (
-  //   <>
-  //     <div>
-  //       <Transition.Root show={sidebarOpen} as={Fragment}>
-  //         <Dialog
-  //           as="div"
-  //           className="relative z-50 lg:hidden"
-  //           onClose={setSidebarOpen}
-  //         >
-  //           <Transition.Child
-  //             as={Fragment}
-  //             enter="transition-opacity ease-linear duration-300"
-  //             enterFrom="opacity-0"
-  //             enterTo="opacity-100"
-  //             leave="transition-opacity ease-linear duration-300"
-  //             leaveFrom="opacity-100"
-  //             leaveTo="opacity-0"
-  //           >
-  //             <div className="fixed inset-0 bg-gray-900/80" />
-  //           </Transition.Child>
 
-  //           <div className="fixed inset-0 flex">
-  //             <Transition.Child
-  //               as={Fragment}
-  //               enter="transition ease-in-out duration-300 transform"
-  //               enterFrom="-translate-x-full"
-  //               enterTo="translate-x-0"
-  //               leave="transition ease-in-out duration-300 transform"
-  //               leaveFrom="translate-x-0"
-  //               leaveTo="-translate-x-full"
-  //             >
-  //               <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-  //                 <Transition.Child
-  //                   as={Fragment}
-  //                   enter="ease-in-out duration-300"
-  //                   enterFrom="opacity-0"
-  //                   enterTo="opacity-100"
-  //                   leave="ease-in-out duration-300"
-  //                   leaveFrom="opacity-100"
-  //                   leaveTo="opacity-0"
-  //                 >
-  //                   <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-  //                     <button
-  //                       type="button"
-  //                       className="-m-2.5 p-2.5"
-  //                       onClick={() => setSidebarOpen(false)}
-  //                     >
-  //                       <span className="sr-only">Close sidebar</span>
-  //                       <XMarkIcon
-  //                         className="h-6 w-6 text-white"
-  //                         aria-hidden="true"
-  //                       />
-  //                     </button>
-  //                   </div>
-  //                 </Transition.Child>
+  const activityNavigation = [
+    {
+      name: "Account summary",
+      href: "/dashboard/account-summary/account-summary",
+      icon: <DashboardSquareSettingIcon className="h-4 w-4" />,
+      current: "account-summary",
+    },
+    {
+      name: "Explore",
+      href: "/dashboard/all-posts/all-posts",
+      icon: <FireIcon className="h-5 w-5" />,
+      current: "all-posts",
+    },
+    {
+      name: "Create post",
+      href: "/dashboard/create-post/create-post",
+      icon: <PlusSignIcon className="h-5 w-5" />,
+      current: "create-post",
+    },
+    {
+      name: "My posts",
+      href: "/dashboard/posts/posts",
+      icon: <UserAvatar className="h-5 w-5" user={authUser} />,
+      current: "posts",
+    },
+  ];
 
-  //                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-  //                   <div className="flex h-16 shrink-0 items-center">
-  //                     {/* Logo */}
-  //                     <Link to="/">
-  //                       <SwimmingIcon className="h-8 w-auto text-orange-500" />
-  //                       <span className=" text-teal-700 text-xl font-bold self-end animate-pulse">
-  //                         Blog
-  //                       </span>
-  //                     </Link>
-  //                   </div>
-  //                   <nav className="flex flex-1 flex-col">
-  //                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
-  //                       <li>
-  //                         <ul role="list" className="-mx-2 space-y-1">
-  //                           {navigation.map((item) => (
-  //                             <li key={item.name}>
-  //                               <Link
-  //                                 to={item.href}
-  //                                 className={classNames(
-  //                                   item.current
-  //                                     ? "bg-gray-50 text-teal-700"
-  //                                     : "text-teal-700 hover:text-teal-600 hover:bg-gray-50",
-  //                                   "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-  //                                 )}
-  //                               >
-  //                                 <item.icon
-  //                                   className={classNames(
-  //                                     item.current
-  //                                       ? "text-teal-600"
-  //                                       : "text-gray-400 group-hover:text-teal-600",
-  //                                     "h-6 w-6 shrink-0"
-  //                                   )}
-  //                                   aria-hidden="true"
-  //                                 />
-  //                                 {item.name}
-  //                               </Link>
-  //                             </li>
-  //                           ))}
-  //                         </ul>
-  //                       </li>
-  //                     </ul>
-  //                   </nav>
-  //                 </div>
-  //               </Dialog.Panel>
-  //             </Transition.Child>
-  //           </div>
-  //         </Dialog>
-  //       </Transition.Root>
+  //Get the auth isSidebarCollapsed from redux store
+  const { isSidebarCollapsed } = useSelector((state) => state.global);
 
-  //       {/* Static sidebar for desktop */}
-  //       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-  //         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
-  //           <div
-  //             className="flex h-16 shrink-0 items-center cursor-pointer "
-  //             onClick={() => navigate("/")}
-  //           >
-  //             {/* Logo */}
+  // Sidebar toggle handler
+  const toggleSidebar = () => {
+    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
+  };
 
-  //             <SwimmingIcon className="h-8 w-auto text-orange-500" />
-  //             <span className=" text-teal-700 text-xl font-bold self-end animate-pulse">
-  //               Blog
-  //             </span>
-  //           </div>
-  //           <hr />
-  //           <nav className="flex flex-1 flex-col">
-  //             <ul role="list" className="flex flex-1 flex-col gap-y-7">
-  //               <li>
-  //                 <ul role="list" className="-mx-2 space-y-1">
-  //                   {navigation.map((item) => (
-  //                     <li key={item.name}>
-  //                       <Link
-  //                         to={item.href}
-  //                         className={classNames(
-  //                           item.current
-  //                             ? "bg-gray-50 text-teal-700"
-  //                             : "text-gray-700 hover:text-teal-600 hover:bg-gray-50",
-  //                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-  //                         )}
-  //                       >
-  //                         <item.icon
-  //                           className={classNames(
-  //                             item.current
-  //                               ? "text-teal-700"
-  //                               : "text-gray-400 group-hover:text-teal-700",
-  //                             "h-6 w-6 shrink-0"
-  //                           )}
-  //                           aria-hidden="true"
-  //                         />
-  //                         {item.name}
-  //                       </Link>
-  //                     </li>
-  //                   ))}
-  //                 </ul>
-  //               </li>
-
-  //               <li className="mt-auto">
-  //                 <Link
-  //                   to="/dashboard/settings"
-  //                   className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-red-50 hover:text-red-600"
-  //                 >
-  //                   <ConnectIcon
-  //                     className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-red-600"
-  //                     aria-hidden="true"
-  //                     variant="bulk"
-  //                   />
-  //                   Settings
-  //                 </Link>
-  //               </li>
-  //             </ul>
-  //           </nav>
-  //         </div>
-  //       </div>
-
-  //       <div className="lg:pl-72">
-  //         <main className="py-10">
-  //           <div className="px-4 sm:px-6 lg:px-8">
-  //             {/* Your content */}
-
-  //             <Outlet />
-  //           </div>
-  //         </main>
-  //       </div>
-  //     </div>
-  //   </>
-  // )
   return (
     <>
-      <aside className="max-lg:hidden w-[280px] lg:w-60 -translate-x-[280px] lg:top-16 lg:h-[calc(100vh-theme(space.16))] flex flex-col z-[77] lg:z-sidebar lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-0 h-full">
+      <aside
+        className={`max-lg:hidden lg:top-16 lg:h-[calc(100vh-theme(space.16))] flex flex-col z-[77] lg:z-sidebar lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-0 h-full ${
+          isSidebarCollapsed
+            ? "md:w-12 -translate-x-12"
+            : "md:w-[280px] -translate-x-[280px] lg:w-60"
+        }`}
+      >
         {/* Toggle Sidebar Here */}
 
-        {/* <Button
-        aria-label="close sidebar"
-        variant="outline"
-        className="focus-outline inline-flex cursor-pointer select-none flex-row
-        items-center border no-underline shadow-none transition
-        duration-200 ease-in-out typo-callout justify-center font-bold h-6 px-2 rounded-8 btn-primary absolute -right-3 top-3 z-3 h-6 w-6 invisible opacity-0 transition-opacity group-hover:visible group-hover:opacity-100"
-      >
-        <svg
-          width="1em"
-          height="1em"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 pointer-events-none typo-title3 -rotate-90"
+        <Button
+          aria-label="close sidebar"
+          variant="outline"
+          className="focus-outline inline-flex cursor-pointer select-none flex-row
+        items-center border no-underline shadow-none
+        duration-200 ease-in-out justify-center bg-white px-2 w-7 h-7 rounded-lg absolute -right-3 top-3 z-[100] opacity-0 transition-opacity group-hover:visible group-hover:opacity-100"
+          onClick={toggleSidebar}
         >
-          <path
-            d="M12.56 7.23l6.752 6.604c.254.254.253.694-.018.965a.695.695 0 01-.983 0L12 8.68l-6.29 6.098c-.294.293-.734.294-1.005.022a.695.695 0 010-.983l6.716-6.568a.8.8 0 011.14-.018z"
-            fill="white"
-            fill-rule="evenodd"
-          ></path>
-        </svg>
-      </Button> */}
+          <ArrowLeft01Icon
+            stroke-width="4.0"
+            className={`w-7 h-7 pointer-events-none text-lg ${
+              isSidebarCollapsed && "-rotate-180"
+            }`}
+          />
+        </Button>
 
         {/* Content */}
         <div className="flex overflow-x-hidden overflow-y-auto flex-col h-full no-scrollbar">
           <nav className="my-4 mt-10 lg:mt-8">
-            <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
-              Activity
-            </li>
-            <li className="text-white bg-theme-active flex items-center hover:bg-theme-active">
-              <Link
-                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-                to="/dashboard/account/summary"
-              >
-                <span className="relative px-3">
-                  <div className="rounded-sm bg-background-subtle">
-                    <DashboardSquareSettingIcon className="h-5 w-5"/>
-                  </div>
-                </span>
-                <span
-                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                  title="Explore"
-                >
-                  Account Summary{" "}
-                </span>
-                <span className="relative"></span>
-              </Link>
-            </li>
-            {/* Explore all posts */}
-            <li className="hover:text-white text-slate-400 flex items-center hover:bg-theme-active">
-              <Link
-                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-                to="/dashboard/all-posts"
-              >
-                <span className="relative px-3">
-                  <div className="rounded-sm bg-background-subtle">
-                  <FireIcon />
-                  </div>
-                </span>
-                <span
-                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                  title="Explore"
-                >
-                  Explore{" "}
-                </span>
-                <span className="relative"></span>
-              </Link>
-            </li>
+            {!isSidebarCollapsed && (
+              <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                Activity
+              </li>
+            )}
 
-            {/* My post */}
-            <li className="hover:text-white text-slate-400 flex items-center hover:bg-theme-active">
-              <Link
-                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-                to="/dashboard/posts"
-              >
-                <span className="relative px-3">
-                  <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
-                    <img
-                      src={authUser?.profilePicture || authUser?.profilePicture?.path ||
-                        "https://github.com/shadcn.png"}
-                      alt={`${authUser?.username || "User"}'s profile`}
-                      className="absolute block inset-0 w-full h-full m-auto object-cover"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.onerror = null; // Prevent infinite loop if fallback also fails
-                        e.target.src =
-                          authUser?.profilePicture?.path ||
-                          "https://github.com/shadcn.png";
-                      }}
-                    />
-                  </div>
-                </span>
-                <span
-                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                  title="My posts"
-                >
-                  My posts
-                </span>
-              </Link>
-            </li>
-
-            {/* Create post */}
-            <li className="hover:text-white text-slate-400 flex items-center hover:bg-theme-active">
-              <Link
-                to="/dashboard/create-post"
-                className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
-              >
-                <span className="relative px-3">
-                  <div className="rounded-sm bg-background-subtle">
-                    <svg
-                      width="1em"
-                      height="1em"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-5 h-5 pointer-events-none"
+            <ul>
+              {activityNavigation?.map((item) => {
+                return (
+                  <li
+                    className={classNames(
+                      item.current === pathname
+                        ? "bg-theme-active text-white"
+                        : "bg-transparent text-slate-400 hover:bg-background-subtle hover:text-white transition-colors",
+                      `cursor-pointer flex items-center text-slate-400 ${
+                        isSidebarCollapsed ? "justify-center" : "justify-start"
+                      }`
+                    )}
+                  >
+                    <Link
+                      to={item.href}
+                      className={`h-10 lg:h-7 flex flex-1 items-center ${
+                        !isSidebarCollapsed && "pl-2 lg:pl-0 pr-5 lg:pr-3"
+                      }`}
                     >
-                      <path
-                        d="M18.361 11.259a.75.75 0 01-.009 1.484l-.102.007h-5.5v5.5a.75.75 0 01-1.491.111l-.009-.11V12.75h-5.5l-.111-.009a.75.75 0 01.009-1.484l.102-.007h5.5v-5.5a.75.75 0 011.491-.111l.009.11v5.501h5.5l.111.009z"
-                        fill="currentcolor"
-                        fill-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </div>
-                </span>
-                <span
-                  className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
-                  title="Create new post"
-                >
-                  Create new post{" "}
-                </span>
-                <span className="relative"></span>
-              </Link>
-            </li>
+                      {/* Icon */}
+                      <span className="relative px-3">
+                        <div className="object-cover w-5 h-5 rounded-sm relative overflow-hidden">
+                          {item.icon}
+                        </div>
+                      </span>
+
+                      <span
+                        className={`flex-1 truncate text-left transition-opacity opacity-100 delay-150 ${
+                          isSidebarCollapsed ? "hidden" : "flex"
+                        }`}
+                        title={item.name}
+                      >
+                        {item.name}
+                      </span>
+                      <span className="relative"></span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
 
             {/* Discover Group */}
             <ul className="mt-0 lg:mt-4">
-              <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
-                Discover
-              </li>
+              {!isSidebarCollapsed && (
+                <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                  Discover
+                </li>
+              )}
               <ul>
                 {discoverNavigation.map((item) => (
                   <li
                     className={classNames(
-                      item.current
-                        ? "text-white bg-theme-active"
-                        : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
-                      "flex items-center"
+                      item.current === pathname
+                        ? "bg-theme-active text-white"
+                        : "bg-transparent text-slate-400 hover:bg-background-subtle hover:text-white transition-colors",
+                      `cursor-pointer flex items-center text-slate-400 ${
+                        isSidebarCollapsed ? "justify-center" : "justify-start"
+                      }`
                     )}
                   >
                     <Link
                       to={item?.href}
-                      className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                      className={`h-10 lg:h-7 flex flex-1 items-center ${
+                        !isSidebarCollapsed && "pl-2 lg:pl-0 pr-5 lg:pr-3"
+                      }`}
                     >
                       <span className="relative px-3">
                         <div className="rounded-sm bg-background-subtle">
                           <item.icon
                             fontVariant="bulk"
-                            className={classNames(
-                              item.current
-                                ? "text-white"
-                                : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
-                              "w-5 h-5 pointer-events-none"
-                            )}
+                            className="object-cover w-5 h-5 rounded-sm relative overflow-hidden"
                           />
                         </div>
                       </span>
                       <span
-                        className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                        className={`flex-1 truncate text-left transition-opacity opacity-100 delay-150 ${
+                          isSidebarCollapsed ? "hidden" : "flex"
+                        }`}
                         title="Create new post"
                       >
                         {item.name}
@@ -534,37 +353,38 @@ export default function UserDashbaord() {
 
             {/* Connections Group */}
             <ul className="mt-0 lg:mt-4">
-              <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
-                Connection
-              </li>
+              {!isSidebarCollapsed && (
+                <li className="lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                  Connection
+                </li>
+              )}
               <ul>
                 {connectionsNavigation.map((item) => (
                   <li
                     className={classNames(
-                      item.current
-                        ? "text-white bg-theme-active"
-                        : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
-                      "flex items-center"
+                      item.current === pathname
+                        ? "bg-theme-active text-white"
+                        : "bg-transparent text-slate-400 hover:bg-background-subtle hover:text-white transition-colors",
+                      `cursor-pointer flex items-center text-slate-400 ${
+                        isSidebarCollapsed ? "justify-center" : "justify-start"
+                      }`
                     )}
                   >
                     <Link
                       to={item?.href}
-                      className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                      className={`h-10 lg:h-7 flex flex-1 items-center ${
+                        !isSidebarCollapsed && "pl-2 lg:pl-0 pr-5 lg:pr-3"
+                      }`}
                     >
                       <span className="relative px-3">
                         <div className="rounded-sm bg-background-subtle">
-                          <item.icon
-                            className={classNames(
-                              item.current
-                                ? "text-white"
-                                : "text-slate-400 bg-transparent hover:text-white hover:bg-gray-400",
-                              "w-5 h-5 pointer-events-none"
-                            )}
-                          />
+                          <item.icon className="object-cover w-5 h-5 rounded-sm relative overflow-hidden" />
                         </div>
                       </span>
                       <span
-                        className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                        className={`flex-1 truncate text-left transition-opacity opacity-100 delay-150 ${
+                          isSidebarCollapsed ? "hidden" : "flex"
+                        }`}
                         title="Create new post"
                       >
                         {item.name}
@@ -576,39 +396,42 @@ export default function UserDashbaord() {
             </ul>
 
             {/* Admin Group */}
-            {role === "admin" ? (
+            {authUser?.role === "admin" ? (
               <ul className="mt-0 lg:mt-4">
-                <li className="hidden lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
-                  Admin
-                </li>
+                {!isSidebarCollapsed && (
+                  <li className="lg:flex px-3 opacity-100 text-sm text-slate-400 h-7 flex items-center font-bold  transition-opacity">
+                    Admin
+                  </li>
+                )}
                 <ul>
                   {adminNavigation.map((item) => (
                     <li
                       className={classNames(
-                        item.current
-                          ? "text-white bg-theme-active"
-                          : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
-                        "flex items-center"
+                        item.current === pathname
+                          ? "bg-theme-active text-white"
+                          : "bg-transparent text-slate-400 hover:bg-background-subtle hover:text-white transition-colors",
+                        `cursor-pointer flex items-center text-slate-400 ${
+                          isSidebarCollapsed
+                            ? "justify-center"
+                            : "justify-start"
+                        }`
                       )}
                     >
                       <Link
                         to={item?.href}
-                        className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                        className={`h-10 lg:h-7 flex flex-1 items-center ${
+                          !isSidebarCollapsed && "pl-2 lg:pl-0 pr-5 lg:pr-3"
+                        }`}
                       >
                         <span className="relative px-3">
                           <div className="rounded-sm bg-background-subtle">
-                            <item.icon
-                              className={classNames(
-                                item.current
-                                  ? "text-white"
-                                  : "text-slate-400 bg-transparent hover:text-white hover:bg-gray-400",
-                                "w-5 h-5 pointer-events-none"
-                              )}
-                            />
+                            <item.icon className="object-cover w-5 h-5 rounded-sm relative overflow-hidden" />
                           </div>
                         </span>
                         <span
-                          className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                          className={`flex-1 truncate text-left transition-opacity opacity-100 delay-150 ${
+                            isSidebarCollapsed ? "hidden" : "flex"
+                          }`}
                           title="Create new post"
                         >
                           {item.name}
@@ -629,30 +452,29 @@ export default function UserDashbaord() {
                 {settingsNavigation.map((item) => (
                   <li
                     className={classNames(
-                      item.current
-                        ? "text-white bg-theme-active"
-                        : "text-slate-400 bg-transparent hover:text-white hover:bg-theme-active",
-                      "flex items-center"
+                      item.current === pathname
+                        ? "bg-theme-active text-white"
+                        : "bg-transparent text-slate-400 hover:bg-background-subtle hover:text-white transition-colors",
+                      `cursor-pointer flex items-center text-slate-400 ${
+                        isSidebarCollapsed ? "justify-center" : "justify-start"
+                      }`
                     )}
                   >
                     <Link
                       to={item?.href}
-                      className="flex flex-1 items-center pl-2 lg:pl-0 pr-5 lg:pr-3 h-10 lg:h-7"
+                      className={`h-10 lg:h-7 flex flex-1 items-center ${
+                        !isSidebarCollapsed && "pl-2 lg:pl-0 pr-5 lg:pr-3"
+                      }`}
                     >
                       <span className="relative px-3">
                         <div className="rounded-sm bg-background-subtle">
-                          <item.icon
-                            className={classNames(
-                              item.current
-                                ? "text-white"
-                                : "text-slate-400 bg-transparent hover:text-white hover:bg-gray-400",
-                              "w-5 h-5 pointer-events-none"
-                            )}
-                          />
+                          <item.icon className="object-cover w-5 h-5 rounded-sm relative overflow-hidden" />
                         </div>
                       </span>
                       <span
-                        className="flex-1 truncate text-left transition-opacity opacity-100 delay-150"
+                        className={`flex-1 truncate text-left transition-opacity opacity-100 delay-150 ${
+                          isSidebarCollapsed ? "hidden" : "flex"
+                        }`}
                         title="Create new post"
                       >
                         {item.name}

@@ -40,14 +40,14 @@ const Login = () => {
         .mutateAsync(values)
         .then(() => {
           //Navigate to user dashboard
-          navigate("/dashboard/account/summary");
+          navigate("/dashboard/account-summary/account-summary");
         })
         .catch((err) => console.log(err));
     },
   });
 
   const { error, isError, isPending } = userMutation;
-  console.log(error);
+
 
   useEffect(() => {
     if (isError) {

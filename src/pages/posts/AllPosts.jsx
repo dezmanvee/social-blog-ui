@@ -226,6 +226,7 @@ const AllPosts = () => {
       <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4 min-h-full">
         <div className="flex w-full flex-col xl:mx-auto">
           <div className="relative mx-auto w-full post-template post-cards">
+            {/* TODO:! this container has a max width */}
             {/* Search and filter */}
             <span className="flex flex-1 items-center lg:items-start flex-col-reverse">
               <SearchAndFilter
@@ -238,7 +239,7 @@ const AllPosts = () => {
               />
             </span>
             {/* posts container */}
-            <div className="grid mt-8 gap-8 grid-cols-auto-fit-minmax !gap-x-8">
+            <div className="grid mt-8 gap-8 grid-cols-auto-fit-minmax !gap-x-8">  
               {data?.allPosts?.map((post) => {
                 return <PostCard key={post?._id} post={post} />;
               })}

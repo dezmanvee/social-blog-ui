@@ -154,6 +154,8 @@ const PostDetails = () => {
     },
   });
 
+  console.log(loggedInUser)
+
   return (
     // <div className="container mx-auto sm:px-64 sm:py-16 p-4">
     //   <div className="bg-white rounded-lg shadow-lg p-5">
@@ -473,7 +475,7 @@ const PostDetails = () => {
           >
             {/* Avatar for logged in user*/}
             <img
-              src={loggedInUser?.user?.profilePicture}
+              src={loggedInUser?.user?.profilePicture || "https://github.com/shadcn.png"}
               alt={`${
                 loggedInUser?.user?.username || "User"
               }'s profile picture`}
@@ -504,7 +506,7 @@ const PostDetails = () => {
           <div className="flex flex-col mb-12 mt-6 gap-y-4">
             {/* comment card */}
             {data?.post?.comments?.map((commenter, idx) => {
-              console.log(data)
+            
               return (
                 <div className="flex flex-col gap-4" key={idx}>
                   <section className="flex scroll-mt-16 flex-col items-stretch rounded-3xl border-gray-600 border">
