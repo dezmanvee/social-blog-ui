@@ -24,6 +24,7 @@ import {
 import InviteFriend from "../svg/InviteFriend";
 import { format } from "date-fns";
 import { allPostsAPI } from "../../API/posts/postAPIs";
+import UserAvatar from "../userAvatar/UserAvatar";
 
 const PublicNavbar = () => {
   const navigate = useNavigate();
@@ -67,10 +68,10 @@ const PublicNavbar = () => {
   };
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-50 flex flex-row items-center justify-between gap-3 h-14 border-b border-gray-600 px-4 py-3 md:px-8  lg:h-16 lg:px-4 xl:grid xl:auto-cols-fr xl:grid-flow-col bg-color">
+    <header className="sticky top-0 left-0 right-0 z-50 flex flex-row items-center justify-between gap-3 h-14 border-b border-gray-600 px-4 py-3 md:px-4  lg:h-16 lg:px-4 xl:grid xl:auto-cols-fr xl:grid-flow-col bg-color">
       {/* Logo */}
       <div className="flex lg:flex-none justify-start">
-        <Link to="/" className="flex items-center mt-0.5" aria-label="Home">
+        <Link to="" className="flex items-center mt-0.5 pointer-events-none" aria-label="Home">
           <SwimmingIcon className="h-8 w-auto text-slate-300" />
           <div className="text-white text-2xl font-bold">
             <span>Dev</span>
@@ -87,7 +88,7 @@ const PublicNavbar = () => {
           aria-label="New Post"
           variant="outline"
           className="w-10 h-10 p-0 rounded-xl hidden lg:flex"
-          onClick={() => navigate("/dashboard/create-post")}
+          onClick={() => navigate("/dashboard/create-post/create-post")}
         >
           <PlusSignIcon stroke-width="2.0" className="text-lg" />
         </Button>
@@ -97,7 +98,7 @@ const PublicNavbar = () => {
           className="relative hidden md:flex"
           aria-label="Notifications"
           onClick={() =>
-            navigate("/dashboard/account/notifications/notifications")
+            navigate("/dashboard/account/account/notifications/notifications")
           }
         >
           <Button className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-surface-float hover:bg-gray-700">
@@ -127,7 +128,7 @@ const PublicNavbar = () => {
           {/* Personal posts */}
           <Button
             className="h-8 px-3 rounded-lg text-[#FC538D] text-base gap-1 hover:bg-gray-700 bg-transparent"
-            onClick={() => navigate("/dashboard/posts")}
+            onClick={() => navigate("/dashboard/posts/posts")}
           >
             {postData?.allPosts?.length > 0 ? (
               <svg
@@ -167,7 +168,7 @@ const PublicNavbar = () => {
             <div className="flex items-center">
               <span
                 className="flex items-center font-bold capitalize text-bold md:gap-0.5 md:text-xs ml-1 !text-base text-white"
-                onClick={() => navigate("/dashboard/account/profile/profile")}
+                onClick={() => navigate("/dashboard/account/account/profile/profile")}
               >
                 <svg
                   width="1em"
@@ -190,6 +191,7 @@ const PublicNavbar = () => {
             {/* Account Profile Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger>
+                {/* <UserAvatar className="object-cover !w-8 !h-8 rounded-lg" user={authUser} /> */}
                 <img
                   src={authUser?.profilePicture || authUser?.profilePicture?.path ||
                     "https://github.com/shadcn.png"}
@@ -266,25 +268,25 @@ const PublicNavbar = () => {
                   </div>
                 </div>
 
-                <Link to="/dashboard/account/summary">
+                <Link to="/dashboard/account-summary/account-summary">
                   <DropdownMenuItem>
                     <DashboardSquareSettingIcon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
                     Account summary
                   </DropdownMenuItem>
                 </Link>
-                <Link to="/dashboard/account/profile/profile">
+                <Link to="/dashboard/account/account/profile/profile">
                   <DropdownMenuItem>
                     <UserSettings01Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
                     Profile
                   </DropdownMenuItem>
                 </Link>
-                <Link to="/dashboard/account/invite/invite">
+                <Link to="/dashboard/account/account/invite/invite">
                   <DropdownMenuItem>
                     <InviteFriend />
                     Invite friends
                   </DropdownMenuItem>
                 </Link>
-                <Link to="/dashboard/account/feedback/feedback">
+                <Link to="/dashboard/account/account/feedback/feedback">
                   <DropdownMenuItem>
                     <Note01Icon className="w-5 h-5 ml-1 mr-1 pointer-events-none text-base" />
                     Feedback

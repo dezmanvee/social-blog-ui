@@ -95,9 +95,9 @@ const FAQs = [
                 to={item?.link}
                 className= {classNames(
                     item.current === accountId
-                    ? "border-gray-600 text-white bg-theme-active"
-                    : "text-slate-400  border-transparent hover:border-gray-600 hover:bg-theme-active hover:text-white",
-                    "flex w-full p-[0.9375rem] flex-row rounded-2xl md:w-64 border"
+                    ? "text-white bg-theme-active"
+                    : "text-slate-400  hover:bg-theme-active hover:text-white",
+                    "flex w-full p-[0.9375rem] flex-row rounded-2xl md:w-64"
                 )}
               >
                 {item?.icon}

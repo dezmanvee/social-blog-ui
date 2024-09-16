@@ -15,6 +15,7 @@ import {
   DashboardSquareSettingIcon,
   ArrowLeft01Icon,
   ChartIncreaseIcon,
+  Home03Icon
 } from "hugeicons-react";
 import { PiUsersFour, PiUsersThree, PiLadderBold } from "react-icons/pi";
 import { MdOutlineLeaderboard } from "react-icons/md";
@@ -30,26 +31,8 @@ import Bell from "../../components/svg/Bell";
 import { useDispatch, useSelector } from "react-redux";
 import FireIcon from "../../components/svg/FireIcon";
 import { setIsSidebarCollapsed } from "../../redux/features/user/asideSlice";
+import UserAvatar from "../../components/userAvatar/UserAvatar";
 
-const UserAvatar = ({ user }) => {
-  return (
-    <img
-      src={
-        user?.profilePicture ||
-        user?.profilePicture?.path ||
-        "https://github.com/shadcn.png"
-      }
-      alt={`${user?.username || "User"}'s profile`}
-      className="absolute block inset-0 w-full h-full m-auto object-cover"
-      loading="lazy"
-      onError={(e) => {
-        e.target.onerror = null; // Prevent infinite loop if fallback also fails
-        e.target.src =
-          user?.profilePicture?.path || "https://github.com/shadcn.png";
-      }}
-    />
-  );
-};
 
 const connectionsNavigation = [
   {
@@ -122,8 +105,8 @@ const sidebarNavigation = [
   {
     name: "Home",
     href: "/dashboard/account-summary/account-summary",
-    icon: Home,
-    current: "account",
+    icon: Home03Icon,
+    current: "account-summary",
   },
   {
     name: "Explore",
@@ -150,8 +133,8 @@ const footerNavigation = [
   {
     name: "Home",
     href: "/dashboard/account-summary/account-summary",
-    icon: Home,
-    current: "account",
+    icon: Home03Icon,
+    current: "account-summary",
   },
   {
     name: "Explore",
@@ -169,7 +152,7 @@ const footerNavigation = [
     name: "Alert",
     href: "/dashboard/account/account/notifications/notifications",
     icon: Bell,
-    current: "notifications",
+    current: "account",
   },
   {
     name: "My posts",
@@ -453,7 +436,7 @@ export default function UserDashbaord() {
                   <li
                     className={classNames(
                       item.current === pathname
-                        ? "bg-theme-active text-white"
+                        ? "bg-background-subtle text-white"
                         : "bg-transparent text-slate-400 hover:bg-background-subtle hover:text-white transition-colors",
                       `cursor-pointer flex items-center text-slate-400 ${
                         isSidebarCollapsed ? "justify-center" : "justify-start"
@@ -489,29 +472,30 @@ export default function UserDashbaord() {
       </aside>
 
       {/* tablet */}
-      <aside className="lg:hidden w-16 items-center gap-4 max-md:hidden max-lg:flex flex-col z-[77] lg:z-[79] lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-14 h-full max-lg:h-[calc(100vh-theme(space.14))]">
+      <aside className="lg:hidden pt-4 w-16 items-center gap-4 max-md:hidden max-lg:flex flex-col z-[77] lg:z-[79] lg:-translate-x-0 left-0 bg-color border-r border-gray-600 transition-[width,transform] duration-300 ease-in-out group fixed top-14 h-full max-lg:h-[calc(100vh-theme(space.14))]">
         {sidebarNavigation?.map((item) => {
           return (
             <Link
               to={item.href}
               className={classNames(
-                item.current
-                  ? "text-white hover:text-slate-400"
-                  : "text-slate-400 hover:text-slate-400",
+                item.current === pathname
+                  ? "text-white"
+                  : "text-slate-400 hover:text-white",
                 "inline-flex items-center select-none shadow-none transition duration-200 ease-in-out text-xs h-12 px-2 rounded-xl flex-col gap-1 w-full !bg-transparent active:bg-transparent aria-pressed:bg-transparent"
               )}
             >
-              <item.icon />
+              <item.icon strokeWidth="2.0"/>
               {item.name}
             </Link>
           );
         })}
         <Button
           aria-label="New Post"
-          className="w-10 h-10 p-0 rounded-xl text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700"
-          onClick={() => navigate("/dashboard/create-post")}
+          variant="outline"
+          className="w-10 h-10 p-0 rounded-xl"
+          onClick={() => navigate("/dashboard/create-post/create-post")}
         >
-          <PlusSignIcon className="text-lg" />
+          <PlusSignIcon strokeWidth="2.0" className="text-lg" />
         </Button>
       </aside>
 
@@ -528,22 +512,22 @@ export default function UserDashbaord() {
                 <Link
                   to={item.href}
                   className={classNames(
-                    item.current
+                    item.current === pathname
                       ? "text-white"
-                      : "text-slate-400 hover:text-slate-400",
+                      : "text-slate-400 hover:text-white",
                     `inline-flex items-center select-none shadow-none transition duration-200 ease-in-out text-xs h-12 px-2 rounded-xl flex-col gap-1 w-full bg-transparent active:bg-transparent aria-pressed:bg-transparent
                 ${
-                  item.href === "/dashboard/create-post"
-                    ? "flex items-center justify-center !w-10 !h-10 p-0 rounded-lg border border-slate-400 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700"
+                  item.href === "/dashboard/create-post/create-post"
+                    ? "flex items-center justify-center !w-10 !h-10 p-0 rounded-lg !text-black bg-white hover:opacity-95"
                     : null
                 }
                 `
                   )}
                 >
-                  <item.icon notificationValue="50" />
+                  <item.icon notificationValue="50" strokeWidth="2.0"/>
                   {item.name}
                 </Link>
-                {item.current ? (
+                {item.current === pathname ? (
                   <div className="-top-0.5 w-6 absolute inset-x-0 bottom-0 h-0.5 my-0 mx-auto bg-white rounded-[1.008px]" />
                 ) : null}
               </div>

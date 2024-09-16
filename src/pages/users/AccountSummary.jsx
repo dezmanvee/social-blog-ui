@@ -4,10 +4,7 @@ import { useDispatch } from "react-redux";
 import { authUserStatusAPI } from "../../API/users/userAPIs";
 import { isAuthenticated } from "../../redux/features/user/authSlice";
 import { Button } from "../../components/ui/button";
-import {
-  ArrowRight04Icon,
-  EyeIcon,
-} from "hugeicons-react";
+import { ArrowRight04Icon, EyeIcon } from "hugeicons-react";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import DangerAlert from "../../components/alerts/DangerAlert";
 import LoadingAlert from "../../components/alerts/LoadingAlert";
@@ -191,7 +188,10 @@ const AccountSummary = () => {
       {/* display account verification status */}
       {isPendingEmail ? (
         <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
-          <LoadingAlert loading="Loading" loadingMsg="Hang tight! We're getting things ready for you..." />
+          <LoadingAlert
+            loading="Loading"
+            loadingMsg="Hang tight! We're getting things ready for you..."
+          />
         </div>
       ) : showError ? (
         <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-[200]">
@@ -276,6 +276,33 @@ const AccountSummary = () => {
                   </p>
                 </div>
               )}
+
+              {/* Account Settings */}
+              {hasPlan && isEmailVerified && hasEmail ? (
+                <span className="flex flex-1 items-center flex-row">
+                  <span className="mr-auto flex w-full flex-row gap-3 border-gray-800 pr-3 lg:w-auto">
+                    <Link
+                      to="/dashboard/account/account/profile/profile"
+                      className="flex items-center h-10 px-5 rounded-lg mr-auto bg-background-subtle hover:bg-theme-active text-slate-400 hover:text-white"
+                    >
+                      <svg
+                        width="1em"
+                        height="1em"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="pointer-events-none !h-6 !w-6 text-base -ml-2 mr-1"
+                      >
+                        <path
+                          d="M16.5 12a3 3 0 013 3v1.5a3 3 0 01-3 3H15a3 3 0 01-3-3H5.25a.75.75 0 110-1.5H12a3 3 0 013-3h1.5zm0 1.5H15a1.5 1.5 0 00-1.493 1.356L13.5 15v1.5a1.5 1.5 0 001.356 1.493L15 18h1.5a1.5 1.5 0 001.493-1.356L18 16.5V15a1.5 1.5 0 00-1.356-1.493L16.5 13.5zM9 4.5a3 3 0 013 3h6.75a.75.75 0 110 1.5H12a3 3 0 01-3 3H7.5a3 3 0 01-3-3V7.5a3 3 0 013-3H9zM7.5 6a1.5 1.5 0 00-1.493 1.356L6 7.5V9a1.5 1.5 0 001.356 1.493l.144.007H9a1.5 1.5 0 001.493-1.356L10.5 9V7.5a1.5 1.5 0 00-1.356-1.493L9 6H7.5z"
+                          fill="currentcolor"
+                          fill-rule="evenodd"
+                        ></path>
+                      </svg>
+                      Account settings
+                    </Link>
+                  </span>
+                </span>
+              ) : null}
             </div>
             {/* short discription */}
             <p className="text-slate-400">
@@ -339,7 +366,7 @@ const AccountSummary = () => {
                     Join other users in exploring these trending topics and
                     categories!{" "}
                     <Link
-                      to="/dashboard/create-post"
+                      to="/dashboard/create-post/create-post"
                       className="text-blue-400 ml-1"
                     >
                       add post
@@ -378,14 +405,14 @@ const AccountSummary = () => {
             <div className="flex items-center flex-1">
               <Button
                 className="h-8 px-3 rounded-lg bg-background-subtle text-slate-400 hover:text-white hover:bg-gray-700 ml-auto mr-2 hidden lg:flex"
-                onClick={() => navigate("/dashboard/account/profile/profile")}
+                onClick={() => navigate("/dashboard/account/account/profile/profile")}
               >
                 Edit profile
               </Button>
             </div>
             <Button
               className="h-8 !px-1 rounded-lg bg-background-subtle text-slate-400 hover:text-white hover:bg-gray-700 ml-auto mr-2 hidden lg:flex"
-              onClick={() => navigate("/dashboard/all-posts")}
+              onClick={() => navigate("/dashboard/all-posts/all-posts")}
             >
               <svg
                 width="1em"
@@ -408,8 +435,11 @@ const AccountSummary = () => {
           <div className="relative flex h-24 mx-4">
             <div className="absolute left-0 top-0 -z-1 size-full rounded-2xl bg-background-subtle border-4 border-[#0e1217]">
               <img
-                src={data?.user?.profilePicture || data?.user?.profilePicture?.path ||
-                  "https://github.com/shadcn.png"}
+                src={
+                  data?.user?.profilePicture ||
+                  data?.user?.profilePicture?.path ||
+                  "https://github.com/shadcn.png"
+                }
                 alt={`${data?.user?.username || "User"}'s profile`}
                 className="object-cover w-24 h-full rounded-2xl"
                 loading="lazy"
@@ -461,7 +491,7 @@ const AccountSummary = () => {
             <div className="flex items-center">
               <Button
                 className="font-bold h-8 px-3 rounded-xl bg-transparent border border-white text-white hover:bg-background-subtle"
-                onClick={() => navigate("/dashboard/account/profile/profile")}
+                onClick={() => navigate("/dashboard/account/account/profile/profile")}
               >
                 Update bio
               </Button>

@@ -66,7 +66,7 @@ import Comment from "../../components/svg/Comment";
 import {} from "@radix-ui/react-dialog";
 
 const MyPosts = () => {
-  const postURL = `${HOME_URL}/dashboard/post-details/`;
+  const postURL = `${HOME_URL}/dashboard/post-details/post-details/`;
 
   const navigate = useNavigate();
 
@@ -612,7 +612,7 @@ const MyPosts = () => {
                             <Button
                               className="h-8 rounded-lg bg-transparent pointer-events-auto hover:bg-white hover:text-black"
                               onClick={() =>
-                                navigate(`/dashboard/update-post/${post?._id}`)
+                                navigate(`/dashboard/update-post/update-post/${post?._id}`)
                               }
                             >
                               Edit this post

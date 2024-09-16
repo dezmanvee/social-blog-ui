@@ -223,7 +223,7 @@ const AllPosts = () => {
 
   if (data) {
     return (
-      <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4 min-h-full">
+      <article className="relative flex w-full flex-col xl:mx-auto pt-10 px-4 lg:px-10 min-h-full">
         <div className="flex w-full flex-col xl:mx-auto">
           <div className="relative mx-auto w-full post-template post-cards">
             {/* TODO:! this container has a max width */}
